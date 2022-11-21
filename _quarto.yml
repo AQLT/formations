@@ -1,0 +1,36 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!2021/rte"
+    - "!2022/ast/Cours"
+
+website:
+  title: "Formations"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: "2022"
+        menu:
+        - text: "Analyse séries temporelles avec R"
+          file: "2022/ast/index.qmd"
+  page-footer:
+    left: "Copyright 2022, Alain Quartier-la-Tente, Insee"
+    right:
+      - icon: github
+        href: http://github.com/AQLT
+      - icon: globe
+        href: https://aqlt.netlify.app
+
+format:
+  html:
+    theme: cosmo
+    css: ["css/test.css"]
+    toc: true
+
+editor: source
+
+execute:
+  freeze: auto
+
