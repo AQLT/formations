@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Formations - Ensemble des formations</title>
+<title>Formations - Analyse des séries temporelles avec R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Formations</span>
     </a>
   </div>
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">
+    <a class="nav-link" href="../../index.html">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
         <li>
-    <a class="dropdown-item" href="./2022/ast/index.html">
+    <a class="dropdown-item" href="../../2022/ast/index.html">
  <span class="dropdown-text">Analyse séries temporelles avec R</span></a>
   </li>  
     </ul>
@@ -109,8 +109,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section">2022</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2021</a></li>
+  <li><a href="#cours" id="toc-cours" class="nav-link active" data-scroll-target="#cours">Cours</a></li>
+  <li><a href="#travaux-pratiques-fab-fa-r-project" id="toc-travaux-pratiques-fab-fa-r-project" class="nav-link" data-scroll-target="#travaux-pratiques-fab-fa-r-project">Travaux pratiques </a></li>
+  <li><a href="#bibliographie" id="toc-bibliographie" class="nav-link" data-scroll-target="#bibliographie">Bibliographie</a></li>
+  <li><a href="#licence" id="toc-licence" class="nav-link" data-scroll-target="#licence">Licence</a></li>
   </ul>
 </nav>
     </div>
@@ -119,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ensemble des formations</h1>
+<h1 class="title">Analyse des séries temporelles avec R</h1>
 </div>
 
 
@@ -134,17 +136,38 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="section" class="level1">
-<h1>2022</h1>
-<ul>
-<li>Novembre 2022 : <a href="2022/ast/">Analyse de séries temporelles avec R</a></li>
-</ul>
+<p>Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE en 2022.</p>
+<section id="cours" class="level1">
+<h1>Cours</h1>
+<ol type="1">
+<li><p><a href="Cours/1_Rappels_R.pdf">Rappels sur l’environnement de travail de R</a></p></li>
+<li><p><a href="Cours/2_Analyse_Graphique.pdf">Analyse graphique</a></p></li>
+<li><p><a href="Cours/3_Decomposition.pdf">Décomposition d’une série temporelle</a></p></li>
+<li><p><a href="Cours/4_Lissage_Exponentiel.pdf">Lissage exponentiel</a></p></li>
+<li><p><a href="Cours/5_ARIMA.pdf">La modélisation ARIMA</a></p></li>
+<li><p><a href="Cours/6_Complements.pdf">Compléments</a></p></li>
+</ol>
 </section>
-<section id="section-1" class="level1">
-<h1>2021</h1>
-<ul>
-<li>Juin 2021 : <a href="2021/rte/">Désaisonnalisation avec JDemetra+ et RJDemetra</a></li>
-</ul>
+<section id="travaux-pratiques-fab-fa-r-project" class="level1">
+<h1>Travaux pratiques </h1>
+<ol type="1">
+<li><p><a href="TP/1_Manipulation_series_temporelles.html">Traitement des séries temporelles sous R</a></p></li>
+<li><p><a href="TP/2_Graphiques.html">Analyse graphique</a></p></li>
+<li><p><a href="TP/3_Decomposition.html">Décomposition d’une série temporelle</a></p></li>
+<li><p><a href="TP/4_Lissage_Exponentiel.html">Lissage exponentiel</a></p></li>
+<li><p><a href="TP/5_ARIMA.html">La modélisation ARIMA</a></p></li>
+</ol>
+</section>
+<section id="bibliographie" class="level1">
+<h1>Bibliographie</h1>
+<p>Aragon, Y. (2011), <em>Séries temporelles avec R. Méthodes et cas</em>, Springer.</p>
+<p>Brockwell, P. J. and Davis, R. A. (1991) <em>Time Series: Theory and Methods</em>. Second edition. Springer.</p>
+<p>Hyndman, R.J., &amp; Athanasopoulos, G. (2018) <em>Forecasting: principles and practice</em>, 2nd edition, OTexts: Melbourne, Australia. OTexts.com/fpp2. Accessed on nov. 2022.</p>
+<p>Hyndman, R.J., &amp; Athanasopoulos, G. (2021) <em>Forecasting: principles and practice</em>, 3rd edition, OTexts: Melbourne, Australia. OTexts.com/fpp3. Accessed on nov. 2022.</p>
+</section>
+<section id="licence" class="level1">
+<h1>Licence</h1>
+<p>Ces supports de cours sont librement réutilisable sous © 2022 Alain Quartier-la-Tente, Insee <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 3.0 <img alt="Licence Creative Commons" style="display: inline-block; margin: 0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>.</p>
 
 
 </section>
