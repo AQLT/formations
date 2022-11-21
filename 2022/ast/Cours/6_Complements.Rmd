@@ -1,0 +1,280 @@
+---
+title: "6 - Compléments"
+subtitle: "Analyse des séries temporelles avec R"
+author: "Alain Quartier-la-Tente"
+division: "Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        fig_caption: true
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+lan: french
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+library(forecast)
+library(patchwork)
+library(ggplot2)
+```
+
+### Objectifs de cette séquence
+
+- Présenter quelques compléments sans exercice associé
+
+
+
+# Régresseurs externes et TBATS
+
+## Régresseurs externes classiques
+
+Dans certaines méthodes (régression linéaire, ARIMA, etc. mais pas ETS) permettent de rajouter des régresseurs externes qui peuvent aider à l'analyse/prévision
+
+- polynômes sur les dates (e.g. tendance linéaire) (on peut s'aider de `forecast::tslm()`)
+
+. . .
+
+- indicatrices sur la périodicité (avec variable de contraste) :
+
+	- Sur les jours de la semaine
+	
+	- Sur les mois/trimestres
+
+. . .
+
+- Régresseurs JO :
+
+	- On compte le nombre de lundis, mardis, ... dans le mois et on construit des variables contraste (en faisant des éventuels regroupement)
+	
+	- Régresseurs sur les jours fériés (éventuellement regroupés avec dimanches) + éventuels effets graduels (notamment fêtes mobiles)
+
+
+
+### Régresseurs de Fourier
+
+Lorsque la périodicité est trop élevée ou lorsqu'il y plusieurs saisonnalités, ajouter des indicatrices peut être trop coûteux.
+
+Solution : ajouter des variables sinusoïdales aux fréquences étudiées !
+
+$$
+\cos\left(\frac{2 k \pi}{m}\right)\quad
+\sin\left(\frac{2 k \pi}{m}\right)
+\quad
+\text{ avec }0<k<m
+$$
+
+Généralement $k\ll m$ lorsque $m$ est grand
+
+. . .
+
+- Pour séries mensuelles : $m=12$
+
+- Pour les séries hebdomadaires $m=365.25/7\simeq 52$
+
+- Pour les séries journalières $m=365.25$ pour saisonnalité annuelle, $m=365.25/12\simeq 30$ pour saisonnalité mensuelle.
+
+### TBATS (1)
+
+Une transformation de Box-Cox est utilisée :
+$$
+y_t^{(\lambda)}=\begin{cases}
+\frac{y_t^\lambda - 1}{\lambda}&\text{if }\lambda\ne0\\
+\log(y_t)&\text{if }\lambda=0
+\end{cases}
+$$
+Ensuite un modèle avec *Trigonometric seasonality, ARMA errors, Trend and Seasonal components* est calculé : c'est tout ce que l'on a vu dans les précédents cours.
+
+Voir `?forecast::tbats()`
+
+
+### TBATS (2)
+
+$$
+\begin{cases}
+y_t^{(\lambda)}=l_{t-1}+\phi b_{t-1}+\sum_{i=1}^T s_{t-m_i}^{(i)}+ d_t \text{ and }d_t\sim ARMA(p,q)\\
+l_{t}=l_{t-1}+\phi b_{t-1}+\alpha d_t \\
+b_{t} = \phi b_{t-1} + \beta d_t
+\end{cases}
+$$
+$$
+\begin{cases}
+s_t^{(i)}=\sum_{j=1}^{k_i}s_{j,t}^{(i)} \\
+s_{j,t}^{(i)}=s_{j,t-1}^{(i)}\cos \omega_j+s_{j,t-1}^{*(i)}\sin \omega_j +\gamma_1^{(i)}d_t \\
+s_{j,t-1}^{*(i)} = s_{j,t-1}^{(i)}\sin \omega_j + s_{j,t-1}^{*(i)}\cos \omega_j
++\gamma_2^{(i)}d_t
+\end{cases}
+\text{ and }\omega_j=\frac{2\pi j}{m_i}
+$$
+
+Notation : $TBATS(omega, p,q, phi, <m1,k1>,...,<mJ,kJ>)$ avec
+
+- $omega$ = paramètre de Box-Cox  
+- $(p,q)$ = ARMA(p,q)  
+- $phi$ = paramètre d'amortissement
+- $m1, ..., mJ$ les périodicités et $k1, ..., kJ$ le nombre de termes de fourrier
+
+
+### TBATS (3)
+
+```{r}
+library(forecast)
+tbats(USAccDeaths)
+```
+
+
+### Analyse des données haute fréquence
+
+Pour les séries à haute fréquence (hebdomadaires, journalières, horaires, etc.)
+
+::: incremental
+- Les effets calendaires peuvent être relativement importants (notamment les jours feriés)
+
+- On peut utiliser des modèles avec des régresseurs externes (e.g. fourrier)
+
+- TBATS
+
+- On peut combiner des modèles STL + ETS ou ARIMA sur série désaisonnalisée
+:::
+
+. . .
+
+Voir https://otexts.com/fpp2/weekly.html et https://otexts.com/fpp3/weekly.html pour des exemples
+
+### Exemples (1)
+
+\footnotesize
+```{r tbats-arima-plot, fig.height=4.5}
+library(forecast);library(ggplot2);library(patchwork)
+y <- fpp2::gasoline
+autoplot(y, main = "Essence")
+```
+
+### Exemples (2)
+
+\footnotesize
+```{r tbats-arima-season, fig.height=4, out.width="70%"}
+frequency(y)
+ggseasonplot(y, polar = TRUE)
+```
+
+### Exemples (3)
+
+\footnotesize
+```{r tbats-arima-mod, fig.height=4.5}
+tbats <- tbats(y, seasonal.periods = c(365.25/7, 365.25/12, 7))
+arima_fourier <- auto.arima(y, seasonal = FALSE, xreg = fourier(y,K=5))
+tbats
+```
+
+### Exemples (4)
+
+\footnotesize
+```{r tbats-arima-forecast, fig.height=4.5}
+autoplot(window(y, start = 2010)) +
+	autolayer(forecast(tbats, h = 52*2)$mean, series="TBATS")+
+	autolayer(forecast(arima_fourier, h = 52*2, xreg = fourier(y, K=5, h = 52*2))$mean,
+			  series = "ARIMA + Fourier")
+```
+
+### Exemples analyse de $K$ {.allowframebreaks}
+
+\footnotesize
+```{r arima-fourier, echo=FALSE, fig.height=5}
+for(k in 1:10){
+	arima_fourier <- auto.arima(y, seasonal = FALSE, xreg = fourier(y,K=k))
+	p <- autoplot(forecast(arima_fourier, h = 52*2,
+						   xreg = fourier(y, K=k, h = 52*2)))+
+		autolayer(fitted(arima_fourier),
+				  series = "fitted values") +
+		labs(subtitle = sprintf("K = %i, AICc = %.1f", k,  arima_fourier$aicc))
+	print(p)
+  cat('\n\n')
+}
+```
+
+
+
+
+# Modèles ECM
+
+### Modèles ECM
+
+Les modèles à correction d'erreur (ECM) permettent de mettre en relation deux variables $x_t, y_t$ non-stationnaires qui partagent la même tendance stochastique. Modèle suivant est utilisé :
+$$
+\Delta y_t=\underbrace{\gamma + \sum_{i=1}^p\Delta y_{t-i} + \sum_{i=1}^p\Delta x_{t-i}}_{\text{court terme}} +
+\alpha\underbrace{(y_{t-1}-\beta_0-\beta_1 x_{t-1})}_{\text{long terme}} + \varepsilon_t
+$$
+
+. . .
+
+Peut s'estimer par double MCO : long terme puis court terme sur les résidus. On peut s'aider de `dynlm::dynlm()` ou utiliser le package `ecm`.
+
+. . .
+
+Pour que le modèle soit valide il faut que $y_{t-1}-\beta_0-\beta_1 x_{t-1}$ soit stationnaire : on peut faire un test de racine unité sur les résidus ou appliquer le test de Johansen (`urca::ca.jo`).
+
+. . .
+
+Généralement $\alpha<0$ : s’interprète comme une force de rappel.
+
+
+### Exemple {.allowframebreaks}
+
+\footnotesize
+
+```{r, fig.height=4, warning = FALSE}
+# install.packages("PepperPrice")
+library(urca);library(dynlm);library(forecast);library(ggplot2)
+data("PepperPrice", package = "AER")
+# On passe au log pour analyser les différences comme des évolutions
+data_pepper <- log(PepperPrice)
+autoplot(data_pepper) / autoplot(diff(data_pepper))
+# Séries sont dites I(1) :
+# Elles ne sont pas stationnaires
+tseries::kpss.test(data_pepper[,"black"])
+tseries::kpss.test(data_pepper[,"white"])
+# Mais les séries différenciées le sont 
+tseries::kpss.test(diff(data_pepper[,"black"], 1))
+tseries::kpss.test(diff(data_pepper[,"white"], 1))
+# Le test de Johansen doit se lire de manière croissante avec r
+# r=0 signifie qu'il n'y a pas de relation de co-intégration
+# si on le rejette (test > valeurs critiques), on regarde le test suivant
+# Dans notre cas il n'y a que deux tests car on a que deux variables
+# Le test est plus général pour les cas où l'on fait des VECM
+# (potentiellement plusieurs relations de cointegration)
+# Ici on conclut qu'il y a bien relation de cointegration
+summary(ca.jo(data_pepper))
+
+# On estime la relation de long-terme
+lm_lt <- lm(black ~ white, data = data_pepper)
+resid_lt <- ts(residuals(lm_lt), start = start(data_pepper), 
+			  frequency = frequency(data_pepper))
+autoplot(resid_lt)
+# La série est bien stationnaire
+tseries::kpss.test(resid_lt)
+
+# Rmq il y a quelques points atypiques que l'on pourrait corriger
+# en ajoutant par exemple des indicatrices
+# On peut aussi utiliser la fonction forecast::tsoutliers() pour les repérer
+# En reprenant le code disponible ici
+# https://robjhyndman.com/hyndsight/tsoutliers/ :
+autoplot(tsclean(resid_lt), series="clean", color='red', lwd=0.9) +
+	autolayer(resid_lt, series="original", color='gray', lwd=1) +
+	geom_point(data = tsoutliers(resid_lt) %>% as.data.frame(),
+			   aes(x=time(resid_lt)[index], y=replacements), col='blue')
+data <- ts.union(data_pepper, resid_lt)
+colnames(data) <- c(colnames(data_pepper), "long_term")
+# On a bien une force de rappel négative
+summary(
+	dynlm(diff(black, 1) ~ lag(diff(black, 1),-1) + 
+		  	lag(diff(white, 1),-1) + 
+		  	lag(long_term, -1), data = data)
+)
+```
+

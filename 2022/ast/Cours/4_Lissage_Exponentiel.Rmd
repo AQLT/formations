@@ -1,0 +1,698 @@
+---
+title: "4 - Lissage exponentiel"
+subtitle: "Analyse des séries temporelles avec R"
+author: "Alain Quartier-la-Tente"
+division: "Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        fig_caption: true
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+lan: french
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(forecast)
+library(ggplot2)
+```
+
+### Objectifs de cette séquence
+
+Présenter les méthodes basiques de prévision d'une série temporelle ainsi que le lissage exponentiel
+
+### Questions de positionnement
+
+Quelles sont les modèles de prévision les plus simples ?
+
+Comment évaluer la qualité d'un modèle de prévision ?
+
+Quelles sont les propriétés que doivent suivre les erreurs de prévision ?
+
+Qu'est-ce que le lissage exponentiel ?
+
+# Modèles de prévision simples
+
+## Exemples
+
+
+### Comment prévoir ces séries ? (1)
+
+```{r, echo = FALSE, fig.height=5.8}
+autoplot(window(diff(EuStockMarkets[,"CAC"]), start = 1998), 
+		 main  = "Variations quotidiennes du cours\nde clôture du CAC 40",
+		 y = "Variation dans les prix")
+```
+
+### Comment prévoir ces séries ? (2)
+
+```{r, echo = FALSE, fig.height=5.8}
+autoplot(window(EuStockMarkets[,"CAC"], start = 1998), 
+		 main  = "Cours de clôture du CAC 40",
+		 y = "Niveau")
+```
+
+
+
+### Comment prévoir ces séries ? (3)
+
+```{r, echo = FALSE, fig.height=5.5}
+autoplot(ldeaths, main = "Nombre de décès de maladies pulmonaires au Royaume-Uni", y = NULL)
+```
+
+
+### Modèles de base
+
+1. Moyenne de valeurs passées (`forecast::meanf()` ou `fable::MEAN()`):
+$$
+\hat y_{t+h|T} = \bar y = \frac{1}{T}\sum_{i=1}^Ty_t
+$$
+
+. . .
+
+2. Dernière valeur connue (`forecast::naive()` ou `fable::NAIVE()`) :
+$$
+\hat y_{t+h|T} = y_T
+$$
+Hypothèse du marché efficient
+
+. . .
+
+3. Dernière valeur connue à la saison précédente (`forecast::snaive()` ou `fable::SNAIVE()`) :
+$$
+\hat y_{t+h|T} = y_{T+h-m(k+1)}\quad\text{avec}\quad
+\lfloor (h-1)/m \rfloor
+$$
+
+. . .
+
+Il y a également d'autres combinaisons possibles (*drift*...), voir https://otexts.com/fpp3/simple-methods.html
+
+
+
+### Retour sur les exemples (1)
+
+\footnotesize
+```{r, fig.height=4.5}
+y = window(diff(EuStockMarkets[,"CAC"]), start = 1998)
+autoplot(y, y = "Variation dans les prix",
+		 main  = "Variations quotidiennes du cours\nde clôture du CAC 40") +
+  autolayer(meanf(y, h=10), PI=FALSE, series="Moyenne") +
+  autolayer(naive(y, h=10), PI=FALSE, series="Naïve") +
+  guides(colour=guide_legend(title="Prévisions"))
+```
+
+### Retour sur les exemples (2)
+
+\footnotesize
+
+```{r, fig.height=4.5}
+y = window(EuStockMarkets[,"CAC"], start = 1998)
+autoplot(y, y = "Niveau",
+		 main  = "Cours de clôture du CAC 40") +
+  autolayer(meanf(y, h=10), PI=FALSE, series="Moyenne") +
+  autolayer(naive(y, h=10), PI=FALSE, series="Naïve") +
+  guides(colour=guide_legend(title="Prévisions"))
+```
+
+
+
+### Retour sur les exemples (3)
+
+\footnotesize
+
+```{r, fig.height=4.5}
+autoplot(ldeaths, y = "NULL",
+		 main  = "Nombre de décès de maladies pulmonaires au Royaume-Uni") +
+  autolayer(meanf(ldeaths, h=10), PI=FALSE, series="Moyenne") +
+  autolayer(naive(ldeaths, h=10), PI=FALSE, series="Naïve") +
+  autolayer(snaive(ldeaths, h=10), PI=FALSE, series="Seasonal naïve") +
+  guides(colour=guide_legend(title="Prévisions"))
+```
+
+
+# Modèles exponentiels
+
+### Modèle exponentiel simple (SES)
+
+Méthode entre prévision naïve et moyenne lorsqu'il n'y a pas de tendance ni de saisonnalité claire 
+
+. . . 
+
+Idée : un poids décroissant est associée aux valeurs passées
+$$
+\hat y_{T+1|T} = \alpha y_t + \alpha (1-\alpha)y_{t-1} +
+\alpha (1-\alpha)^2y_{t-2} + \dots
+$$
+
+. . .
+
+Peut s'écrire sous forme espace-état :
+$$
+\begin{cases}
+\hat y_{T+h|T}&=l_t \\
+l_t&=\alpha y_t+(1-\alpha)l_{t-1}
+\end{cases}\iff
+\begin{cases}
+y_t&=l_{t-1}+ \varepsilon_t \\
+l_t&=l_{t-1} +\alpha \varepsilon_t
+\end{cases}
+$$
+$l_t$ représente le niveau de la série. 
+
+. . .
+
+Paramètres à estimer : $l_0$ et $\alpha$ par minimisation des erreurs de prévision :
+$$
+SSE = \sum_{t=1}^Te_t^2=\sum_{t=1}^T(y_t-\hat y_{t|t-1})^2
+$$
+
+### Exemple
+
+\footnotesize
+```{r, fig.height=4.5}
+mod <- ses(y) 
+mod2 <- ets(y, model = "ANN") # autre option
+autoplot(mod) +
+	autolayer(fitted(mod)) +
+	labs(y = "Niveau",
+		 title  = "Cours de clôture du CAC 40")
+```
+
+### Exemple
+
+```{r, fig.height=4.5}
+mod2
+```
+
+### Exemple 2 
+
+\footnotesize
+```{r, fig.height=4.5}
+mod <- ses(aggregate(co2), h = 12) 
+autoplot(mod) +
+	autolayer(fitted(mod)) +
+	labs(y = "ppm",
+		 title  = "Concentration atmosphérique annuelle en CO2 à Mauna Loa")
+```
+
+### Lissage exponentiel double : Holt (1957)
+
+Le SES peut être étendu pour ajouter une prévision de la tendance :
+
+$$
+\begin{cases}
+\hat y_{T+h|T}&=l_t + hb_t \\
+l_t&=\alpha y_t+(1-\alpha)(l_{t-1}+b_{t-1})\\
+b_t&=\beta^*(l_t-l_{t-1})+(1-\beta^*)b_{t-1}
+\end{cases}\iff
+\begin{cases}
+y_t&=l_{t-1} + b_{t-1} +\varepsilon_t\\
+l_t&=l_{t-1}+b_{t-1}+\alpha \varepsilon_t\\
+b_t&=b_{t-1}+\beta\varepsilon_t
+\end{cases}
+$$
+
+. . .
+
+On a encore $l_t= \alpha y_t + (1-\alpha)\hat y_{t|t-1}$
+
+
+### *Damped trend*/tendance amortie : Gardner & McKenzie (1985)
+
+La méthode de Holt prévoit une tendance croissante de manière indéfinie : tend à sur-estimer les prévisions sur horizon longue.
+
+\bclampe Amortir la tendance avec le temps
+
+$$
+\begin{cases}
+\hat y_{T+h|T}&=l_t + (\phi+\phi^2+\dots+\phi^h)b_t \\
+l_t&=\alpha y_t+(1-\alpha)(l_{t-1}+\phi b_{t-1})\\
+b_t&=\beta^*(l_t-l_{t-1})+(1-\beta^*)\phi b_{t-1}
+\end{cases}\iff
+\begin{cases}
+y_t&=l_{t-1} + \phi b_{t-1} +\varepsilon_t\\
+l_t&=l_{t-1}+\phi b_{t-1}+\alpha \varepsilon_t\\
+b_t&=\phi b_{t-1}+\beta\varepsilon_t
+\end{cases}
+$$
+
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=4.5}
+mod <- holt(aggregate(co2), h = 12) 
+mod_damped <- holt(aggregate(co2), damped = TRUE, h = 12) 
+mod2 <- ets(aggregate(co2), model = "AAN") # autre option
+autoplot(aggregate(co2)) + autolayer(mod, PI = FALSE, series = "Holt") +
+	autolayer(mod_damped, PI = FALSE, series = "Holt Damped trend") + 
+	autolayer(fitted(mod), series = "Fitted") +
+	labs(y = "ppm",
+		 title  = "Concentration atmosphérique annuelle en CO2 à Mauna Loa")
+```
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=4.5}
+mod2
+```
+
+### Exemple 2 
+
+```{r, fig.height=4.5}
+mod <- holt(co2, h = 12) 
+mod_damped <- holt(co2, damped = TRUE, h = 12) 
+autoplot(co2) + autolayer(mod, PI = FALSE, series = "Holt") +
+	autolayer(mod_damped, PI = FALSE, series = "Holt Damped trend") + 
+	autolayer(fitted(mod), series = "Fitted") +
+	labs(y = "ppm",
+		 title  = "Concentration atmosphérique annuelle en CO2 à Mauna Loa")
+```
+
+### Holt-Winter
+
+On ajoute une composante saisonnière !
+
+\footnotesize
+$$
+\begin{cases}
+\hat y_{T+h|T}&=l_t + hb_t  +s_{t+h-m(k+1)}\\
+l_t&=\alpha (y_t-s_{t-m})+(1-\alpha)(l_{t-1}+b_{t-1})\\
+b_t&=\beta^*(l_t-l_{t-1})+(1-\beta^*)b_{t-1} \\
+s_t &= \gamma (y_t - l_{t-1} - b_{t-1}) + (1-\gamma) s_{t-m}
+\end{cases}\iff
+\begin{cases}
+y_t&=l_{t-1} + b_{t-1} +s_{t-m}+\varepsilon_t\\
+l_t&=l_{t-1}+b_{t-1}+\alpha \varepsilon_t\\
+b_t&=b_{t-1}+\beta\varepsilon_t \\
+s_t&=s_{t-m}+\gamma\varepsilon_t
+\end{cases}
+$$
+\normalsize
+
+. . .
+
+On peut aussi réécrire 
+$$
+s_t=\gamma^*(y_t-l_t)+(1-\gamma^*)s_{t-m}
+$$
+
+. . .
+
+Même idée avec tendance amortie
+
+
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=4.5}
+mod <- hw(co2, h=12) 
+mod2 <- ets(co2, model = "AAA") # autre option
+autoplot(co2) + autolayer(mod, PI = FALSE, series = "Holt-Winter") +
+	autolayer(fitted(mod), series = "Fitted") +
+	labs(y = "ppm",
+		 title  = "Concentration atmosphérique mensuelle en CO2 à Mauna Loa")
+```
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=4.5}
+mod2
+```
+
+### Et maintenant ?
+
+\footnotesize
+
+```{r, fig.height=4.5}
+mod <- hw(AirPassengers, h=12) 
+mod2 <- ets(AirPassengers, model = "AAA") # autre option
+autoplot(AirPassengers) + autolayer(mod, PI = FALSE, series = "Holt-Winter") +
+	autolayer(fitted(mod), series = "Fitted") +
+	labs(y = "Nombre",
+		 title  = "Passagers aériens")
+```
+
+
+
+### Saisonnalité multiplicative
+
+\begin{align*}
+&\begin{cases}
+\hat y_{T+h|T}&= (l_t + hb_t)+s_{t+h-m(k+1)}\\
+l_t&=\alpha \frac{y_t}{s_{t-m}}+(1-\alpha)(l_{t-1}+b_{t-1})\\
+b_t&=\beta^*(l_t-l_{t-1})+(1-\beta^*)b_{t-1} \\
+s_t &= \gamma \frac{y_t}{l_{t-1} + b_{t-1}} + (1-\gamma) s_{t-m}
+\end{cases}\\
+&\iff\begin{cases}
+y_t&=(l_{t-1} + b_{t-1})s_{t-m}+\varepsilon_t\\
+l_t&=l_{t-1}+b_{t-1}+\alpha \varepsilon_t\\
+b_t&=b_{t-1}+\beta\varepsilon_t/s_{t-m} \\
+s_t&=s_{t-m}+\gamma\varepsilon_t/(l_{t-1}+b_{t-1})
+\end{cases}
+\end{align*}
+
+. . .
+
+L'erreur aussi peut être multiplicative !
+
+### Taxonomie des modèles ETS
+
+\begin{tabular}{l@{}p{2.3cm}@{}c@{}l}
+\alert{Notations Générales}
+    &                                        & ~E T S~           & ~:\hspace*{0.3cm}\textbf{E}xponen\textbf{T}ial \textbf{S}moothing \\ [-0.2cm]
+    & \hfill{$\nearrow$\hspace*{-0.1cm}}     & {$\uparrow$}      & {\hspace*{-0.2cm}$\nwarrow$} \\
+    & \hfill{\textbf{E}rreur\hspace*{0.2cm}}  & {\textbf{T}endance}  & {\hspace*{0.2cm}\textbf{S}aisonnalité}
+\end{tabular}
+
+. . .
+
+- Erreur : Additive (`"A"`) ou multiplicative (`"M"`)
+
+- Tendance : Sans tendance (`"N"`), additive (`"A"`), multiplicative (`"M"`) ou amortie (`"Ad"` ou `"Md"`)
+
+- Saisonnalité : Sans saisonnalité (`"N"`), additive (`"A"`) ou multiplicative (`"M"`)
+
+`"Z"` pour une sélection automatique
+
+### Erreurs additives
+
+\footnotesize
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/ets_add.pdf")
+```
+
+*Source : Hyndman, R.J., & Athanasopoulos, G. (2018)*
+
+### Erreurs multiplicatives
+
+\footnotesize
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/ets_multi.pdf")
+```
+
+*Source : Hyndman, R.J., & Athanasopoulos, G. (2018)*
+
+
+### Sous R
+
+Pour les objets `ts` : `forecast::ets()` avec paramètre `damped = TRUE` ou `damped = TRUE`.
+
+Pour les objets `tsibble` : `fable::ETS()` avec fonctions `error()`, `trend()` et `season()`
+
+```{r, warning = FALSE, message = FALSE}
+library(fable)
+as_tsibble(USAccDeaths) %>%
+  model(ETS(value ~ season("A")))
+```
+
+
+# Résidus et qualité des prévisions
+
+## Analyse des résidus
+
+### Analyse des résidus
+
+On distingue deux types de prévisions :
+
+- Prévisions *in-sample*, dans l'échantillon, *fitted values* : paramètres estimés sur l'ensemble des données
+
+- Prévisions *out-of-sample*, hors échantillon : on reproduit le processus de prévision $\hat y_{t+h|t}$ permet de vérifier les problèmes de sur-ajustement
+
+### Prévisions *in-sample*
+
+Résidus : $e_t = y_t - \hat y_{t}$
+
+Hypothèses :
+
+- $(e_t)$ non corrélés (sinon il reste de l'information qui auraient dû être prise en compte dans la prévision)
+
+- $(e_t)$ de moyenne nulle : sinon prévisions biaisées
+
+. . .
+
+Hypothèses utiles pour la construction d'intervalles de confiance
+
+- $(e_t)$ ont une variance constante
+
+- $(e_t)$ suivent une loi normale
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=5, warning=FALSE}
+autoplot(ldeaths, y = "NULL",
+		 main  = "Nombre de décès de maladies pulmonaires au Royaume-Uni",
+		 series = "y") +
+  autolayer(fitted(snaive(ldeaths)), series = "Fitted") 
+```
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=5}
+autoplot(resid(snaive(ldeaths)), y = "NULL",
+		 main  = "Résidus SNAIVE",
+		 series = "y") 
+```
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=5, warning=FALSE}
+gghistogram(resid(snaive(ldeaths)), add.normal = TRUE) + 
+	labs(title = "Résidus SNAIVE") 
+```
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=5, warning=FALSE}
+ggAcf(resid(snaive(ldeaths)), add.normal = TRUE) + 
+	labs(title = "Résidus SNAIVE") 
+```
+
+### ACF et tests Portemanteau (`Box.test()`)
+
+L'ACF est un outils graphique simple pour vérifier ont les mêmes propriétés qu'un bruit blanc. 
+
+Il existe également des tests d'autocorrélation :
+
+- Box-Pierce
+$$
+Q = T\sum_{k=1}^p\hat\rho(k)^2
+$$
+
+- Ljung-Box (marche mieux sur petits échantillons)
+$$
+Q^* = T(T+1)\sum_{k=1}^p(T-k)^{-1}\hat\rho(k)^2
+$$
+$h=10$ pour séries non saisonnières, $h=2m$ sinon.
+
+Sous $(H_0)$ ces quantités suivent $\chi^2(p-K)$ avec $K$ nb de paramètres dans le modèle
+
+### Exemple
+
+\footnotesize
+
+```{r, fig.height=4, warning=FALSE}
+forecast::checkresiduals(snaive(ldeaths)) 
+```
+
+### Périodogramme cumulatif
+
+On peut aussi analyser les résidus avec le périodogramme cumulatif : proche d'une ligne droite pour un bruit blanc
+
+\footnotesize
+
+```{r, fig.height=4.5, warning=FALSE}
+par(mfrow = c(1,2))
+cpgram(ldeaths)
+cpgram(resid(snaive(ldeaths)))
+```
+
+## Analyse des prévisions
+
+### Mesure de la qualité de la prévisions
+
+Plusieurs critères :
+\begin{align*}
+&MAE=moy(|e_{T+h}|)\quad MSE=moy(e_{T+h}^2)\\
+&RMSE=\sqrt{moy(e_{T+h}^2)}\quad MAPE =100mean(|e_{T+h}|/|y_{T+h}|)
+\end{align*}
+
+Les 3 premiers critères dépend de l'échelle mais pas le MAPE (mais valable si $y_t\gg0$)
+
+. . .
+
+MASE proposé par Hyndman and Koehler (IJF, 2006) :
+$$
+MASE = moy(|e_{T+h}|/|y_{T+h}|)\quad\text{avec $Q$ une mesure stable de l'échelle de $y_t$}
+$$
+$$
+\begin{cases}
+Q=\frac{1}{T-1}\sum_{t=2}^T|y_{t}-y_{t-1}|&\text{ série non saisonnière}\\
+Q=\frac{1}{T-m}\sum_{t=m+1}^T|y_{t}-y_{t-m}|&\text{ série saisonnière}
+\end{cases}
+$$
+
+### Validation croisée dans les séries temporelles
+
+Prévisions en temps-réel : prévisions dynamiques en réactualisant les coefficients à chaque date.
+
+\faArrowCircleRight{} *leave-$h$-out cross-validation*
+
+. . .
+
+On peut ensuite comparer les erreurs en utilisant un critère (e.g. RMSE) et un test (`forecast::dm.test()`).
+
+Exemple LOOCV ($h=1$), modèle trimestriel :
+
+\medskip
+\begin{tikzpicture}
+\onslide<2-3>{
+\node at (0,0){
+$\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{\textcolor{green!60!black}{2021T4}} \\
+\hline
+\end{array}$};
+}
+\onslide<3>{
+\node (n1) at (0.2,0){
+$\left.\phantom{\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4} \\
+\hline
+\end{array}}\right\}$};
+\draw[-latex,thick] (n1.east)--++(1,0) node[right]{\begin{minipage}{8cm} 
+On estime les coefficients sur la période 2000T1-\textcolor{green!60!black}{2021T4} pour prévoir le point de 2022T1
+\end{minipage}};
+}
+
+\onslide<4>{
+\node at (0,0){
+$\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{\textcolor{green!60!black}{2022T1}} \\
+\hline
+\end{array}$};
+\node (n2) at (0.2,0){
+$\left.\phantom{\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{2022T1} \\
+\hline
+\end{array}}\right\}$};
+\draw[-latex,thick] (n2.east)--++(1,0) node[right]{\begin{minipage}{8cm} 
+On estime les coefficients sur la période 2000T1-\textcolor{green!60!black}{2022T1} pour prévoir le point de 2022T2
+\end{minipage}};
+}
+
+\onslide<5>{
+\node at (0,0){
+$\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{2022T1} \\
+ \hline \text{\textcolor{green!60!black}{2022T2}} \\
+\hline
+\end{array}$};
+\node (n3) at (0.2,0){
+$\left.\phantom{\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{2022T1} \\
+  \hline \text{2022T2} \\\hline
+\end{array}}\right\}$};
+\draw[-latex,thick] (n3.east)--++(1,0) node[right]{\begin{minipage}{8cm} 
+On estime les coefficients sur la période 2000T1-\textcolor{green!60!black}{2022T2} pour prévoir le point de 2022T3
+\end{minipage}};
+}
+\onslide<6->{
+\node at (0,0){
+$\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{2022T1} \\
+ \hline \text{2022T2} \\
+  \hline \text{\textcolor{green!60!black}{2022T3}} \\
+\hline
+\end{array}$};
+\node (n4) at (0.2,0){
+$\left.\phantom{\begin{array}{|c|}
+\hline
+\text{2000T1} \\
+ \hline \vdots\\\hline \text{2021T4}\\ \hline \text{2022T1} \\
+  \hline \text{2022T2} \\  \hline \text{2022T3} \\\hline
+\end{array}}\right\}$};
+\draw[-latex,thick] (n4.east)--++(1,0) node[right]{\begin{minipage}{8cm} 
+On estime les coefficients sur la période 2000T1-\textcolor{green!60!black}{2022T3} pour prévoir le point de 2022T4
+\end{minipage}};
+}
+\end{tikzpicture}
+
+. . .
+
+On peut s'aider de `forecast::tsCV()`
+
+## Critères d'information
+
+### Sélection de modèles
+
+Les modèles sont parfois sélectionnés en utilisant des critères d'information (AIC, BIC, HQ) qui sont des vraisemblances pénalisées. Retenir :
+
+::: incremental
+
+- Il faut les minimiser
+- Ils sont définis à une constante additive/multiplicative près (qui peut changer en fonction des logiciels)
+- AICc effectue une correction lorsqu'il y a peu de données
+- Minimiser l'AIC est asymptotiquement équivalent à minimiser le LOOCV
+- Minimiser le BIC est asymptotiquement équivalent à minimiser le L-$v$-OCV avec $v = T[1-1/(\log(T)-1)]$ et à sélection le *true model*
+- L'AIC a tendance à sur-ajuster le modèle et le BIC à le sous-ajuster
+- $\bar R^2$ a tendance à sélectionner trop de variables
+- Ne comparer les modèles avec critères d'information que s'ils sont calculés sur les mêmes données (\bcattention ordre de différenciation ARIMA et ARIMA vs ETS)
+
+:::
+
+# Conclusion
+
+### Conclusions
+
+- Dans beaucoup de cas les meilleurs modèles de prévision seront les plus simples : dernière valeur, valeur moyenne, valeur de la période précédente, etc.
+
+- le lissage exponentiel basé sur la description de la tendance et de la saisonnalité de la série
+
+- La sélection d'un modèle peut se faire par un critère d'information ou par minimisation d'une statistique de validation croisée
+
+- Les erreurs de prévision doivent être non corrélés et être de moyenne nulle. Pour la construction d'intervalles de confiance il faut en plus une variance constante et une loi normale
+
+### Bibliographie
+
+
+Hyndman, R.J., & Athanasopoulos, G. (2018) *Forecasting: principles and practice*, 2nd edition, OTexts: Melbourne, Australia. OTexts.com/fpp2. Accessed on nov. 2022.
+
+Hyndman, R.J., & Athanasopoulos, G. (2021) *Forecasting: principles and practice*, 3rd edition, OTexts: Melbourne, Australia. OTexts.com/fpp3. Accessed on nov. 2022.

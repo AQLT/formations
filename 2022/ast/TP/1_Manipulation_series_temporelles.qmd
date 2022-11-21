@@ -1,0 +1,538 @@
+---
+title: "1 - Traitement des séries temporelles sous R"
+subtitle: |
+  Analyse des séries temporelles avec R
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language: 
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE,
+					  cache = FALSE)
+```
+
+> L'objectif de ce TP est d'apprendre à manipuler les séries temporelles sous R en utilisant les packages de bases.
+
+Dans R il existe de nombreux packages qui permettent de manipuler les séries temporelles.
+Pour n'en citer que quelques-uns :\
+- Les objets `ts` peuvent être créés à partir du package `stats` ;\
+- Les objets `zoo` peuvent être créés à partir du package [zoo](https://CRAN.R-project.org/package=zoo) ;\
+- Les objets `xts` peuvent être créés à partir du package [xts](https://CRAN.R-project.org/package=xts) ;\
+- Les objets `tis` peuvent être créés à partir du package [tseries](https://CRAN.R-project.org/package=tseries) ;\
+- Les objets `tsibble` peuvent être créés à partir du package [tsibble](https://CRAN.R-project.org/package=tsibble).
+
+[tsbox](https://CRAN.R-project.org/package=tsbox) permet quand à lui de facilement passer d'une classe à l'autre.
+
+Ici nous nous concentrerons essentiellement sur les trois premiers : `ts` stocker les séries temporelles, `zoo` et `xts` pour effectuer certaines manipulations supplémentaires.
+
+Les packages suivants seront utilisés :
+
+```{r,warning=FALSE, message=FALSE, eval=FALSE}
+packages_to_install <- c("zoo", "xts", "dplyr", "tsibble", "lubridate", "XLConnect")
+
+packages <- installed.packages()[,"Package"][! packages_to_install %in% installed.packages()[,"Package"]]
+if (length(packages) > 0) {
+	install.packages(packages)
+}
+```
+
+# Manipulation des séries temporelles avec `ts()`
+
+## Création d'une série temporelle
+
+La fonction `ts()` permet de créer des objets séries-temporelles à partir un vecteur (ou une matrice).
+La syntaxe de base est `ts(vector, start=, end=, frequency=)` où `start` et `end` sont la première et la dernière observation, `frequency` est le nombre d'observations par unité de temps (1=annuelle, 2=semestrielle, 4=trimestrielle, 6=bi-mestrielle, 12=mensuelle, etc.).
+
+Par exemple pour créer une série trimestrielle ayant les valeurs de 1 à 10 et commençant en 1959Q2 :
+
+```{r}
+ts(1:10, frequency = 4, start = c(1959, 2)) # 2ème trimestre de 1959
+# Équivalent à 
+ts(1:10, frequency = 4, start = 1959 + 1/4)
+```
+
+On peut aussi définir l'objet à partir de sa date de fin :
+
+```{r}
+ts(1:10, frequency = 4, end = c(1959, 2))
+```
+
+Si l'on directement extraire un sous-ensemble de la série on peut spécifier les paramètres `end` et `start`.
+Par exemple pour ne garder que les valeurs jusqu'en 1960 inclus :
+
+```{r}
+ts(1:10, frequency = 4, start = c(1959, 2), end = c(1960, 4))
+```
+
+Ou alors utiliser la fonction `window` une fois l'objet créé :
+
+```{r}
+ts_object <- ts(1:10, frequency = 4, start = c(1959, 2))
+window(ts_object, end = c(1960, 4))
+```
+
+On peut récupérer les différents attributs avec les fonctions `start()`, `end()` et `frequency()` :
+
+```{r}
+start(ts_object)
+end(ts_object)
+frequency(ts_object)
+```
+
+Deux autres fonctions peuvent aussi être utiles : `time()` crée un série-temporelle à partir des dates de notre série-temporelle et `cycle()` donne la position dans le cycle de chaque observation.
+
+```{r}
+time(ts_object)
+cycle(ts_object)
+```
+
+::: callout-note
+## Exercice
+Extraire toutes les données du 2ème trimestre de l'objet `ts_object`
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+ts_object[cycle(ts_object) == 2]
+```
+
+Autre option : utiliser la fonction `window()`
+
+```{r}
+window(ts_object, frequency = 1)
+```
+
+Explication : lorsque l'on spécifie le paramètre `frequency` dans la fonction `window()`, on change la fréquence de la série. 
+Dans notre cas, on veut extraire les valeurs du deuxième trimestre : on veut donc une série annuelle qui contient toutes les valeurs des deuxièmes trimestres. 
+La première observation de `ts_object` étant un deuxième trimestre, cela donne ce que l'on veut. 
+Pour extraire les valeurs des troisièmes trimestres il faut en plus changer la date de début :
+```{r}
+window(ts_object, start = c(1950, 3), frequency = 1)
+```
+:::
+
+::: callout-note
+## Exercice
+Créer une série temporelle mensuelle qui commence en 2000, qui se termine en janvier 2020, qui vaut 1 en avril 2009 et 0 à toutes les autres dates.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Option 1 : utiliser la fonction `window()`
+```{r}
+indicatrice <- ts(0, start = 2000, end = 2020, frequency = 12)
+window(indicatrice, start = c(2009, 4), end = c(2009, 4)) <- 1
+indicatrice
+```
+Option 2 : utiliser `time()`
+
+```{r}
+indicatrice <- ts(0, start = 2000, end = 2020, frequency = 12)
+# Donne un vecteur de booléens
+(time(indicatrice) == 2009 + 3/12) 
+# on ajoute + 0 pour forcer la convertion en numérique
+(time(indicatrice) == 2009 + 3/12) + 0
+```
+:::
+
+Pour tracer un graphique il suffit maintenant d'utiliser les fonctions `plot()` et `lines()`
+
+```{r plot-ts-example}
+plot(ts_object * 2)
+lines(ts_object, col = "red")
+```
+
+## Séries multivariées
+
+De la même façon que précédemment on peut créer une série temporelle multivariée.
+Cette fois-ci l'objet créé est à la fois `mts`, `ts` et `matrix`
+
+```{r}
+set.seed(1)
+# On génère 300 observations d'une loi normale (0, 1)
+loi_normale <- rnorm(300)
+mts <- ts(matrix(loi_normale, nrow = 100, ncol = 3),
+		  start = c(1961, 1), frequency = 12)
+```
+
+On peut accéder à la première variable de la même façon que dans une matrice : par son nom ou son numéro de colonne :
+
+```{r}
+colnames(mts)
+# mts[,1] # ou de façon équivalente :
+mts[, "Series 1"]
+```
+
+Et avec les même fonctions que pour les matrices on peut récupérer les noms des colonnes (`colnames`), le nombre de variables (`ncol`), etc.
+
+::: {.callout-important}
+## Attention
+Une source classique d'erreur est de manipuler des séries-temporelles uni et multivariées et de vouloir utiliser les fonctions liées aux matrices sur les séries univariées. Par exemple, `colnames(ts_object)` renverra toujours l'objet `NULL`. Une solution est de tester si l'objet est multivarié avec la fonction `is.mts()`.
+:::
+
+## Manipulation basiques
+
+Pour concaténer plusieurs séries temporelles, les fonctions deux fonctions suivantes peuvent `ts.union()` et `ts.intersect()`.
+
+```{r}
+ts_object2 <- ts(1:10, frequency = 4, start = c(1960, 1))
+ts.union(ts_object, ts_object2) # on garde toute la couverture temporelle en rajoutant des NA
+ts.intersect(ts_object, ts_object2) # on ne garde que les périodes communes
+```
+
+On va maintenant utiliser la série d'indice de production industrielle de la France (CVS-CJO) :
+
+```{r}
+ipi_fr_manuf <- ts(c(99, 99.4, 99.7, 99.4, 100.8, 100, 98.7, 100.2, 101.2, 
+100.6, 99.9, 100.9, 102.4, 100.8, 99.5, 100.7, 99.8, 99.1, 99.8, 
+101.6, 100.4, 99.4, 102.8, 101, 100.2, 101.1, 102.6, 101.8, 103.7, 
+103, 103.6, 103.5, 104.4, 105.6, 105.5, 105.9, 103.6, 102.9, 
+103.8, 103.8, 102.5, 104.2, 104, 104.6, 103.4, 104.2, 103.4, 
+103.7, 104.9, 105.8, 104.4, 104.3, 106, 103.7, 104.1, 103.1, 
+103.9, 104.4), start = 2015, frequency = 12)
+```
+
+Pour calculer la série retardée/avancée, il suffit d'utiliser la fonction `lag()` :
+
+```{r, eval=FALSE}
+# série retardée d'un mois : en février 2010 on a la valeur de janvier 2010
+lag(ipi_fr_manuf, k = -1) 
+```
+
+La fonction `diff` permet de calculer la différence entre deux périodes
+
+```{r, eval=FALSE}
+diff(ipi_fr_manuf, k = 1)
+```
+
+::: callout-note
+## Exercice
+Écrire une fonction `ev()` qui calcule l'évolution mensuelle si la série en entrée est mensuelle, l'évolution trimestrielle si la série en entrée est trimestrielle, etc.
+
+La fonction `ev()` transformera donc toute série $X_t$ en :
+$$
+Y_t=\frac{X_t-X_{t-1}}{
+X_{t-1}
+}=\frac{X_t}{
+X_{t-1}
+} - 1
+$$
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r}
+ev <- function(x){
+  result <- (x/stats::lag(x, k = -1) - 1) * 100
+  return(result)
+}
+# Ou de manière équivalente :
+ev2 <- function(x){
+  # Attention ici c'est bien k = 1 dans la fonction diff
+  # et k = -1 dans la fonction lag
+  result <- (diff(x, k = 1) /lag(x, k = -1)) * 100
+  return(result)
+}
+```
+
+Remarque : pour des raisons informatiques ces deux fonctions ne donnent pas exactement
+le même résultat. 
+C'est un problème récurrent lorsque l'on souhaite tester l'égalité entre deux séries temporelles :
+
+```{r}
+all(ev(ipi_fr_manuf) == ev2(ipi_fr_manuf))
+```
+
+Une solution est plutôt d'utiliser la fonction `all.equal()` :
+
+```{r}
+isTRUE(all.equal(ev(ipi_fr_manuf), ev2(ipi_fr_manuf)))
+```
+:::
+
+# Utilisation de `xts` et `zoo`
+
+## Utilisation de `xts`
+
+Un des avantages du package `xts` est qu'il permet d'appliquer une fonction à chaque période d'une série temporelle (par exemple à toutes les données trimestrielles, annuelles, etc.).
+Il s'agit des fonctions `apply.monthly()`, `apply.quarterly()`, `apply.yearly()`, etc.
+Pour cela il faut auparavant convertir les données au format `xts`.
+
+Par exemple pour calculer la moyenne annuelle :
+
+```{r}
+library(xts)
+moy_an <- apply.yearly(as.xts(ipi_fr_manuf), mean)
+moy_an
+```
+
+::: callout-note
+## Exercice
+Calculer l'évolution trimestrielle de `ipi_fr_manuf`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Tout d'abord on prolonge l'IPI par des valeurs manquantes jusqu'à la fin de l'année, sinon la dernière somme sur le trimestre est fausse.
+```{r}
+ipi_fr_manuf_prolonge <- window(ipi_fr_manuf, end = c(2019, 12), extend = TRUE)
+somme_trim <- apply.quarterly(as.xts(ipi_fr_manuf_prolonge), sum)
+```
+
+Attention la fonction lag n'agit pas pareil pour les objets xts et ts : il faut ici utiliser l'option `k = 1`.
+Voir l'aide associée à `?lag.xts`.
+Pour garder la même convention entre `lag.ts()` et `lag.xts()` on peut utiliser l'option `options(xts.compat.zoo.lag=TRUE)`.
+
+```{r}
+evol_trim <- (somme_trim/lag(somme_trim, k = 1) - 1) * 100
+```
+
+On peut utiliser la fonction `format()` si l'on veut convertir automatiquement en un objet ts :
+
+```{r}
+start_year <- as.numeric(format(start(evol_trim), "%Y"))
+start_quarter <- as.numeric(substr(quarters(start(evol_trim)), 2, 2))
+ts(evol_trim, start = c(start_year, start_quarter), frequency = 4)
+```
+On peut aussi directement utiliser le package `ts_box` et la fonction `ts_ts()` :
+```{r}
+tsbox::ts_ts(evol_trim)
+```
+:::
+
+On aurait en fait pu le faire directement avec les fonctions de base R !
+Par contre la situation aurait été plus compliquée avec des données haute fréquence (du type journalières) non gérées par `ts` :
+
+```{r}
+aggregate(ipi_fr_manuf, nfrequency = 4,
+		  FUN = mean)
+```
+
+## Utilisation de `zoo`
+
+Le package `zoo` donne un ensemble d'outils qui permettent de manipuler les séries-temporelles.
+De nombreux packages (dont `xts`) sont d'ailleurs basés sur ce format.
+Il permet notamment de faire des imputations de données manquantes selon différentes fonctions (toutes les fonctions commençant par `na.`) et de mieux gérer le format des dates associées aux séries temporelles (ce qui permet de faire des manipulations avec la fonction `format`, ce qui permet par exemple plus facilement exporter des séries temporelles sous Excel).
+Le calcul de l'évolution trimestrielle aurait par exemple pu être faite avec ce package :
+
+```{r}
+somme_trim <- aggregate(as.zoo(ipi_fr_manuf_prolonge), yearqtr, sum)
+somme_trim <- as.ts(somme_trim) #La conversion en ts est plus simple depuis un objet zoo
+evol_trim <- ev(somme_trim)
+evol_trim
+```
+
+Pour le prochain exercice, utiliser la série suivante :
+
+```{r}
+serie_avec_NA <- ts(c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0, 0, 0, 
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 
+  NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+  NA, NA, NA, NA, NA, NA, NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NA, NA, NA, NA, NA, NA, 
+  NA, NA, NA, NA, NA, NA), start = 2000, frequency = 12)
+```
+
+::: callout-note
+## Exercice
+Sur la série `serie_avec_NA`, utiliser les différentes fonctions du package `zoo` pour :
+
+1. Enlever les valeurs manquantes au début de la série ;  
+2. Remplacer les valeurs manquantes à la fin de la série par la dernière valeur observée.  
+3. Interpoler de manière linéaire les valeurs manquantes entre les 0 et les 1.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Les trois fonctions à utiliser sont : `na.trim()`, `na.locf` et `na.approx()`. 
+Il faudra peut-être inverser deux étapes pour que cela marche.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+D'abord on enlève les valeurs manquantes au début de la série
+```{r}
+etape_1 <- na.trim(serie_avec_NA, sides = "left")
+etape_1
+```
+
+Ensuite on interpole
+
+```{r}
+etape_2 <- na.approx(etape_1, na.rm = FALSE)
+etape_2
+```
+
+Enfin on remplace les valeurs à la fin de la série
+
+```{r}
+etape_3 <- na.locf(etape_2)
+etape_3
+```
+:::
+
+::: callout-note
+## Exercice
+À l'aide des fonctions `as.yearmon()` et `format()`, créer un data.frame contenant une colonne "date" qui contient les dates au format JJ/MM/YYYY et une deuxième colonnes avec les valeurs de `ipi_fr_manuf`.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+La fonction `as.yearmon()` doit être appliquée sur `time(ipi_fr_manuf)`. Pour la fonction `format` regarder l'aide `?format.Date`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+dates <- as.yearmon(time(ipi_fr_manuf))
+dates <- format(dates, "%d/%m/%Y")
+donnees_formatees <- data.frame(date = dates, ipi = ipi_fr_manuf)
+head(donnees_formatees)
+```
+:::
+
+Il peut également être utile d'exporter un objet R `ts` ou `mts` vers un fichier Excel, tout en rajoutant une colonne "date" qui sera au format date.
+Ci-dessous un exemple en utilisant le package XLConnect :
+
+```{r}
+library(XLConnect)
+ts2xls <- function(x, file, sheet="Feuille 1", format = "dd/mm/yyyy"){
+  wb <- loadWorkbook(file, create = TRUE)
+  createSheet(wb, sheet)
+  if(is.mts(x)){
+    col <- c("date", colnames(x))
+  }else{
+    col <- c("date", "x")
+  }
+  # Le titre
+  writeWorksheet(wb,matrix(col,nrow = 1),
+                 sheet = sheet,startCol = 1,startRow =1,
+                 header = FALSE)
+
+  # Petit trick pour que la colonne date soit au format date d'Excel
+  csDate <- getOrCreateCellStyle(wb, name = "date")
+  setDataFormat(csDate, format = format)
+  date <- as.Date(format(zoo::as.Date((time(x))), "%d/%m/%Y"),
+                  "%d/%m/%Y")
+  writeWorksheet(wb,date,sheet = sheet,
+                 startCol = 1,startRow = 2,
+                 header = FALSE)
+  setCellStyle(wb, sheet = sheet, row = seq_along(date)+1,
+               col = 1,
+               cellstyle = csDate)
+  # Fin colonne date
+
+  # Autres colonnes
+  writeWorksheet(wb,x,sheet = sheet,startCol = 2,startRow = 2,
+                 header = FALSE)
+  setColumnWidth(wb, sheet, column = seq_along(col), width = -1)
+  saveWorkbook(wb, file)
+}
+```
+
+# Manipulation avec `tsibble`
+
+Le format `tsibble` est un autre format de gestion des séries temporelles
+
+```{r}
+library(tsibble)
+mts_tsibble <- as_tsibble(mts)
+ipi_tsibble <- as_tsibble(ipi_fr_manuf)
+```
+
+::: callout-note
+## Exercice
+Calculer les moyennes trimestrielles de chaque série de `mts_tsibble` et `ipi_tsibble`.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Il faut utiliser à la fois `index_by` et `group_by_key()`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(dplyr)
+mts_tsibble %>%  
+	group_by_key() %>% 
+	index_by(date = ~ yearquarter(.)) %>%
+	summarise(moy = mean(value))
+ipi_tsibble %>%  
+	group_by_key() %>% 
+	index_by(date = ~ yearquarter(.)) %>%
+	summarise(moy = mean(value))
+```
+:::
+
+::: callout-note
+## Exercice
+1. En utilisant la fonction `dplyr::full_join()`, créer un objet `tsibble` contenant les valeurs de `mts_tsibble` et `ipi_tsibble`. 
+2. Comparer les résultats avec `dplyr::left_join()` et `dplyr::right_join()`.
+3. Quelle serait l'équivalent de `ts.intersect()` et `ts.union()` ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+mts_tsibble %>%  full_join(ipi_tsibble, by = "index") # comme ts.union()
+mts_tsibble %>%  left_join(ipi_tsibble, by = "index")
+mts_tsibble %>%  right_join(ipi_tsibble, by = "index")
+mts_tsibble %>%  inner_join(ipi_tsibble, by = "index") # ts.intersect
+```
+:::
+
+Les *index* vont être des dates : on peut facilement les manipuler en utilisant le package `lubdridate`.
+Par exemple pour ne que garder que les dates à partir de l'année 2000 :
+
+```{r}
+library(lubridate)
+ipi_tsibble %>% 
+	filter(year(index) >= 2000)
+```
+
+Pour extraire les données à partir d'un certain mois (mars 2018 par exemple) on peut utiliser la fonction `tsibble::make_yearmonth()` :
+
+```{r}
+ipi_tsibble %>% 
+	filter(index >= make_yearmonth(2000,6))
+```
+
+::: {.callout-note}
+## Exercice
+À l'aide du package `lubridate`, extraire toutes les données du mois de janvier et juillet de l'objet `ipi_tsibble`.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Regarder ce que donne 
+
+```{r}
+ipi_tsibble %>% mutate(month = lubridate::month(index))
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(lubridate)
+ipi_tsibble %>% 
+	filter(month(index) %in% c(1,7))
+```
+:::
+
+::: {.callout-important}
+## Attention
+Une fois que l'on a chargé `dplyr`, la fonction `lag()` utilisée par défaut est modifiée ! 
+Essayez par exemple de relancer le code `ev2(ipi_fr_manuf)`. 
+Comment alors modifier la fonction `ev2()` pour éviter d'avoir une erreur ?
+
+Une façon de faire est de remplacer les `lag()` par des `stats::lag()` pour forcer l'utilisation de la fonction `lag()` du package `stats`. 
+Si l'on veut éviter les erreurs de conflits entre les packages, on peut utiliser le package [`conflicted`](https://conflicted.r-lib.org).
+:::

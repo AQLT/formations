@@ -1,0 +1,243 @@
+---
+title: "4 - Lissage exponentiel"
+subtitle: |
+  Analyse des séries temporelles avec R
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language: 
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+					  message = FALSE,
+					  cache = TRUE)
+```
+
+> L'objectif de ce TP est d'apprendre à appliquer les modèles ETS
+
+Les packages suivants seront utilisés :
+
+```{r,warning=FALSE, message=FALSE, eval=TRUE}
+packages_to_install <- c("ggplot2", "forecast", "RJDemetra", "ggdemetra")
+
+packages <- installed.packages()[,"Package"][! packages_to_install %in% installed.packages()[,"Package"]]
+if (length(packages) > 0) {
+	install.packages(packages)
+}
+library(forecast)
+library(ggplot2)
+library(patchwork)
+```
+
+::: callout-note
+## Exercice
+Etudier les séries `co2` et `UKgas` : quel modèle parait le plus adapté ?
+Faut-il transformer la série ?
+Comparer les prévisions en utilisant des schémas additifs et multiplicatifs et en transformant ou non la série.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+autoplot(co2) + autoplot(UKgas)
+```
+Les deux séries ont une tendance et une saisonnalité. 
+La saisonnalité parait additive pour `co2` et multiplicative pour `UKGas`. Pas de raison de transformer les séries
+
+```{r}
+ets_co2_add = ets(co2, model = "ZZA")
+ets_co2_mult = ets(co2, model = "ZZM")
+ets_co2_add
+ets_co2_mult
+autoplot(window(co2, start = 1993), y = "Millions de thermies") +
+	autolayer(forecast(ets_co2_add, h = 60, PI = FALSE), "ETS(M,A,A)") +
+	autolayer(forecast(ets_co2_mult, h = 60, PI = FALSE), "ETS(M,Ad,M)")
+```
+Les prévisions très proches sur le CT mais s'éloignent sur le long-terme.
+Cela vient notamment la tendance est amortie dans le modèle multiplicatif.
+```{r}
+ets_gas_add = ets(UKgas, model = "ZZA")
+ets_gas_mult = ets(UKgas, model = "ZZM")
+ets_gas_add_log = ets(UKgas, model = "ZZA", lambda = 0)
+ets_gas_add_log_unb = ets(UKgas, model = "ZZA", lambda = 0, biasadj = TRUE)
+
+autoplot(window(UKgas, start = 1970), y = "co2") +
+	autolayer(forecast(ets_gas_add, h = 24, PI = FALSE), "ETS(A,A,A)") +
+	autolayer(forecast(ets_gas_mult, h = 24, PI = FALSE), "ETS(M,A,M)") +
+	autolayer(forecast(ets_gas_add_log, h = 24, PI = FALSE), "log(ETS(A,A,A))") 
+```
+
+Ici la différence entre multiplicatif et additif est plus nette :
+Dans les deux modèles on prévoit une hausse de la tendance mais les amplitudes croissent de manière exponentielle dans le modèle multiplicatif
+alors qu'elles restent constantes dans le cas additif (ce qui est logique)
+Passer au log ne semble pas avoir beaucoup d'impact
+
+Sur le plus long terme les résultats sont en revanche différents
+Passer au log conduit à des estimations plus importantes (notamment lorsque l'on corrige du bais. Rappels : sans correction du biais cela revient à avoir une estimation de la médiane plutôt que moyen, ce qui n'est pas forcément incohérent).
+C'est logique car lorsque l'on passe au log cela revient à supposer que la tendance est également multiplicative
+```{r}
+autoplot(window(UKgas, start = 1985), y = "co2")  +
+	autolayer(forecast(ets_gas_mult, h = 60, PI = FALSE), "ETS(M,A,M)") +
+	autolayer(forecast(ets_gas_add_log, h = 60, PI = FALSE), "log(ETS(A,A,A))") +
+	autolayer(forecast(ets_gas_add_log_unb, h = 60, PI = FALSE), "log(ETS(A,A,A)) corrigé biais")
+```
+`log(ETS(A,A,A))` et `ETS(M,M,M)` donnent des résultats similaires
+```{r}
+autoplot(window(UKgas, start = 1985), y = "co2")  +
+	autolayer(forecast(ets_gas_add_log, h = 60, PI = FALSE), "log(ETS(A,A,A))") +
+	autolayer(forecast(ets(UKgas, model = "MMM"), h = 60, PI = FALSE), "ETS(M,M,M)")
+```
+:::
+
+::: callout-note
+## Exercice
+L'objectif de cette exercice est d'étudier la série `AirPassengers` en utilisant plusieurs méthodes :
+
+1.  Enlever les 12 derniers mois de `AirPassengers`.
+
+2.  Désaisonnaliser la série en utilisant `stl(., s.window = "periodic")` (après transformation de la série) et `RJDemetra::x13(., spec = RJDemetra::x13_spec(easter.enabled = FALSE, transform.function = "Log"))`.
+
+3.  Appliquer un modèle ETS sur la série désaisonnalisée.
+
+4.  Prévoir la série désaisonnalisée sur 12 mois puis la série brute réintroduisant :
+
+a.  la saisonnalité sur la dernière année pour la méthode STL (peut se faire en une étape avec la fonction `forecast::stlf()`) ;\
+b.  les prévisions de la saisonnalité pour la méthode X-13-ARIMA.
+
+4.  Comparer les prévisions des précédentes méthodes avec un ETS directement calculé sur la série désaisonnalisée (avec ou sans transformation de Box-Cox).
+
+5.  Qu'en est-il de la prévision en temps-réel (en utilisant la fonction `tsCV()`) ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Pour récupérer la composante saisonnière avec X-13 on pourra utiliser le code suivant
+```{r}
+library(RJDemetra)
+y <- window(ipi_c_eu[,"FR"], start = 2010)
+x13_spec <- x13_spec(easter.enabled = FALSE, transform.function = "Log")
+mod_x13 <- x13(y, x13_spec)
+ggdemetra::seasonal(mod_x13)
+ggdemetra::seasonaladj(mod_x13)
+ggdemetra::seasonal(mod_x13, forecast = TRUE)
+```
+Si l'on veut une version plus rapide du code on peut également utiliser cette option :
+
+```{r}
+mod_jx13 <- jx13(y, x13_spec)
+saisonnalite <- get_indicators(mod_jx13, c("s", "sa", "s_f", "y_f"))
+saisonnalite[["s"]]
+saisonnalite[["sa"]]
+saisonnalite[["s_f"]]
+# On a d'ailleurs directement une prévision de la série brute qui est faite par modèle ARIMA
+saisonnalite[["y_f"]]
+```
+Pour la fonction `tsCV()` on pourra utiliser la fonction suivante pour X-13
+```{r}
+fx13_stl <- function(x, h){
+	mod_jx13 <- jx13(x, x13_spec)
+	mod_jx13 <- get_indicators(mod_jx13, c("sa", "s_f"))
+	ets_x13 <- ets(mod_jx13$sa, model = "AAN") # modèle fixé pour gagner du temps
+	ets_x13_f <- forecast(ets_x13, h = h)
+	ets_x13_f$mean <- ets_x13_f$mean * mod_jx13$s_f[1:h] # on ajoute 1:h pour éviter quelques bugs
+	ets_x13_f$model <- "X-13 + ETS"
+	# Pas la peine d'actualiser autres paramètres
+	ets_x13_f
+}
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(RJDemetra)
+y <- window(AirPassengers, end = end(AirPassengers) - c(1, 0))
+autoplot(y)
+# Saisonnalité présente qui dépend de la tendance : passage au log nécessaire pour STL
+mod_stl = stl(log(y), s.window = "periodic")
+
+x13_spec <- x13_spec(easter.enabled = FALSE)
+mod_jx13 <- jx13(y, x13_spec)
+mod_jx13 <- get_indicators(mod_jx13, c("s", "sa", "s_f", "y_f"))
+autoplot(exp(seasadj(mod_stl))) + 
+	autolayer(mod_jx13$sa)
+
+ets_x13 = ets(mod_jx13$sa)
+ets_stl = ets(seasadj(mod_stl))
+ets_x13_f = forecast(ets_x13, h = 12)
+ets_stl_f = forecast(ets_stl, h = 12)
+x13_f = ets_x13_f$mean * mod_jx13$s_f # Il faut multiplier car schéma multiplicatif
+ets_f = ets_stl_f$mean + lag(seasonal(mod_stl), -12)
+ets_f = exp(ets_f)
+```
+
+On aurait directement pu obtenir les résultats avec fonction `stlf`
+```{r}
+ets_f - stlf(y, lambda = 0, h = 12, s.window = "periodic")$mean
+
+est_direct = ets(y)
+est_direct_bc = ets(y, lambda = 0)
+autoplot(window(AirPassengers, start = end(AirPassengers) - c(1, 0)),
+		 y = "AirPassengers") +
+	autolayer(x13_f, series = "X-13 + ETS") +
+	autolayer(mod_jx13$y_f, series = "X-13")+ 
+	autolayer(ets_f, series = "STL + ETS")+ 
+	autolayer(forecast(est_direct, PI=FALSE, h =12), series = "ETS(M,Ad,M)")+ 
+	autolayer(forecast(est_direct_bc, PI=FALSE, h =12), series = "log(ETS(A,N,A))")
+```
+Les séries qui semblent avoir les meilleurs prévisions sont X-13 (modèle ARIMA, voir TP 5) et X-13 + ETS. 
+Le moins bon semble l'ETS directement calculé.
+```{r}
+fx13_stl <- function(x, h){
+	mod_jx13 <- jx13(x, x13_spec)
+	mod_jx13 <- get_indicators(mod_jx13, c("sa", "s_f"))
+	ets_x13 <- ets(mod_jx13$sa, model = "AAN") # modèle fixé pour gagner du temps
+	ets_x13_f <- forecast(ets_x13, h = h)
+	ets_x13_f$mean <- ets_x13_f$mean * mod_jx13$s_f[1:h] # on ajoute 1:h pour éviter quelques bugs
+	ets_x13_f$model <- "X-13 + ETS"
+	# Pas la peine d'actualiser autres paramètres
+	# ets_x13_f$upper = ets_x13_f$upper * mod_jx13$s_f
+	# ets_x13_f$lower = ets_x13_f$lower * mod_jx13$s_f
+	ets_x13_f
+}
+fx13 <- function(x, h){
+	mod_jx13 <- jx13(x, x13_spec)
+	x13_f <- get_indicators(mod_jx13, c("y_f"))$y_f
+	## Ici il y a des calculs en trop car la prévision est uniquement faite avec le pré-ajustement, on pourrait encore optimiser en ne faisant que le pré-ajustement
+	# mod_jx13 <- jregarima(y, x13_spec$regarima)
+	# x13_f <- get_indicators(mod_jx13, c("model.y_f"))[[1]]
+	x13_f <- window(x13_f, end = time(x13_f)[h])
+	return(structure(list(method = "X-13ARIMA", 
+						  model = mod_jx13, 
+						  mean = x13_f,
+						  level = NULL, 
+						  lower = NULL, upper = NULL, x = NULL, series = NULL, 
+						  fitted = NULL, residuals =NULL), class = "forecast"))
+}
+fstl_ets <- function(x, h){
+	stlf(x, lambda = 0, h = 12, s.window = "periodic", etsmodel = "AAN")
+}
+fets <- function(x, h){
+	forecast(ets(x, model = "MAM", damped = TRUE), h = h)
+}
+fets_bc <- function(x, h){
+	forecast(ets(x, lambda = 0, model = "AAA"), h = h)
+}
+# On enlève les 3 premières années pour X-13
+e_x13_ets <- tsCV(AirPassengers, fx13_stl, h=1, initial = 3*12)
+e_x13 <- tsCV(AirPassengers, fx13, h=1, initial = 3*12)
+e_stl_est <- tsCV(AirPassengers, fstl_ets, h=1, initial = 3*12)
+e_ets <- tsCV(AirPassengers, fets, h=1, initial = 3*12)
+e_ets_bc <- tsCV(AirPassengers, fets_bc, h=1, initial = 3*12)
+
+erreur = ts.union(e_x13_ets, e_x13, e_stl_est,
+				  e_ets, e_ets_bc)
+colnames(erreur) <- c("X-13+ETS", "X-13", "STL+ETS", "ETS", "log(ETS)")
+```
+Le modèle ARIMA (issu de X-13) semble de meilleure qualité :
+```{r}
+colMeans(erreur^2, na.rm = TRUE)
+```
+:::

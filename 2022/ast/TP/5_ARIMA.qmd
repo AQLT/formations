@@ -1,0 +1,381 @@
+---
+title: "5 - Modèles ARIMA"
+subtitle: |
+  Analyse des séries temporelles avec R
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language: 
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+					  message = FALSE,cache = FALSE)
+```
+
+> L'objectif de ce TP est d'apprendre à manipuler des modèles (S)ARIMA
+
+Les modèles ARIMA peuvent être estimés grâce à plusieurs fonctions, sans être exhaustif :
+
+-   `stats::arima()` dans les fonctions de base de R ;
+
+-   `forecast::Arima()` basée sur `stats::arima()` mais qui permet d'ajouter un terme de dérive et se manipule plus facilement avec autres fonctions de `forecast` ;
+
+-   `fable::ARIMA()` comme `forecast::Arima()` mais pour les objets `tsibble`.
+
+Les packages suivants seront utilisés :
+
+```{r,warning=FALSE, message=FALSE, eval=FALSE}
+packages_to_install <- c("ggplot2", "forecast", "RJDemetra", "patchwork", "lmtest",
+						 "tsibble", "fable", "feasts", "dplyr", "lubridate")
+
+packages <- installed.packages()[,"Package"][! packages_to_install %in% installed.packages()[,"Package"]]
+if (length(packages) > 0) {
+	install.packages(packages)
+}
+```
+
+# Séries classiques
+
+Le but des prochains exercices est d'étudier les séries classiques
+
+-   `LakeHuron` niveau annuel du Lac de Huron ;
+
+-   `sunspot.year` nombre annuel de tâches solaires entre 1770 et 1869 ;
+
+-   `AirPassengers` nombre mensuel de passagers aériens ;
+
+-   `nottem` température mensuelle moyenne au chateau de Nottingham.
+
+::: callout-note
+## Exercice
+Étudier la série `LakeHuron` :  Faut-il transformer la série ? Quel modèle ARIMA parait adapté ? la série est elle stationnaire ? 
+Comparer avec `auto.arima()`.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Analyser les ACF/PACF : est-ce qu'ils ressemblent à ceux d'une marche aléatoire ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(forecast)
+library(patchwork)
+autoplot(LakeHuron)
+```
+Il y a potentiellement une tendance à la baisse donc peut-être une tendance à la baisse.
+A priori pas de raison de transformer la série.
+```{r}
+tseries::kpss.test(LakeHuron, "Trend")
+tseries::adf.test(LakeHuron)
+# Les tests KPSS et ADF considèrent que la série est non-stationnaire
+# ggAcf(LakeHuron) /
+# 	ggPacf(LakeHuron)
+ggtsdisplay(LakeHuron)
+```
+L'ACF décroit de manière exponentielle et rapidement vers 0, ce n'est pas un signe de marche aléatoire.
+En revanche le premier coefficient est élevé ce qui peut laisser penser que l'on n'a pas une marche aléatoire mais un coefficient AR(1) élevé.
+Le PACF est nul à partir de l'ordre 3 : cela peut laisser penser à un processus AR d'ordre au plus 2.
+On estime un modèle ARIMA(2,0,0) avec une tendance (*drift*).
+```{r}
+mod_trend <- Arima(LakeHuron, order = c(2, 0, 0), include.drift = TRUE)
+mod_trend
+# Le coefficient AR(1) est très proche de 1 ce qui explique que les tests précédents concluent à une non-stationnarité
+lmtest::coeftest(mod_trend) # tous les coefficients sont significatifs, pas de raison de simplifier
+# A priori les résidus sont un bruit blanc :
+checkresiduals(mod_trend) 
+cpgram(residuals(mod_trend))
+
+# En considérant un AR(1) on a un modèle avec un AIC plus grand
+mod_trend_ar1 <- Arima(LakeHuron, order = c(1, 0, 0), include.drift = TRUE)
+mod_trend_ar1
+
+# On aurait aussi pu faire un ARIMA(0,1,0) : c'est ce qui est retenu par auto.arima()
+mod_diff <- auto.arima(LakeHuron)
+mod_diff
+```
+Attention : on ne peut comparer les modèles en utilisant l'AIC ! (ordre de différenciation différent).
+Pour comparer les modèles on peut étudier les erreurs de prévision.
+```{r}
+far2 <- function(x, h){forecast(Arima(x, order=c(2,0,0), include.drift = TRUE), h=h)}
+fdiff <- function(x, h){forecast(Arima(x, order=c(0,1,0)), h=h)}
+e1 <- tsCV(LakeHuron, far2, h=1)
+e2 <- tsCV(LakeHuron, fdiff, h=1)
+e_oos <- na.omit(ts.union(e1, e2))
+# MSE plus petite avec second modèle
+colMeans(e_oos^2)
+# Mais cela vient du fait que lorsqu'il y a peu d'observations, le premier modèle est instable
+colMeans(window(e_oos,start = 1890)^2)
+colMeans(window(e_oos,start = 1900)^2)
+
+# Résidus In Sample toujours plus petits avec premier modèle
+# On commence en 1878 car ce n'est qu'après cette date que les résidus sont calculés par MLE
+e_is <- window(ts.union(residuals(mod_trend), residuals(mod_diff)),start = 1878)
+colMeans(e_is^2)
+colMeans(window(e_is,start = 1890)^2)
+colMeans(window(e_is,start = 1900)^2)
+```
+:::
+
+::: callout-note
+## Exercice
+Étudier la série `sunspot.year` entre 1770 et 1869 :  Faut-il transformer la série ? Quel modèle ARIMA parait adapté ? la série est elle stationnaire ? 
+Comparer avec `auto.arima()`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(forecast)
+library(patchwork)
+y <- window(sunspot.year, start = 1770, end = 1869)
+ggtsdisplay(y)
+```
+Pas de tendance ni de raison de transformer la série.
+Il y a des mouvements cycliques.
+A priori pas de raison de transformer la série.
+A priori pas une marche aléatoire.
+```{r}
+tseries::kpss.test(y)
+tseries::adf.test(y)
+```
+Les tests KPSS et ADF considèrent que la série est non-stationnaire.
+On remarque que l'ACF décroit rapidement vers O de manière sinusodiale  et que le PACF est nul à partir de l'ordre 3 : on estime un AR2.
+```{r}
+mod_ar2 <- Arima(y, order = c(2, 0, 0))
+mod_ar2
+lmtest::coeftest(mod_ar2) # tous les coefficients sont significatifs, pas de raison de simplifier
+# A priori les résidus sont un bruit blanc :
+checkresiduals(mod_ar2) 
+cpgram(residuals(mod_ar2))
+
+# Auto.arima sélectionne un ARIMA(2,0,1) qui a un AICc plus petit
+mod_auto <- auto.arima(y)
+mod_auto
+accuracy(mod_ar2)
+accuracy(mod_auto)
+
+far2 <- function(x, h){forecast(Arima(x, order=c(2,0,0)), h=h)}
+far2ma1 <- function(x, h){forecast(Arima(x, order=c(2,0,1)), h=h)}
+e1 <- tsCV(y, far2, h=1)
+e2 <- tsCV(y, far2ma1, h=1)
+e_oos <- window(ts.intersect(e1, e2), start = 1780)
+# MSE plus petite avec second modèle
+colMeans(e_oos^2,na.rm = TRUE)
+```
+:::
+
+::: callout-note
+## Exercice
+Étudier la série `AirPassengers` :  Faut-il transformer la série ? Quel modèle ARIMA parait adapté ? la série est elle stationnaire ? 
+Comparer avec `auto.arima()`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+autoplot(AirPassengers)
+```
+Tendance claire avec une saisonnalité multiplicative.
+Il faut passer la série au log.
+```{r}
+ggtsdisplay(log(AirPassengers))
+```
+L'analyse de l'ACF montre une décroissance lente avec des pics saisonniers.
+L'analyse du PACF montre deux pics : à l'ordre 1 proche de 1 et à l'ordre 13.
+Le second pic à l'ordre 13 et non 12 peut suggérer une double différenciation $(1-B)(1-B^{12})$.
+La présence d'une saisonnalité a déjà été analysée dans les précédents TP : un test n'est pas nécessaire et on peut différencier à l'ordre 12.
+```{r}
+ggtsdisplay(diff(log(AirPassengers), 12))
+```
+La série différenciée ne présente pas de tendance mais des périodes de hausse et de baisse. 
+L'ACF décroit vers 0 mais pas de manière exponentielle. 
+Le premier coefficient de l'ACF/PACF est élevé ce qui peut laisser penser que la série est toujours non-stationnaire
+```{r}
+tseries::kpss.test(diff(log(AirPassengers), 12))
+tseries::adf.test(diff(log(AirPassengers), 12))
+tseries::pp.test(diff(log(AirPassengers), 12))
+# Les tests KPSS, ADF et PP donnent des résultats différents : à 5 % le test KPSS ne rejette l'hypothèse nulle de stationnarité, le test de PP rejette l'hypothèse de non-stationnarité alors qu'ADF ne la rejette pas.
+ndiffs(diff(log(AirPassengers), 12))
+```
+La fonction `ndiffs()`, basée par défaut sur KPSS conclue à une non-stationnarité. 
+Cela vient de paramètres différents dans le test KPSS utilisé.
+L'analyse des ACF semblent plutôt montrer un présence de marche aléatoire : on différencie.
+Les ACF et PACF semblent montrer une saisonnalité encore présente mais pas de décroissance nette de l'ACF ou PACF.
+```{r}
+ggAcf(diff(diff(log(AirPassengers), 12), 1)) /
+	ggPacf(diff(diff(log(AirPassengers), 12), 1))
+
+mod = Arima(AirPassengers, order = c(0,1,0), seasonal = c(1,1,1), lambda = 0)
+Box.test(resid(mod), fitdf = 2,lag = 24,type = "Ljung")
+cpgram(resid(mod))
+# checkresiduals(mod)
+# Les résidus ne sont pas un bruit blanc
+ggAcf(residuals(mod)) /
+	ggPacf(residuals(mod))
+# Encore pas de décroissance claire mais un pic à l'ordre 1
+# on peut donc penser que p,q, P,q <= 1
+mod1 <- Arima(AirPassengers, order = c(1,1,1), seasonal = c(1,1,1), lambda = 0)
+# On a bien un bruit blanc cette fois
+Box.test(resid(mod1), fitdf = 4,lag = 24,type = "Ljung")
+cpgram(resid(mod1))
+lmtest::coeftest(mod1) # ordres AR non significatifs
+# on va enlève un ordre AR et on refait le test : ne pas enlever toutes les variables car on teste ici si une variable est nulle et non pas si un ensemble de variables est nul
+
+mod2 <- Arima(AirPassengers, order = c(0,1,1), seasonal = c(1,1,1), lambda = 0)
+# Toujours un bruit blanc et AR saisonnier non significatif
+Box.test(resid(mod2), fitdf = 3,lag = 24,type = "Ljung")
+lmtest::coeftest(mod2) 
+
+mod3 = Arima(AirPassengers, order = c(0,1,1), seasonal = c(0,1,1), lambda = 0)
+# Toujours un bruit blanc et tous les coefs sont signifactifs, on ne peut pas simplifier davantage
+Box.test(resid(mod3), fitdf = 2,lag = 24,type = "Ljung")
+lmtest::coeftest(mod3) 
+# C'est le dernier modèle qui a l'AIC le plus petit : c'est celui que l'on retient
+AIC(mod1, mod2, mod3)
+
+# C'est aussi le modèle retenu par auto.arima
+auto.arima(AirPassengers, lambda = 0)
+# auto.arima(AirPassengers, lambda = 0, stepwise = FALSE) # plus lent
+```
+On retrouve le modèle Airline : ARIMA(0,1,1)(0,1,1) !
+:::
+
+Pour l'analyse de la série `nottem`, on utilisera le `tidyverts`.
+Ci-dessous un exemple de manipulation avec une autre série :
+
+```{r}
+library(tsibble)
+library(dplyr)
+library(fable)
+library(feasts)
+library(ggplot2)
+y <- as_tsibble(USAccDeaths)
+y
+(y %>% ACF(value %>%  difference(12)) %>% autoplot()) /
+	(y %>% PACF(value %>%  difference(12)) %>% autoplot()) & ylim(-1,1)
+model <- y %>%
+	model(arima = ARIMA(value ~ 0 + pdq(0, 1, 1) + PDQ(0, 1, 0)),
+		  auto_arima = ARIMA(value))
+model 
+model %>% accuracy()
+model %>% glance()
+model %>% residuals() %>%  ACF() %>%  autoplot()
+# On peut utiliser la fonction report() sur un sous modèle
+model %>% select(auto_arima) %>% 
+	report()
+model %>% 
+	forecast(h=12) %>%  
+	autoplot(y)
+```
+
+::: callout-note
+## Exercice
+Étudier la série `as_tsibble(nottem)` :  
+
+1. Faut-il transformer la série ?  
+2. Faut-il différencier la série ? (utiliser la fonction `difference()`) 
+3. Étudier les ACF/PACF : quels sont les ordre plausibles ?
+4. Tester un ensemble de modèles possibles. Les trier par AICc et prendre celui qui le minimise.
+5. Vérifier la qualité des résidus
+6. Comparer les prévisions avec une sélection automatique et avec un modèle ETS.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r, message=FALSE}
+library(lubridate)
+y <- as_tsibble(nottem)
+# Pas de transformation de la série a priori nécessaire
+autoplot(y, value)
+gg_season(y, value)
+# Série déjà étudiée : pas de tendance et saisonnalité mensuelle nette
+# pas de raison de transformer la série
+y %>% gg_tsdisplay(value %>%  difference(12), plot_type = "partial")
+# A priori série différenciée est stationnaire
+# L'analyse des ACF/PACF suggère P= 1 et/ou Q=1, P<=1 et Q <= 2
+# Pas de constante dans le modèle
+# Si on ne veut pas écrire tous les codes à la main on peut aussi faire un programme
+# d = expand.grid(p=0:1,q=0:2,P=0:1, Q=0:1)
+# cat(sprintf("sarima%i0%i_%i1%i = ARIMA(value ~ -1 + pdq(%i, 0, %i) + PDQ(%i, 1, %i))",
+# 		d$p, d$q, d$P, d$Q,
+# 		d$p, d$q, d$P, d$Q), sep =",\n")
+all_models <- y %>%
+	model(
+		sarima000_010 = ARIMA(value ~ -1 + pdq(0, 0, 0) + PDQ(0, 1, 0)),
+		sarima100_010 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(0, 1, 0)),
+		sarima001_010 = ARIMA(value ~ -1 + pdq(0, 0, 1) + PDQ(0, 1, 0)),
+		sarima101_010 = ARIMA(value ~ -1 + pdq(1, 0, 1) + PDQ(0, 1, 0)),
+		sarima002_010 = ARIMA(value ~ -1 + pdq(0, 0, 2) + PDQ(0, 1, 0)),
+		sarima102_010 = ARIMA(value ~ -1 + pdq(1, 0, 2) + PDQ(0, 1, 0)),
+		sarima000_110 = ARIMA(value ~ -1 + pdq(0, 0, 0) + PDQ(1, 1, 0)),
+		sarima100_110 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(1, 1, 0)),
+		sarima001_110 = ARIMA(value ~ -1 + pdq(0, 0, 1) + PDQ(1, 1, 0)),
+		sarima101_110 = ARIMA(value ~ -1 + pdq(1, 0, 1) + PDQ(1, 1, 0)),
+		sarima002_110 = ARIMA(value ~ -1 + pdq(0, 0, 2) + PDQ(1, 1, 0)),
+		sarima102_110 = ARIMA(value ~ -1 + pdq(1, 0, 2) + PDQ(1, 1, 0)),
+		sarima000_011 = ARIMA(value ~ -1 + pdq(0, 0, 0) + PDQ(0, 1, 1)),
+		sarima100_011 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(0, 1, 1)),
+		sarima001_011 = ARIMA(value ~ -1 + pdq(0, 0, 1) + PDQ(0, 1, 1)),
+		sarima101_011 = ARIMA(value ~ -1 + pdq(1, 0, 1) + PDQ(0, 1, 1)),
+		sarima002_011 = ARIMA(value ~ -1 + pdq(0, 0, 2) + PDQ(0, 1, 1)),
+		sarima102_011 = ARIMA(value ~ -1 + pdq(1, 0, 2) + PDQ(0, 1, 1)),
+		sarima000_111 = ARIMA(value ~ -1 + pdq(0, 0, 0) + PDQ(1, 1, 1)),
+		sarima100_111 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(1, 1, 1)),
+		sarima001_111 = ARIMA(value ~ -1 + pdq(0, 0, 1) + PDQ(1, 1, 1)),
+		sarima101_111 = ARIMA(value ~ -1 + pdq(1, 0, 1) + PDQ(1, 1, 1)),
+		sarima002_111 = ARIMA(value ~ -1 + pdq(0, 0, 2) + PDQ(1, 1, 1)),
+		sarima102_111 = ARIMA(value ~ -1 + pdq(1, 0, 2) + PDQ(1, 1, 1))
+	)
+all_models %>% 
+	glance() %>% 
+	arrange(AICc)
+best_model <- y %>%
+	model(
+		sarima100_111 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(1, 1, 1))
+	)
+# A priori bruit blanc :
+best_model %>% gg_tsresiduals()
+augment(best_model) %>% 
+	features(.innov, ljung_box, dof = 3, lag = 24)
+compar_model <- y %>%
+	model(
+		sarima100_111 = ARIMA(value ~ -1 + pdq(1, 0, 0) + PDQ(1, 1, 1)),
+		auto_arima = ARIMA(value ~ -1),
+		ets = ETS(value)
+	)
+# Modèle sélectionné a un AICc plus petit que l'auto-arima  mais un RMSE plus élevé
+compar_model
+compar_model %>% glance()
+compar_model %>% accuracy()
+# Prévisions des 3 modèles sont très proches
+forecast(compar_model, h ="1 year") %>% 
+	autoplot(y %>% filter(year(index) >= 1938))
+```
+::: 
+
+L'avantage est `tidyverts` est que l'on peut appliquer facilement plusieurs fonctions à plusieurs séries et comparer les méthodes entre elles.
+En reprenant l'exemple disponible ici <https://fable.tidyverts.org>
+
+```{r}
+library(fable)
+library(tsibble)
+library(tsibbledata)
+library(lubridate)
+library(dplyr)
+aus_retail %>%
+	filter(
+		State %in% c("New South Wales", "Victoria"),
+		Industry == "Department stores"
+	) %>% 
+	model(
+		ets = ETS(box_cox(Turnover, 0.3)),
+		arima = ARIMA(log(Turnover)),
+		snaive = SNAIVE(Turnover)
+	) %>%
+	forecast(h = "2 years") %>% 
+	autoplot(filter(aus_retail, year(Month) > 2010), level = NULL)
+```

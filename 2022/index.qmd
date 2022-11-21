@@ -1,0 +1,8 @@
+---
+title: "2022"
+lang: fr
+language: 
+ title-block-author-single: Auteur
+---
+
+-   Novembre 2022 : [Analyse de séries temporelles avec R](ast/)
