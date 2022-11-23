@@ -94,6 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -122,10 +123,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Envoyer"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/css.css">
 </head>
 
 <body class="nav-fixed">
@@ -144,10 +159,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../index.html">
- <span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">2022</span>
@@ -350,25 +361,25 @@ Solution
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-4_92dfa8ddeefcd65a1591f9777c1f58b6">
+<div class="cell" data-hash="2_Graphiques_cache/html/aus-arrivals_d365becb8faac8458278f8d0b9417201">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(Arrivals)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/aus-arrivals-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Le nombre d’arrivées augmentent avec le temps, sauf ceux en provenance du Japon après 1995. Les séries semblent saisonnières avec une saisonnalité qui dépend du niveau (sauf pour US) et on observe un changement de saisonnalité pour les arrivées en provenance du Japon</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-5_4f085139fa11f7b114346e9375991dff">
+<div class="cell" data-hash="2_Graphiques_cache/html/aus-arrivals-season_4af25d1b49a8959e7dedd6c483cde811">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> <span class="fu">gg_season</span>(Arrivals)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/aus-arrivals-season-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Remarque : le multivarié ne marche pas avec forecast. <code>forecast::ggseasonplot(arrivals)</code> donne une erreur.</p>
 <p>La saisonnalité est différente entre chaque pays : arrivées plus élevées aux T1 et T4 pour le Royaume-Uni. elles sont plus faibles au T1 pour la Nouvelle-Zélande et au plus haut au T3. Pour le Japon : plus faibles aux T2 et T4 sur années récentes. Pour les États-Unis le graphique n’est pas facile à lire</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-6_9569de4d6b32840d5f945154f1e109b1">
+<div class="cell" data-hash="2_Graphiques_cache/html/aus-arrivals-subseries_f9e60714a551674f97fb1153e92c6d03">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> <span class="fu">gg_subseries</span>(Arrivals)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/aus-arrivals-subseries-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pour le Royaume-Uni la hausse des entrées est surtout saisonnière (forte hausse aux T1 et T3). Depuis les États-Unis et la Nouvelle-Zélande la hausse semble la même sur tous les trimestres.</p>
@@ -406,45 +417,45 @@ Solution
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-7_fbc748a608d301bc0ada282166788835">
+<div class="cell" data-hash="2_Graphiques_cache/html/hsales_0d34b753ec3c11417e9e0afb156dca61">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(hsales)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pas de tendance, il semble il y avoir une saisonnalité et un cycle</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-8_1d7619114ba4f160b7e68f8f944e0891">
+<div class="cell" data-hash="2_Graphiques_cache/html/hsales-season_fb9a301d2df4789ddd12d0fab9648d78">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggseasonplot</span>(hsales)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-season-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Les ventes semblent plus faibles en janv-déc et plus élevées en mars</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-9_1b31ade34bd865b1a27627d6748c545f">
+<div class="cell" data-hash="2_Graphiques_cache/html/hsales-subseries_267104c18d86333cb8ca1ee736d50e46">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsubseriesplot</span>(hsales)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-subseries-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>On retrouve en moyenne les résultats précédents mais les variations des coefficients saisonniers laissent penser à un cycle</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-10_fbb99327b837b02d751e82473d67e750">
+<div class="cell" data-hash="2_Graphiques_cache/html/hsales-lag_acfa5347d51d6b7a6035122ed3439838">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gglagplot</span>(hsales)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-lag-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Forte corrélation avec les valeurs précédentes et les valeurs saisonnières</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-11_953f54522f5ba0fd045e96b732af6efe">
+<div class="cell" data-hash="2_Graphiques_cache/html/hsales-acf_01c926cbff50e6fcf0b81ba25652e58e">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggAcf</span>(hsales)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-acf-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggAcf</span>(hsales, <span class="dv">12</span><span class="sc">*</span><span class="dv">7</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/hsales-acf-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On augmentant le nombre de lag on repère plus facilement les cycles longs (environ 8 ans)</p>
+<p>En augmentant le nombre de lag on repère plus facilement les cycles longs (environ 8 ans).</p>
 </div>
 </div>
 </div>
@@ -503,19 +514,18 @@ Solution
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-12_a97f3e839d80ad93c1edf698ef460462">
+<div class="cell" data-hash="2_Graphiques_cache/html/spectre-tendance_39e281da3d8bdc70c9487988ec2ac66c">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="fu">ts</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="dv">2000</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(t, </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-tendance-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(t, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-tendance-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -546,20 +556,19 @@ Solution
 </div>
 <div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-13_70d0c4e251077a2050de2477b233f705">
+<div class="cell" data-hash="2_Graphiques_cache/html/spectre-saisonnalite_8d458144941f019753d2c49dca1000bb">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">ts</span>(<span class="dv">0</span>, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="dv">2000</span>, <span class="at">end =</span> <span class="dv">2020</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>s[<span class="fu">cycle</span>(s) <span class="sc">==</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(s, </span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-saisonnalite-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(s, </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-saisonnalite-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -590,19 +599,18 @@ Solution
 </div>
 <div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-14_8934e3ce90a391138b96c48bff240bbb">
+<div class="cell" data-hash="2_Graphiques_cache/html/spectre-cycle_7b0346e1d55b267c9f0ceec9c0120ad9">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">=</span> <span class="fu">ts</span>(<span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">36</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)) <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">36</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="dv">2000</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(c, </span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-cycle-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(c, </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-cycle-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -619,7 +627,7 @@ Exercice
 </div>
 <div class="callout-body-container callout-body">
 <p>Pourquoi a-t-on un spectre différent en simulant un cycle de cette façon ?</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-15_ac53244a1e71aa556a94971407a2f143">
+<div class="cell" data-hash="2_Graphiques_cache/html/spectre-cycle-saison_a2980e42724d8ceb71c0cdd281546124">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">=</span> <span class="fu">ts</span>(<span class="dv">0</span>, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="dv">2000</span>, <span class="at">end =</span> <span class="dv">2020</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>c[<span class="fu">cycle</span>(c) <span class="sc">==</span> <span class="dv">12</span>][<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>c</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -648,10 +656,9 @@ Exercice
 2020   0                                            </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(c, </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-cycle-saison-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -697,20 +704,19 @@ Solution
 </div>
 <div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-16_cbd3b60725dbdb0e88515e48a17f6f2e">
+<div class="cell" data-hash="2_Graphiques_cache/html/spectre-irregulier_d78044cbdd0ed640853e5e4b39b68589">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">=</span> <span class="fu">ts</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="dv">2000</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(i, </span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pgram"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-irregulier-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spectrum</span>(i, </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">detrend =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"ar"</span>, <span class="at">log =</span> <span class="st">"no"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/spectre-irregulier-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Question supplémentaire : à quoi correspond la droite du graphique précédent ?</p>
@@ -755,94 +761,100 @@ Solution
 </div>
 <div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-17_3f4c148384055be136ab338471ee64d7">
+<div class="cell" data-hash="2_Graphiques_cache/html/jj_6093da104a8b31e0fce41e12336bc524">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(JohnsonJohnson)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/jj-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Il semble y avoir une saisonnalité plus importante lorsque la série est élevée et la tendance semble exponentielle</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Il semble y avoir une saisonnalité plus importante lorsque la série est élevée et la tendance semble exponentielle.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/jj-log_ee8a968adbc15401e9eefc9d390ec584">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/jj-log-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La transformation en log semble trop forte : la variabilité au début de la série est plus importante qu'en fin de série</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.5</span>)) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.3</span>))) <span class="sc">/</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.1</span>)) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.2</span>)))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La transformation en log semble trop forte : la variabilité au début de la série est plus importante qu’en fin de série.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/jj-bc_244e3aa6f5a5420ec56dafb816cc91ed">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.5</span>)) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.3</span>))) <span class="sc">/</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.1</span>)) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(JohnsonJohnson, <span class="fl">0.2</span>)))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-3.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/jj-bc-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La racine carrée n'est assez forte mais les autres transformations semblent donner de bons résultats. La méthode Guerrero donne lambda = 0.15</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(JohnsonJohnson)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La racine carrée n’est assez forte mais les autres transformations semblent donner de bons résultats. La méthode Guerrero donne <span class="math inline">\(\lambda = 0,15\)</span>.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-4_69515b310dd60cc48e910ebc5226c66c">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(JohnsonJohnson)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1540752</code></pre>
 </div>
+</div>
+<div class="cell" data-hash="2_Graphiques_cache/html/AirPassengers_2c827247e6542de9293301d3354477e1">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AirPassengers)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-4.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/AirPassengers-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Il semble y avoir une saisonnalité plus importante lorsque la série est élevée </span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(AirPassengers, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Il semble y avoir une saisonnalité plus importante lorsque la série est élevée .</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/AirPassengers-bc_7b62e63aefb7eca62701d6e9d9872835">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(AirPassengers, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-5.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/AirPassengers-bc-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La transformation en log semble suffisante</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(AirPassengers)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(AirPassengers)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.2947156</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La méthode Guerrero donne lambda = -0.3. Le graphique est proche de celui du passage au log : la recommandation est de garder la transformation en log, plus explicable</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(AirPassengers, <span class="fu">BoxCox.lambda</span>(AirPassengers))) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">log</span>(AirPassengers))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(AirPassengers, <span class="fu">BoxCox.lambda</span>(AirPassengers))) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">log</span>(AirPassengers))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-6.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/AirPassengers-bc-2.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>La transformation en log semble suffisante. La méthode Guerrero donne <span class="math inline">\(\lambda = -0,3\)</span>. Le graphique est proche de celui du passage au logarithme : la recommandation est de garder la transformation en logarithme, plus explicable.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/co2_cac250e06bb15b155a9da9bbdf6a414d">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(co2)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-7.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/co2-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Une tendance linéaire mais la saisonnalité n'est pas proportionnelle au niveau</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Aucune transformation n'est nécessaire. La méthode Guerrero donne lambda = 0.0 (log) sans que cela change les résultats</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(co2)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(co2)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.03432107</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(co2) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">log</span>(co2))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-8.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/co2-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(usdeaths)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Une tendance linéaire mais la saisonnalité n’est pas proportionnelle au niveau Aucune transformation n’est nécessaire. La méthode Guerrero donne <span class="math inline">\(\lambda = 0,0\)</span> (log) sans que cela change les résultats.</p>
+<pre class="{rusdeaths-bc}"><code>autoplot(usdeaths)
+BoxCox.lambda(usdeaths)
+autoplot(usdeaths) + autoplot(BoxCox(usdeaths, 0))</code></pre>
+<p>Pas de tendance : aucune transformation n’est nécessaire. La méthode Guerrero donne <span class="math inline">\(\lambda = 0,0\)</span> (log) sans que cela change les résultats.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/usgdp_5873dbbc72886357299a4d005419c1ca">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(usgdp)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-9.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/usgdp-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pas de tendance : aucune transformation n'est nécessaire. La méthode Guerrero donne lambda = 0.0 (log) sans que cela change les résultats</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(usdeaths)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.03363775</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(usdeaths) <span class="sc">+</span> <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usdeaths, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On observe une tendance exponentielle : il peut être utile de faire une transformation</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/usgdp-log_65c0f2cf3e5e15e7709f9c5b459e85b7">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-10.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/usgdp-log-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(usgdp)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-11.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On observe une tendance exponentielle : il peut être utile de faire une transformation</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="dv">0</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-12.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La transformation en log semble suffisante, légèrement trop forte.</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># La méthode Guerrero donne lambda = 0.36</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(usgdp)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>La transformation en log semble suffisante, peut-être légèrement trop forte. La méthode Guerrero donne <span class="math inline">\(\lambda = 0,36\)</span>.</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/usgdp-bc_9c21c05eb374d39a9e0684094927ca0d">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BoxCox.lambda</span>(usgdp)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.366352</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="dv">0</span>))  <span class="sc">+</span> </span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span> y<span class="sc">~</span>x, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="fu">BoxCox.lambda</span>(usgdp)))  <span class="sc">+</span> </span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span> y<span class="sc">~</span>x, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="dv">0</span>))  <span class="sc">+</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span> y<span class="sc">~</span>x, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(<span class="fu">BoxCox</span>(usgdp, <span class="fu">BoxCox.lambda</span>(usgdp)))  <span class="sc">+</span> </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span> y<span class="sc">~</span>x, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-17-13.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/usgdp-bc-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -858,11 +870,11 @@ Exercice
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-18_942debaf74f381638db1ba767ee41be1">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Pourquoi la transformation de Box-Cox n'est pas adaptée à la série `expsmooth::cangas` ?</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cangas)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Pourquoi la transformation de Box-Cox n’est pas adaptée à la série <code>expsmooth::cangas</code> ?</p>
+<div class="cell" data-hash="2_Graphiques_cache/html/cangas_139d7df907f6875b7d0f93f160997285">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cangas)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="2_Graphiques_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="2_Graphiques_files/figure-html/cangas-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -885,9 +897,9 @@ Solution
 </div>
 </div>
 <p>Les précédents exercices portaient uniquement les fonctions de <code>forecast</code>. Pour appliquer la méthode Guerrero avec un objet <code>tsibble</code> on peut utiliser la fonction <code>features(., features = guerrero)</code> :</p>
-<div class="cell" data-hash="2_Graphiques_cache/html/unnamed-chunk-19_9654b5c83217ee64e32606924afb89ab">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> </span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(<span class="at">features =</span> guerrero)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="2_Graphiques_cache/html/feasts-ex_0ee5ad850a384cdbe1920cc260b0e210">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(<span class="at">features =</span> guerrero)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   Origin lambda_guerrero
@@ -897,9 +909,9 @@ Solution
 3 UK             -0.0511
 4 US              0.190 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> </span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(<span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span> </span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(lambda_guerrero)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>aus_arrivals <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(<span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(lambda_guerrero)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  0.25392556  0.33202070 -0.05108145  0.19043694</code></pre>
 </div>
@@ -1042,6 +1054,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1057,6 +1071,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="https://aqlt.netlify.app">
       <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
 </i> 
     </a>
   </li>  

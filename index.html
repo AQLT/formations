@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -39,6 +40,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -58,9 +61,23 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Envoyer"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
 
 
-<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/css.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,10 +96,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">
- <span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">2022</span>
@@ -110,7 +123,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section">2022</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2021</a></li>
   </ul>
 </nav>
     </div>
@@ -137,14 +149,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="section" class="level1">
 <h1>2022</h1>
 <ul>
-<li>Novembre 2022 : <a href="2022/ast/">Analyse de séries temporelles avec R</a></li>
+<li>Novembre 2022 : <a href="./2022/ast/">Analyse de séries temporelles avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></a> (Cepe) <img src="./2022/ast/Cours/img/logo.png" class="img-fluid" style="width:10.0%"></li>
 </ul>
-</section>
-<section id="section-1" class="level1">
-<h1>2021</h1>
-<ul>
-<li>Juin 2021 : <a href="2021/rte/">Désaisonnalisation avec JDemetra+ et RJDemetra</a></li>
-</ul>
+<!-- {{< include 2021/index.qmd >}} -->
 
 
 </section>
@@ -298,6 +305,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="https://aqlt.netlify.app">
       <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
 </i> 
     </a>
   </li>  

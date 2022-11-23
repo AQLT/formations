@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Formations - Analyse des séries temporelles avec R</title>
+<title>Formations - Analyse des séries temporelles avec </title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../img/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -39,6 +40,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -58,9 +61,23 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Envoyer"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
 
 
-<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/css.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,10 +96,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../index.html">
- <span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">2022</span>
@@ -110,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#cours" id="toc-cours" class="nav-link active" data-scroll-target="#cours">Cours</a></li>
-  <li><a href="#travaux-pratiques-fab-fa-r-project" id="toc-travaux-pratiques-fab-fa-r-project" class="nav-link" data-scroll-target="#travaux-pratiques-fab-fa-r-project">Travaux pratiques </a></li>
+  <li><a href="#travaux-pratiques" id="toc-travaux-pratiques" class="nav-link" data-scroll-target="#travaux-pratiques">Travaux pratiques</a></li>
   <li><a href="#bibliographie" id="toc-bibliographie" class="nav-link" data-scroll-target="#bibliographie">Bibliographie</a></li>
   <li><a href="#licence" id="toc-licence" class="nav-link" data-scroll-target="#licence">Licence</a></li>
   </ul>
@@ -121,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Analyse des séries temporelles avec R</h1>
+<h1 class="title">Analyse des séries temporelles avec <i class="fa-brands fa-r-project" aria-label="r-project"></i></h1>
 </div>
 
 
@@ -136,20 +149,20 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE en 2022.</p>
+<p>Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE les 21 et 22 novembre 2022.</p>
 <section id="cours" class="level1">
 <h1>Cours</h1>
 <ol type="1">
 <li><p><a href="Cours/1_Rappels_R.pdf">Rappels sur l’environnement de travail de R</a></p></li>
-<li><p><a href="Cours/2_Analyse_Graphique.pdf">Analyse graphique</a></p></li>
+<li><p><a href="Cours/2_Analyse_Graphique.pdf">Analyse graphique</a> (voir également compléments sur la <a href="../../2022/ast/backcasttransform.html">transformation inverse de Box-Cox</a>)</p></li>
 <li><p><a href="Cours/3_Decomposition.pdf">Décomposition d’une série temporelle</a></p></li>
 <li><p><a href="Cours/4_Lissage_Exponentiel.pdf">Lissage exponentiel</a></p></li>
 <li><p><a href="Cours/5_ARIMA.pdf">La modélisation ARIMA</a></p></li>
 <li><p><a href="Cours/6_Complements.pdf">Compléments</a></p></li>
 </ol>
 </section>
-<section id="travaux-pratiques-fab-fa-r-project" class="level1">
-<h1>Travaux pratiques </h1>
+<section id="travaux-pratiques" class="level1">
+<h1>Travaux pratiques</h1>
 <ol type="1">
 <li><p><a href="TP/1_Manipulation_series_temporelles.html">Traitement des séries temporelles sous R</a></p></li>
 <li><p><a href="TP/2_Graphiques.html">Analyse graphique</a></p></li>
@@ -306,6 +319,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -321,6 +336,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="https://aqlt.netlify.app">
       <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
 </i> 
     </a>
   </li>  

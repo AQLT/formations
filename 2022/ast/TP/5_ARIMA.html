@@ -94,6 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -122,10 +123,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Envoyer"
   }
 }</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="css/test.css">
+<link rel="stylesheet" href="css/css.css">
 </head>
 
 <body class="nav-fixed">
@@ -144,10 +159,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../../index.html">
- <span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">2022</span>
@@ -174,7 +185,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#séries-classiques" id="toc-séries-classiques" class="nav-link active" data-scroll-target="#séries-classiques">Séries classiques</a></li>
+  <li><a href="#niveau-du-lac-de-huron" id="toc-niveau-du-lac-de-huron" class="nav-link active" data-scroll-target="#niveau-du-lac-de-huron">Niveau du Lac de Huron</a></li>
+  <li><a href="#nombre-annuel-de-tâches-solaires" id="toc-nombre-annuel-de-tâches-solaires" class="nav-link" data-scroll-target="#nombre-annuel-de-tâches-solaires">Nombre annuel de tâches solaires</a></li>
+  <li><a href="#mombre-mensuel-de-passagers-aériens" id="toc-mombre-mensuel-de-passagers-aériens" class="nav-link" data-scroll-target="#mombre-mensuel-de-passagers-aériens">Mombre mensuel de passagers aériens ;</a></li>
+  <li><a href="#température-mensuelle-moyenne-au-chateau-de-nottingham" id="toc-température-mensuelle-moyenne-au-chateau-de-nottingham" class="nav-link" data-scroll-target="#température-mensuelle-moyenne-au-chateau-de-nottingham">Température mensuelle moyenne au chateau de Nottingham</a></li>
   </ul>
 </nav>
     </div>
@@ -224,8 +238,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(packages)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="séries-classiques" class="level1">
-<h1>Séries classiques</h1>
 <p>Le but des prochains exercices est d’étudier les séries classiques</p>
 <ul>
 <li><p><code>LakeHuron</code> niveau annuel du Lac de Huron ;</p></li>
@@ -233,6 +245,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><code>AirPassengers</code> nombre mensuel de passagers aériens ;</p></li>
 <li><p><code>nottem</code> température mensuelle moyenne au chateau de Nottingham.</p></li>
 </ul>
+<section id="niveau-du-lac-de-huron" class="level1">
+<h1>Niveau du Lac de Huron</h1>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -279,7 +293,7 @@ Solution
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(LakeHuron)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/LakeHuron-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Il y a potentiellement une tendance à la baisse donc peut-être une tendance à la baisse. A priori pas de raison de transformer la série.</p>
@@ -306,7 +320,7 @@ alternative hypothesis: stationary</code></pre>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggPacf(LakeHuron)</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtsdisplay</span>(LakeHuron)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/LakeHuron-display-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>L’ACF décroit de manière exponentielle et rapidement vers 0, ce n’est pas un signe de marche aléatoire. En revanche le premier coefficient est élevé ce qui peut laisser penser que l’on n’a pas une marche aléatoire mais un coefficient AR(1) élevé. Le PACF est nul à partir de l’ordre 3 : cela peut laisser penser à un processus AR d’ordre au plus 2. On estime un modèle ARIMA(2,0,0) avec une tendance (<em>drift</em>).</p>
@@ -342,7 +356,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A priori les résidus sont un bruit blanc :</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(mod_trend) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/LakeHuron-residuals-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -355,7 +369,7 @@ Model df: 2.   Total lags used: 10</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpgram</span>(<span class="fu">residuals</span>(mod_trend))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/LakeHuron-residuals-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En considérant un AR(1) on a un modèle avec un AIC plus grand</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mod_trend_ar1 <span class="ot">&lt;-</span> <span class="fu">Arima</span>(LakeHuron, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.drift =</span> <span class="cn">TRUE</span>)</span>
@@ -385,10 +399,10 @@ AIC=220.22   AICc=220.26   BIC=222.79</code></pre>
 </div>
 <p>Attention : on ne peut comparer les modèles en utilisant l’AIC ! (ordre de différenciation différent). Pour comparer les modèles on peut étudier les erreurs de prévision.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>far2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">include.drift =</span> <span class="cn">TRUE</span>), <span class="at">h=</span>h)}</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fdiff <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)), <span class="at">h=</span>h)}</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(LakeHuron, far2, <span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(LakeHuron, fdiff, <span class="at">h=</span><span class="dv">1</span>)</span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>far2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.drift =</span> <span class="cn">TRUE</span>), <span class="at">h =</span> h)}</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fdiff <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)), <span class="at">h =</span> h)}</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(LakeHuron, far2, <span class="at">h =</span> <span class="dv">1</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(LakeHuron, fdiff, <span class="at">h =</span> <span class="dv">1</span>)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>e_oos <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">ts.union</span>(e1, e2))</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># MSE plus petite avec second modèle</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(e_oos<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -409,7 +423,7 @@ AIC=220.22   AICc=220.26   BIC=222.79</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Résidus In Sample toujours plus petits avec premier modèle</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># On commence en 1878 car ce n'est qu'après cette date que les résidus sont calculés par MLE</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>e_is <span class="ot">&lt;-</span> <span class="fu">window</span>(<span class="fu">ts.union</span>(<span class="fu">residuals</span>(mod_trend), <span class="fu">residuals</span>(mod_diff)),<span class="at">start =</span> <span class="dv">1878</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>e_is <span class="ot">&lt;-</span> <span class="fu">window</span>(<span class="fu">ts.union</span>(<span class="fu">residuals</span>(mod_trend), <span class="fu">residuals</span>(mod_diff)), <span class="at">start =</span> <span class="dv">1878</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(e_is<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>residuals(mod_trend)  residuals(mod_diff) 
@@ -429,6 +443,9 @@ AIC=220.22   AICc=220.26   BIC=222.79</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="nombre-annuel-de-tâches-solaires" class="level1">
+<h1>Nombre annuel de tâches solaires</h1>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -460,7 +477,7 @@ Solution
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">window</span>(sunspot.year, <span class="at">start =</span> <span class="dv">1770</span>, <span class="at">end =</span> <span class="dv">1869</span>)</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtsdisplay</span>(y)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/sunspot.year-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pas de tendance ni de raison de transformer la série. Il y a des mouvements cycliques. A priori pas de raison de transformer la série. A priori pas une marche aléatoire.</p>
@@ -514,7 +531,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A priori les résidus sont un bruit blanc :</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(mod_ar2) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/sunspot.year-resod-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -527,7 +544,7 @@ Model df: 2.   Total lags used: 10</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpgram</span>(<span class="fu">residuals</span>(mod_ar2))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/sunspot.year-resod-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auto.arima sélectionne un ARIMA(2,0,1) qui a un AICc plus petit</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>mod_auto <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(y)</span>
@@ -554,13 +571,13 @@ Training set -0.1065321 15.14691 12.03611 -Inf  Inf 0.7027453 0.1297447</code></
 <pre><code>                     ME     RMSE      MAE  MPE MAPE      MASE        ACF1
 Training set -0.1925486 14.70035 11.89705 -Inf  Inf 0.6946261 -0.02480733</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>far2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>)), <span class="at">h=</span>h)}</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>far2ma1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)), <span class="at">h=</span>h)}</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(y, far2, <span class="at">h=</span><span class="dv">1</span>)</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(y, far2ma1, <span class="at">h=</span><span class="dv">1</span>)</span>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>far2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>)), <span class="at">h =</span> h)}</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>far2ma1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, h){<span class="fu">forecast</span>(<span class="fu">Arima</span>(x, <span class="at">order=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>)), <span class="at">h =</span> h)}</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(y, far2, <span class="at">h =</span> <span class="dv">1</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">tsCV</span>(y, far2ma1, <span class="at">h =</span> <span class="dv">1</span>)</span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>e_oos <span class="ot">&lt;-</span> <span class="fu">window</span>(<span class="fu">ts.intersect</span>(e1, e2), <span class="at">start =</span> <span class="dv">1780</span>)</span>
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co"># MSE plus petite avec second modèle</span></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(e_oos<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(e_oos<span class="sc">^</span><span class="dv">2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      e1       e2 
 217.5813 204.6266 </code></pre>
@@ -569,6 +586,9 @@ Training set -0.1925486 14.70035 11.89705 -Inf  Inf 0.6946261 -0.02480733</code>
 </div>
 </div>
 </div>
+</section>
+<section id="mombre-mensuel-de-passagers-aériens" class="level1">
+<h1>Mombre mensuel de passagers aériens ;</h1>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -597,21 +617,21 @@ Solution
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AirPassengers)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Tendance claire avec une saisonnalité multiplicative. Il faut passer la série au log.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtsdisplay</span>(<span class="fu">log</span>(AirPassengers))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-log-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>L’analyse de l’ACF montre une décroissance lente avec des pics saisonniers. L’analyse du PACF montre deux pics : à l’ordre 1 proche de 1 et à l’ordre 13. Le second pic à l’ordre 13 et non 12 peut suggérer une double différenciation <span class="math inline">\((1-B)(1-B^{12})\)</span>. La présence d’une saisonnalité a déjà été analysée dans les précédents TP : un test n’est pas nécessaire et on peut différencier à l’ordre 12.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtsdisplay</span>(<span class="fu">diff</span>(<span class="fu">log</span>(AirPassengers), <span class="dv">12</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-diff-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>La série différenciée ne présente pas de tendance mais des périodes de hausse et de baisse. L’ACF décroit vers 0 mais pas de manière exponentielle. Le premier coefficient de l’ACF/PACF est élevé ce qui peut laisser penser que la série est toujours non-stationnaire</p>
@@ -654,7 +674,7 @@ alternative hypothesis: stationary</code></pre>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggAcf</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(<span class="fu">log</span>(AirPassengers), <span class="dv">12</span>), <span class="dv">1</span>)) <span class="sc">/</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggPacf</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(<span class="fu">log</span>(AirPassengers), <span class="dv">12</span>), <span class="dv">1</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-diff-double-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod), <span class="at">fitdf =</span> <span class="dv">2</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -667,20 +687,23 @@ X-squared = 48.603, df = 22, p-value = 0.0009028</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpgram</span>(<span class="fu">resid</span>(mod))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-diff-double-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># checkresiduals(mod)</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Les résidus ne sont pas un bruit blanc</span></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggAcf</span>(<span class="fu">residuals</span>(mod)) <span class="sc">/</span></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggPacf</span>(<span class="fu">residuals</span>(mod))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># checkresiduals(mod)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les résidus ne sont pas un bruit blanc</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggAcf</span>(<span class="fu">residuals</span>(mod)) <span class="sc">/</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggPacf</span>(<span class="fu">residuals</span>(mod))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-13-3.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-diff-double-acf-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Encore pas de décroissance claire mais un pic à l'ordre 1</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># on peut donc penser que p,q, P,q &lt;= 1</span></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co"># On a bien un bruit blanc cette fois</span></span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod1), <span class="at">fitdf =</span> <span class="dv">4</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Encore pas de décroissance claire mais un pic à l’ordre 1. On peut donc penser que <span class="math inline">\(p,q, P,q \leq 1\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co"># On a bien un bruit blanc cette fois</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod1), <span class="at">fitdf =</span> <span class="dv">4</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Box-Ljung test
@@ -688,11 +711,11 @@ X-squared = 48.603, df = 22, p-value = 0.0009028</code></pre>
 data:  resid(mod1)
 X-squared = 24.669, df = 20, p-value = 0.2144</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpgram</span>(<span class="fu">resid</span>(mod1))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpgram</span>(<span class="fu">resid</span>(mod1))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-13-4.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/AirPassengers-arma-comp-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod1) <span class="co"># ordres AR non significatifs</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod1)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 z test of coefficients:
@@ -705,11 +728,12 @@ sma1 -0.497321   0.135967 -3.6577 0.0002545 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># on va enlève un ordre AR et on refait le test : ne pas enlever toutes les variables car on teste ici si une variable est nulle et non pas si un ensemble de variables est nul</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Toujours un bruit blanc et AR saisonnier non significatif</span></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod2), <span class="at">fitdf =</span> <span class="dv">3</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les ordres AR ne sont pas significatifs significatifs. On va enlever un ordre AR et refaire le test : ne pas enlever toutes les variables en même temps car on teste ici si une variable est nulle et non pas si un ensemble de variables est nul !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Toujours un bruit blanc et AR saisonnier non significatif</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod2), <span class="at">fitdf =</span> <span class="dv">3</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Box-Ljung test
@@ -717,7 +741,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 data:  resid(mod2)
 X-squared = 25.475, df = 21, p-value = 0.2272</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod2) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod2) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 z test of coefficients:
@@ -729,9 +753,9 @@ sma1 -0.481706   0.136304 -3.5341 0.0004092 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Toujours un bruit blanc et tous les coefs sont signifactifs, on ne peut pas simplifier davantage</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod3), <span class="at">fitdf =</span> <span class="dv">2</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">Arima</span>(AirPassengers, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">seasonal =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lambda =</span> <span class="dv">0</span>)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Toujours un bruit blanc et tous les coefs sont signifactifs, on ne peut pas simplifier davantage</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">resid</span>(mod3), <span class="at">fitdf =</span> <span class="dv">2</span>,<span class="at">lag =</span> <span class="dv">24</span>,<span class="at">type =</span> <span class="st">"Ljung"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Box-Ljung test
@@ -739,7 +763,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 data:  resid(mod3)
 X-squared = 26.446, df = 22, p-value = 0.233</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod3) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(mod3) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 z test of coefficients:
@@ -750,16 +774,16 @@ sma1 -0.556945   0.073100 -7.6190 2.557e-14 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># C'est le dernier modèle qui a l'AIC le plus petit : c'est celui que l'on retient</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod1, mod2, mod3)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># C'est le dernier modèle qui a l'AIC le plus petit : c'est celui que l'on retient</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod1, mod2, mod3)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     df       AIC
 mod1  5 -480.3109
 mod2  4 -481.9131
 mod3  3 -483.3991</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># C'est aussi le modèle retenu par auto.arima</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">auto.arima</span>(AirPassengers, <span class="at">lambda =</span> <span class="dv">0</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># C'est aussi le modèle retenu par auto.arima</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">auto.arima</span>(AirPassengers, <span class="at">lambda =</span> <span class="dv">0</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Series: AirPassengers 
 ARIMA(0,1,1)(0,1,1)[12] 
@@ -773,21 +797,24 @@ s.e.   0.0896   0.0731
 sigma^2 = 0.001371:  log likelihood = 244.7
 AIC=-483.4   AICc=-483.21   BIC=-474.77</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># auto.arima(AirPassengers, lambda = 0, stepwise = FALSE) # plus lent</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># auto.arima(AirPassengers, lambda = 0, stepwise = FALSE) # plus lent</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>On retrouve le modèle Airline : ARIMA(0,1,1)(0,1,1) !</p>
+<p>On retrouve le modèle Airline : <span class="math inline">\(ARIMA(0,1,1)(0,1,1)\)</span> !</p>
 </div>
 </div>
 </div>
+</section>
+<section id="température-mensuelle-moyenne-au-chateau-de-nottingham" class="level1">
+<h1>Température mensuelle moyenne au chateau de Nottingham</h1>
 <p>Pour l’analyse de la série <code>nottem</code>, on utilisera le <code>tidyverts</code>. Ci-dessous un exemple de manipulation avec une autre série :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)</span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(USAccDeaths)</span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(USAccDeaths)</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tsibble: 72 x 2 [1M]
       index value
@@ -804,22 +831,22 @@ AIC=-483.4   AICc=-483.21   BIC=-474.77</code></pre>
 10 1973 oct  9938
 # … with 62 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>(y <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>)) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()) <span class="sc">/</span></span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>    (y <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>)) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>(y <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>)) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()) <span class="sc">/</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>    (y <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>)) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/tsibble-ex-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(<span class="at">arima =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">auto_arima =</span> <span class="fu">ARIMA</span>(value))</span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>model </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(<span class="at">arima =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">auto_arima =</span> <span class="fu">ARIMA</span>(value))</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>model </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A mable: 1 x 2
                       arima                auto_arima
                     &lt;model&gt;                   &lt;model&gt;
 1 &lt;ARIMA(0,1,1)(0,1,0)[12]&gt; &lt;ARIMA(0,1,1)(0,1,1)[12]&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 10
   .model     .type       ME  RMSE   MAE   MPE  MAPE  MASE RMSSE     ACF1
@@ -827,7 +854,7 @@ AIC=-483.4   AICc=-483.21   BIC=-474.77</code></pre>
 1 arima      Training  44.0  321.  230. 0.477  2.70 0.526 0.574  0.00648
 2 auto_arima Training  58.8  285.  201. 0.665  2.35 0.460 0.510 -0.0239 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">glance</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">glance</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 8
   .model      sigma2 log_lik   AIC  AICc   BIC ar_roots  ma_roots  
@@ -835,13 +862,13 @@ AIC=-483.4   AICc=-483.21   BIC=-474.77</code></pre>
 1 arima      128002.   -430.  865.  865.  869. &lt;cpl [0]&gt; &lt;cpl [1]&gt; 
 2 auto_arima 102860.   -425.  857.  857.  863. &lt;cpl [0]&gt; &lt;cpl [13]&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">residuals</span>() <span class="sc">%&gt;%</span>  <span class="fu">ACF</span>() <span class="sc">%&gt;%</span>  <span class="fu">autoplot</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">residuals</span>() <span class="sc">%&gt;%</span>  <span class="fu">ACF</span>() <span class="sc">%&gt;%</span>  <span class="fu">autoplot</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/tsibble-ex-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On peut utiliser la fonction report() sur un sous modèle</span></span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">select</span>(auto_arima) <span class="sc">%&gt;%</span> </span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">report</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On peut utiliser la fonction report() sur un sous modèle</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">select</span>(auto_arima) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">report</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Series: value 
 Model: ARIMA(0,1,1)(0,1,1)[12] 
@@ -854,11 +881,11 @@ s.e.   0.1228   0.1784
 sigma^2 estimated as 102860:  log likelihood=-425.44
 AIC=856.88   AICc=857.32   BIC=863.11</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> </span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">12</span>) <span class="sc">%&gt;%</span>  </span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(y)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> </span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">12</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(y)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/tsibble-ex-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -896,61 +923,61 @@ Solution
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(nottem)</span>
-<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pas de transformation de la série a priori nécessaire</span></span>
-<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(y, value)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(nottem)</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(y, value)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/nottem-plots-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_season</span>(y, value)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_season</span>(y, value)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/nottem-plots-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Série déjà étudiée : pas de tendance et saisonnalité mensuelle nette</span></span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pas de raison de transformer la série</span></span>
-<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">%&gt;%</span> <span class="fu">gg_tsdisplay</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>), <span class="at">plot_type =</span> <span class="st">"partial"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Série déjà étudiée : a priori pas de transformation nécessaire, pas de tendance et saisonnalité mensuelle nette.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">%&gt;%</span> <span class="fu">gg_tsdisplay</span>(value <span class="sc">%&gt;%</span>  <span class="fu">difference</span>(<span class="dv">12</span>), <span class="at">plot_type =</span> <span class="st">"partial"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/nottem-diff12-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A priori série différenciée est stationnaire</span></span>
-<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="co"># L'analyse des ACF/PACF suggère P= 1 et/ou Q=1, P&lt;=1 et Q &lt;= 2</span></span>
-<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pas de constante dans le modèle</span></span>
-<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Si on ne veut pas écrire tous les codes à la main on peut aussi faire un programme</span></span>
-<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="co"># d = expand.grid(p=0:1,q=0:2,P=0:1, Q=0:1)</span></span>
-<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a><span class="co"># cat(sprintf("sarima%i0%i_%i1%i = ARIMA(value ~ -1 + pdq(%i, 0, %i) + PDQ(%i, 1, %i))",</span></span>
-<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a><span class="co">#       d$p, d$q, d$P, d$Q,</span></span>
-<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a><span class="co">#       d$p, d$q, d$P, d$Q), sep =",\n")</span></span>
-<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>all_models <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
-<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
-<span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-12"><a href="#cb101-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-16"><a href="#cb101-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-17"><a href="#cb101-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-18"><a href="#cb101-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-19"><a href="#cb101-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-20"><a href="#cb101-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-21"><a href="#cb101-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-22"><a href="#cb101-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb101-23"><a href="#cb101-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-24"><a href="#cb101-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-25"><a href="#cb101-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-26"><a href="#cb101-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-27"><a href="#cb101-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-28"><a href="#cb101-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-29"><a href="#cb101-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-30"><a href="#cb101-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-31"><a href="#cb101-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-32"><a href="#cb101-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-33"><a href="#cb101-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb101-34"><a href="#cb101-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb101-35"><a href="#cb101-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb101-36"><a href="#cb101-36" aria-hidden="true" tabindex="-1"></a>all_models <span class="sc">%&gt;%</span> </span>
-<span id="cb101-37"><a href="#cb101-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb101-38"><a href="#cb101-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(AICc)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A priori série différenciée est stationnaire. L’analyse des ACF/PACF suggère <span class="math inline">\(P= 1\)</span> et/ou <span class="math inline">\(Q=1\)</span>, <span class="math inline">\(P&lt;=1\)</span> et <span class="math inline">\(Q &lt;= 2\)</span>. Pas de constante dans le modèle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Si on ne veut pas écrire tous les codes à la main on peut aussi faire un programme</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d = expand.grid(p=0:1,q=0:2,P=0:1, Q=0:1)</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cat(sprintf("sarima%i0%i_%i1%i = ARIMA(value ~ -1 + pdq(%i, 0, %i) + PDQ(%i, 1, %i))",</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="co">#       d$p, d$q, d$P, d$Q,</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="co">#       d$p, d$q, d$P, d$Q), sep =",\n")</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>all_models <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_010 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_110 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_011 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-26"><a href="#cb102-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima000_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-27"><a href="#cb102-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-28"><a href="#cb102-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima001_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-29"><a href="#cb102-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima101_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-30"><a href="#cb102-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima002_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb102-31"><a href="#cb102-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima102_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb102-32"><a href="#cb102-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb102-33"><a href="#cb102-33" aria-hidden="true" tabindex="-1"></a>all_models <span class="sc">%&gt;%</span> </span>
+<span id="cb102-34"><a href="#cb102-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb102-35"><a href="#cb102-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(AICc)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 8
    .model        sigma2 log_lik   AIC  AICc   BIC ar_roots   ma_roots  
@@ -967,38 +994,42 @@ Solution
 10 sarima001_011   5.55   -526. 1058. 1058. 1069. &lt;cpl [0]&gt;  &lt;cpl [13]&gt;
 # … with 14 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>best_model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
-<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a><span class="co"># A priori bruit blanc :</span></span>
-<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>best_model <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>best_model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(best_model) <span class="sc">%&gt;%</span> </span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(.innov, ljung_box, <span class="at">dof =</span> <span class="dv">3</span>, <span class="at">lag =</span> <span class="dv">24</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A priori bruit blanc :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>best_model <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="5_ARIMA_files/figure-html/nottem-best-mod-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(best_model) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">features</span>(.innov, ljung_box, <span class="at">dof =</span> <span class="dv">3</span>, <span class="at">lag =</span> <span class="dv">24</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .model        lb_stat lb_pvalue
   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;
 1 sarima100_111    20.6     0.484</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
-<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
-<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">auto_arima =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ets =</span> <span class="fu">ETS</span>(value)</span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Modèle sélectionné a un AICc plus petit que l'auto-arima  mais un RMSE plus élevé</span></span>
-<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>compar_model</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="ot">&lt;-</span> y <span class="sc">%&gt;%</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sarima100_111 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">auto_arima =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ets =</span> <span class="fu">ETS</span>(value)</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Modèle sélectionné a un AICc plus petit que l’auto-arima mais un RMSE plus élevé.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>compar_model</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A mable: 1 x 3
               sarima100_111                auto_arima          ets
                     &lt;model&gt;                   &lt;model&gt;      &lt;model&gt;
 1 &lt;ARIMA(1,0,0)(1,1,1)[12]&gt; &lt;ARIMA(1,0,2)(1,1,2)[12]&gt; &lt;ETS(A,N,A)&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="sc">%&gt;%</span> <span class="fu">glance</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="sc">%&gt;%</span> <span class="fu">glance</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 11
   .model      sigma2 log_lik   AIC  AICc   BIC ar_ro…¹ ma_ro…²   MSE  AMSE   MAE
@@ -1008,7 +1039,7 @@ Solution
 3 ets           5.38   -852. 1735. 1737. 1787. &lt;NULL&gt;  &lt;NULL&gt;   5.07  5.17  1.74
 # … with abbreviated variable names ¹​ar_roots, ²​ma_roots</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>compar_model <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 10
   .model        .type         ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1
@@ -1017,37 +1048,39 @@ Solution
 2 auto_arima    Training 0.0711   2.20  1.71 -0.124  3.67 0.635 0.641  0.00160
 3 ets           Training 0.00726  2.25  1.74 -0.223  3.75 0.647 0.656  0.198  </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prévisions des 3 modèles sont très proches</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(compar_model, <span class="at">h =</span><span class="st">"1 year"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(y <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">year</span>(index) <span class="sc">&gt;=</span> <span class="dv">1938</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-</div>
-</div>
-</div>
-<p>L’avantage est <code>tidyverts</code> est que l’on peut appliquer facilement plusieurs fonctions à plusieurs séries et comparer les méthodes entre elles. En reprenant l’exemple disponible ici <a href="https://fable.tidyverts.org" class="uri">https://fable.tidyverts.org</a></p>
+<p>Les prévisions des 3 modèles sont très proches</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibbledata)</span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>aus_retail <span class="sc">%&gt;%</span></span>
-<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
-<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>        State <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"New South Wales"</span>, <span class="st">"Victoria"</span>),</span>
-<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>        Industry <span class="sc">==</span> <span class="st">"Department stores"</span></span>
-<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
-<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">ets =</span> <span class="fu">ETS</span>(<span class="fu">box_cox</span>(Turnover, <span class="fl">0.3</span>)),</span>
-<span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">arima =</span> <span class="fu">ARIMA</span>(<span class="fu">log</span>(Turnover)),</span>
-<span id="cb113-14"><a href="#cb113-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">snaive =</span> <span class="fu">SNAIVE</span>(Turnover)</span>
-<span id="cb113-15"><a href="#cb113-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb113-16"><a href="#cb113-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">"2 years"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb113-17"><a href="#cb113-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(<span class="fu">filter</span>(aus_retail, <span class="fu">year</span>(Month) <span class="sc">&gt;</span> <span class="dv">2010</span>), <span class="at">level =</span> <span class="cn">NULL</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(compar_model, <span class="at">h =</span> <span class="st">"1 year"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(y <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">year</span>(index) <span class="sc">&gt;=</span> <span class="dv">1938</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="5_ARIMA_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="5_ARIMA_files/figure-html/nottem-prem-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>L’avantage est <code>tidyverts</code> est que l’on peut appliquer facilement plusieurs fonctions à plusieurs séries et comparer les méthodes entre elles. En reprenant l’exemple disponible ici <a href="https://fable.tidyverts.org" class="uri">https://fable.tidyverts.org</a> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibbledata)</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>aus_retail <span class="sc">%&gt;%</span></span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>        State <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"New South Wales"</span>, <span class="st">"Victoria"</span>),</span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>        Industry <span class="sc">==</span> <span class="st">"Department stores"</span></span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">model</span>(</span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">ets =</span> <span class="fu">ETS</span>(<span class="fu">box_cox</span>(Turnover, <span class="fl">0.3</span>)),</span>
+<span id="cb116-13"><a href="#cb116-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">arima =</span> <span class="fu">ARIMA</span>(<span class="fu">log</span>(Turnover)),</span>
+<span id="cb116-14"><a href="#cb116-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">snaive =</span> <span class="fu">SNAIVE</span>(Turnover)</span>
+<span id="cb116-15"><a href="#cb116-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb116-16"><a href="#cb116-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">"2 years"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb116-17"><a href="#cb116-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">autoplot</span>(<span class="fu">filter</span>(aus_retail, <span class="fu">year</span>(Month) <span class="sc">&gt;</span> <span class="dv">2010</span>), <span class="at">level =</span> <span class="cn">NULL</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="5_ARIMA_files/figure-html/aus-retail-ex-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
@@ -1188,6 +1221,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1203,6 +1238,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="https://aqlt.netlify.app">
       <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
 </i> 
     </a>
   </li>  
