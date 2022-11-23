@@ -24,15 +24,15 @@ Supports de cours et exercices de la formation Analyse des séries temporelles a
 
 # Travaux pratiques
 
-1. [Traitement des séries temporelles sous R](TP/1_Manipulation_series_temporelles.html)
+1. [Traitement des séries temporelles sous R](TP/1_Manipulation_series_temporelles.qmd)
 
-2. [Analyse graphique](TP/2_Graphiques.html)
+2. [Analyse graphique](TP/2_Graphiques.qmd)
 
-3. [Décomposition d'une série temporelle](TP/3_Decomposition.html)
+3. [Décomposition d'une série temporelle](TP/3_Decomposition.qmd)
 
-4. [Lissage exponentiel](TP/4_Lissage_Exponentiel.html)
+4. [Lissage exponentiel](TP/4_Lissage_Exponentiel.qmd)
 
-5. [La modélisation ARIMA](TP/5_ARIMA.html)
+5. [La modélisation ARIMA](TP/5_ARIMA.qmd)
 
 
 
