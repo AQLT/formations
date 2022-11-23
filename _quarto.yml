@@ -7,14 +7,22 @@ project:
 
 website:
   title: "Formations"
+  favicon: img/favicon.ico
+  google-analytics:
+    tracking-id: "G-X652XRGDPL"
+    storage: none
   navbar:
+    #logo: img/android.png
+    logo-alt: "AQLT"
     left:
-      - href: index.qmd
-        text: Home
       - text: "2022"
         menu:
         - text: "Analyse séries temporelles avec R"
           file: "2022/ast/index.qmd"
+      # - text: "2021"
+      #   menu:
+      #   - text: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+      #     file: "2021/rte/index.qmd"
   page-footer:
     left: "Copyright 2022, Alain Quartier-la-Tente, Insee"
     right:
@@ -22,11 +30,13 @@ website:
         href: http://github.com/AQLT
       - icon: globe
         href: https://aqlt.netlify.app
+      - icon: linkedin
+        href: https://www.linkedin.com/in/alainqlt/
 
 format:
   html:
     theme: cosmo
-    css: ["css/test.css"]
+    css: ["css/css.css"]
     toc: true
 
 editor: source
@@ -34,3 +44,19 @@ editor: source
 execute:
   freeze: auto
 
+# giscus
+comments:
+  giscus:
+    repo: AQLT/formations
+    repo-id: "R_kgDOIepagw"
+    category: "Announcements"
+    category-id: "DIC_kwDOIepag84CSt5_"
+    mapping: "pathname"
+    language: fr
+    #strict: false
+    reactions-enabled: true
+    loading: lazy
+    #emit-metada: false
+    input-position: "bottom"
+    theme: "light"
+    #crossorigin: "anonymous"

@@ -1,15 +1,15 @@
 ---
-title: "Analyse des séries temporelles avec R"
+title: "Analyse des séries temporelles avec {{< fa brands r-project >}}"
 lang: fr
 ---
 
-Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE en 2022.
+Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE les 21 et 22 novembre 2022.
 
 # Cours
 
 1. [Rappels sur l’environnement de travail de R](Cours/1_Rappels_R.pdf)
 
-2. [Analyse graphique](Cours/2_Analyse_Graphique.pdf)
+2. [Analyse graphique](Cours/2_Analyse_Graphique.pdf) (voir également compléments sur la [transformation inverse de Box-Cox](backcasttransform.qmd))
 
 3. [Décomposition d'une série temporelle](Cours/3_Decomposition.pdf)
 
@@ -19,7 +19,8 @@ Supports de cours et exercices de la formation Analyse des séries temporelles a
 
 6. [Compléments](Cours/6_Complements.pdf)
 
-# Travaux pratiques {{< fab fa-r-project >}}
+
+# Travaux pratiques
 
 1. [Traitement des séries temporelles sous R](TP/1_Manipulation_series_temporelles.html)
 

@@ -1,8 +1,10 @@
 ---
-title: "2022"
 lang: fr
 language: 
  title-block-author-single: Auteur
+comments: false
 ---
 
--   Novembre 2022 : [Analyse de séries temporelles avec R](ast/)
+# 2022
+
+- Novembre 2022 : [Analyse de séries temporelles avec {{< fa brands r-project >}}](/2022/ast/) (Cepe)  ![](/2022/ast/Cours/img/logo.png){width="10%"}  

@@ -16,10 +16,14 @@ themeoptions: "coding=utf8,language=french"
 classoption: 'usepdftitle=false,french'
 fontsize: 10pt
 lan: french
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "Diapos") })
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(forecast);library(ggplot2)
+library(forecast)
+library(ggplot2)
+library(latex2exp)
 ```
 
 ### Objectifs de cette séquence
@@ -53,26 +57,29 @@ Exemple avec le nombre mensuel de conducteurs de voitures tués en Grande-Bretag
 
 ### Exemple (1)
 
+\footnotesize
 ```{r,fig.height=5}
 plot(UKDriverDeaths,
-	 main = "Nombre de conducteurs de voitures tués au RU",
+	 main = "Nombre mensuel de conducteurs de voitures tués au RU",
 	 ylab = "Nombre")
 ```
 
 ### Exemple (2)
 
+\footnotesize
 ```{r,fig.height=5}
 library(forecast);library(ggplot2)
 autoplot(UKDriverDeaths) +
-	labs(title = "Nombre de conducteurs de voitures tués au RU",
+	labs(title = "Nombre mensuel de conducteurs de voitures tués au RU",
 		 y = "Nombre")
 ```
 
 ### Exemple (3)
 
+\footnotesize
 ```{r,fig.height=5}
 autoplot(nottem) + 
-	ggtitle("Températures moyennes au Château de Nottingham") +
+	ggtitle("Température mensuelle moyenne au Château de Nottingham") +
 	ylab("Degré Fahrenheit")
 ```
 
@@ -101,17 +108,20 @@ On considère généralement qu'une série temporelle peut s'écrire en fonction
 
 ```{r}
 library(patchwork)
-(autoplot(co2) + 
-		labs(title = expression("Atmospheric concentration of CO"[2]),
+(
+	autoplot(co2) + 
+		labs(title = TeX("Concentration mensuelle en CO$_2$ à Mauna Loa"),
 			 y = "ppm")  + 
 		autoplot(window(sunspots, start = 1900, end = 1930)) +
 		labs(title = "Nombre mensuel de taches solaires", y = "Nombre")
-) /
-	(autoplot(austres) +
-	 	labs(title = "Nombre de résidents australiens", y = "milliers") +
-	 	autoplot(diff(EuStockMarkets[,"CAC"])) +
-	 	labs(title = "Variations quotidiennes du cours\nde clôture du CAC 40",
-	 		 y = "Variation dans les prix"))
+) / (
+	autoplot(austres) +
+		labs(title = "Nombre trimestriel de résidents australiens",
+			 y = "milliers") +
+		autoplot(diff(EuStockMarkets[,"CAC"])) +
+		labs(title = "Variations quotidiennes du cours\nde clôture du CAC 40",
+			 y = "Variation dans les prix")
+)
 ```
 
 
@@ -147,7 +157,7 @@ ggseasonplot(nottem)
 
 ### Exemple : avec option `polar = TRUE`
 
-```{r,fig.height=6}
+```{r,fig.height=6, out.width="60%"}
 ggseasonplot(nottem, polar = TRUE)
 ```
 
@@ -340,7 +350,8 @@ p1 = autoplot(AirPassengers) +
 	labs(title = "1. Nombre de passagers aériens mensuel", y = "Nombre")
 spec_b = gg_spec.ar(AirPassengers) + labs(title = "B.", y = NULL)
 p2 = autoplot(ldeaths) +
-	labs(title = "2. Nombre de décès de maladies pulmonaires au Royaume-Uni", y = "Nombre")
+	labs(title = "2. Nombre de décès de maladies pulmonaires au Royaume-Uni",
+		 y = "Nombre")
 spec_d = gg_spec.ar(ldeaths) + labs(title = "D.", y = NULL)
 p3 = autoplot(UKDriverDeaths) +
 	labs(title = "3. Nombre de conducteurs de voitures tués au RU", y = "Nombre")
@@ -354,11 +365,30 @@ patchwork::wrap_plots(p1, p2, p3, p4, spec_a, spec_b, spec_c, spec_d,
 
 ### Solution
 
-
-
-\footnotesize
+\scriptsize
 ```{r, eval = FALSE, ref.label="quiz-spectre"}
 
+```
+
+### Spectres théoriques (voir TP)
+
+```{r, echo = FALSE, fig.height = 5.8}
+set.seed(100)
+t = ts(1:100, frequency = 12, start = 2000)
+i = ts(rnorm(200), frequency = 12, start = 2000)
+s = ts(0, frequency = 12, start = 2000, end = 2020)
+s[cycle(s) == 2] <- 1
+c = ts(cos(2*pi/36*(1:100)) + sin(2*pi/36*(1:100)), frequency = 12, start = 2000)
+p1 = gg_spec.ar(t, log = "no") +
+	labs(title = "Tendance (fréquence proche de 0)")
+p2 = gg_spec.ar(c, log = "no") +
+	labs(title = "Cycle (entre 0 et fréquence saisonnière)")
+p3 = gg_spec.ar(s, log = "no") +
+	labs(title = "Saisonnalité (nombres entiers)")
+p4 = gg_spec.ar(i, log = "no") +
+	labs(title = "Irrégulier (autres fréquences)")
+patchwork::wrap_plots(p1, p2, p3, p4,
+					  ncol = 2)
 ```
 
 
@@ -418,12 +448,11 @@ $$
 
 . . .
 
-\bcattention mais l'inverse de la prévision ne sera pas égale à la moyenne de la distribution des prévisions (mais généralement à la médiane)
+\bcattention Mais l'inverse de la prévision ne sera pas égale à la moyenne de la distribution des prévisions (mais généralement à la médiane)
 
 . . .
 
 Si médiane non adaptée (par exemple agrégation de prévisions), il faut faire une correction du biais :
-
 $$
 \widetilde {f^{-1}_\lambda}(x) =
 \begin{cases}
@@ -432,7 +461,7 @@ $$
 \left[1+\frac{\sigma^2_h(1-\lambda)}{2(\lambda x + 1)^{2\lambda}}\right]& \text{ si }\lambda\ne0
 \end{cases}
 $$
-Voir https://aqlt-formation-ast.netlify.app/backcasttransform.pdf
+Voir https://aqlt.github.io/2022/ast/backcasttransform
 
 
 # Conclusion

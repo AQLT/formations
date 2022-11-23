@@ -60,7 +60,7 @@ Comparer les résultats de la série désaisonnalisée avec `stl(s.window = 7)`,
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r ipi-cz}
 library(forecast)
 library(RJDemetra)
 library(ggdemetra)
@@ -73,7 +73,7 @@ autoplot(ipi_cz) +
 ```
 On repère une tendance à la hausse jusqu'en 2009, une rupture lors de la crise financière puis une tendance qui parait relativement stable.
 La saisonnalité ne semble pas proportionnelle au niveau, le schéma de décomposition est sûrement additif.
-```{r}
+```{r ipi-cz-cvs}
 cz_stl_mobile <- stl(ipi_cz, s.window = 7)
 cz_stl_fixed <- stl(ipi_cz, s.window = "periodic")
 cz_x13_sans_cjo <- x13(ipi_cz, "RSA3")
@@ -89,7 +89,7 @@ Une partie de la variabilité restante provient des effets jours ouvrables.
 
 Il y a un effet jours ouvrables et un effet année bissextile : la production est plus importante lorsque l'on a un jour de plus dans le mois (ce qui parait logique).
 Avec STL, l'indice désaisonnalisé devrait donc être sur-estimé en février dans les années bissextiles et sous-estimé les autres années.
-```{r}
+```{r ipi-cz-ly}
 cz_x13_avec_cjo$regarima
 sa_data <- ts.union(seasadj(cz_stl_mobile), seasonaladj(cz_x13_avec_cjo))
 colnames(sa_data) <- c("STL", "X13")
@@ -99,16 +99,19 @@ autoplot(window(sa_data, start = 1995, end = c(1997, 12)),
 	geom_vline(xintercept = c(1996) + 1/12,linetype = 2)
 ```
 Les coefficients saisonniers semblent surtout évolutifs en juin, août et décembre, ce qui explique également que supposer la saisonnalité stable dans le temps conduit à des estimations bruitées.
-```{r}
+```{r ipi-cz-sir}
 plot(cz_x13_avec_cjo$decomposition)
+```
 
+Passons maintenant à la série d'IPI-CB.
+```{r ipi-cb}
 autoplot(ipi_cb) + 
 	labs(y = "Indice", title = "IPI dans le textile, habillement, cuir (CB)")
 ```
 On repère une tendance à la baisse jusqu'en 2010 puis une tendance relativement stable. 
 La saisonnalité semble proportionnelle au niveau, le schéma de décomposition est sûrement multiplicatif. 
 Il faudra passer au log la série pour STL (schéma de décomposition non géré automatiquement).
-```{r}
+```{r ipi-cb-cvs}
 cb_stl_mobile <- stl(log(ipi_cb), s.window = 7)
 cb_stl_fixed <- stl(log(ipi_cb), s.window = "periodic")
 cb_x13_sans_cjo <- x13(ipi_cb, "RSA3")
@@ -123,12 +126,12 @@ p
 Il est difficile d'analyser les graphiques mais il semble que l'on a les mêmes constats que précédemment : STL avec une saisonnalité fixe conduit à des estimations erratiques et une partie de la variabilité restante semble provenir des effets jours ouvrables.
 On peut refaire le graphique après 2010 en utilisant par exemple la fonction `&` de patchwork qui permet d'appliquer à élément à tous les graphiques
 (de la même façon on aurait pu utiliser la fonction window sur les données en entrée).
-```{r}
+```{r ipi-cb-last-per}
 p &  coord_cartesian(xlim = c(2010, 2019),
 					 ylim = c(85, 130))
 ```
 Même constat que précédemment sur l'année bissextile même si sur l'exemple (1996) la différence n'est pas très forte.
-```{r}
+```{r ipi-cb-ly}
 cb_x13_avec_cjo$regarima
 sa_data <- ts.union(exp(seasadj(cb_stl_mobile)), seasonaladj(cb_x13_avec_cjo))
 colnames(sa_data) <- c("STL", "X13")
@@ -147,7 +150,7 @@ On pourra utiliser la fonction le package [`dygraphs`](https://rstudio.github.io
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r co2}
 autoplot(co2, main = "Concentration atmosphérique de CO2 à Mauna Loa")
 ```
 Série déjà étudiée : une tendance linéaire mais la saisonnalité n'est pas proportionnelle au niveau.
@@ -155,7 +158,7 @@ Aucune transformation n'est nécessaire.
 Pas de raison de faire de la cjo.
 On repère une tendance à la hausse jusqu'en 2009, une rupture lors de la crise financière puis une tendance qui parait relativement stable.
 La saisonnalité ne semble pas proportionnelle au niveau, le schéma de décomposition est sûrement additif.
-```{r}
+```{r co2-cvs}
 co2_stl_mobile <- stl(co2, s.window = 7)
 co2_stl_fixed <- stl(co2, s.window = "periodic")
 co2_x13 <- x13(co2, "RSA3")
@@ -181,7 +184,7 @@ autoplot(data_s, main = "Composante saisonnière")
 ```
 Graphique peu visible mais les résultats semblent proches.
 Le package dygraphs permet de faire un graphique interactif qui pourra permettre.
-```{r}
+```{r co2-cvs-tc-dygraphs}
 library(dygraphs)
 dygraph(data_cvs, main = "Série désaisonnalisée") %>%
 	dyRangeSelector()
@@ -190,7 +193,7 @@ dygraph(data_tc, main = "Tendance-Cycle") %>%
 ```
 En zoomant on note que les résultats sur la tendance-cycle sont très proches entre les différentes méthodes.
 Les différences sur la série désaisonnalisée provient essentiellement de la composante saisonnière qui évolue légèrement dans le temps :
-```{r}
+```{r co2-s}
 feasts::gg_season(tsibble::as_tsibble(data_s))
 ```
 :::

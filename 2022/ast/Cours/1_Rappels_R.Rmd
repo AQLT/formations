@@ -13,6 +13,11 @@ output:
 themeoptions: "coding=utf8,language=french"
 classoption: 'usepdftitle=false,french'
 fontsize: 10pt
+knit: (function(inputFile, encoding) {
+      repertoire_sortie <- "Diapos";
+      rmarkdown::render(inputFile,
+                        encoding=encoding, 
+                        output_file=file.path(dirname(inputFile), repertoire_sortie, paste0(sub(".Rmd","",basename(inputFile)),".pdf"))) })
 ---
 
 

@@ -3,12 +3,9 @@ title: "Ensemble des formations"
 lang: fr
 language: 
  title-block-author-single: Auteur
+comments: false
 ---
 
-# 2022
+{{< include 2022/index.qmd >}}
 
-- Novembre 2022 : [Analyse de séries temporelles avec R](2022/ast/)
-
-# 2021
-
-- Juin 2021 : [Désaisonnalisation avec JDemetra+ et RJDemetra](2021/rte/)
+{{< include 2021/index.qmd >}}

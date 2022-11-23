@@ -16,6 +16,8 @@ themeoptions: "coding=utf8,language=french"
 classoption: 'usepdftitle=false,french'
 fontsize: 10pt
 lan: french
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "Diapos") })
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -93,8 +95,6 @@ $$
 . . .
 
 Il y a également d'autres combinaisons possibles (*drift*...), voir https://otexts.com/fpp3/simple-methods.html
-
-
 
 ### Retour sur les exemples (1)
 
@@ -507,7 +507,9 @@ $$
 $$
 Q^* = T(T+1)\sum_{k=1}^p(T-k)^{-1}\hat\rho(k)^2
 $$
-$h=10$ pour séries non saisonnières, $h=2m$ sinon.
+
+Paramètre $p$ à choisir. 
+Recommandation : $p=10$ pour séries non saisonnières, $p=2m$ sinon.
 
 Sous $(H_0)$ ces quantités suivent $\chi^2(p-K)$ avec $K$ nb de paramètres dans le modèle
 
@@ -547,7 +549,7 @@ Les 3 premiers critères dépend de l'échelle mais pas le MAPE (mais valable si
 
 MASE proposé par Hyndman and Koehler (IJF, 2006) :
 $$
-MASE = moy(|e_{T+h}|/|y_{T+h}|)\quad\text{avec $Q$ une mesure stable de l'échelle de $y_t$}
+MASE = moy(|e_{T+h}|/Q)\quad\text{avec $Q$ une mesure stable de l'échelle de $y_t$}
 $$
 $$
 \begin{cases}

@@ -16,11 +16,15 @@ themeoptions: "coding=utf8,language=french"
 classoption: 'usepdftitle=false,french'
 fontsize: 10pt
 lan: french
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "Diapos") })
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(forecast)
 library(patchwork)
+library(ggplot2)
+library(latex2exp)
 ```
 
 ### Objectifs de cette séquence
@@ -140,6 +144,62 @@ $$
 . . .
 
 - Si saisonnalité importante, commencer par la différenciation saisonnière
+
+
+
+### Modèles Intégrés (1/3)
+
+Soit X, processus « tendance linéaire » :
+$$
+X_t=\alpha+\beta t + \varepsilon_t
+$$
+
+Calculer l'espérance et la variance de la v.a. $X_t$ ?  
+X est stationnaire ?  
+
+. . .
+
+Différence d'ordre 1 : $$(I-B)X_t = ?$$
+
+La série obtenue est-elle stationnaire ?
+
+
+Si $X$ est un processus « tendance polynomiale d'ordre 2 », comment stationnariser la série ?
+
+
+### Modèles Intégrés (2/3)
+
+Soit X, processus « saisonnier stable  » :
+$$
+X_t=S_t+\varepsilon_t\quad
+\text{avec}
+\quad
+\forall t,\, S_t=S_{t+s}
+$$
+$X$ stationnaire ? 
+
+. . .
+
+Différence d'ordre 1, avec retard d'ordre $s$ :
+$$(I-B^s)X_t = ?$$
+
+
+La série obtenue est-elle stationnaire ?
+
+Si $X_t = a+bt + S_t +\varepsilon_t$, que donnerait cette différenciation ?
+
+
+### Modèles Intégrés (3/3)
+
+Une différenciation « simple » d'ordre $d$ supprime les tendances polynomiales d'ordre $d$ :
+$$
+(I-B)^dX_t
+$$
+Une différenciation « saisonnière » supprime aussi les tendances linéaires :
+$$(I-B^s)X_t$$
+
+Une différenciation « saisonnière » d'ordre $D$ plus grand que 1 est rare :
+$$(I-B^s)^DX_t$$
 
 
 ### Exemple
@@ -275,17 +335,17 @@ Un AR modélise l'influence des $p$ réalisations passées sur la réalisation c
 
 Exemples classiques (voir TP)
 
-- Le niveau du lac Huron peut être modélisé par un AR(1) ou un AR(2) ;  
-- AR(2) : nombre de tâches solaires - Yules
+- Le niveau du lac Huron peut être modélisé par un $AR(1)$ ou un $AR(2)$ ;  
+- $AR(2)$ : nombre de tâches solaires - Yules
 
 ### Exemples : que dire sur $\phi_1$ ?
 
-```{r, echo = FALSE}
+```{r ar-simuls, echo = FALSE}
 set.seed(100)
-ar1_pos = arima.sim(n=200, list(ar=0.8))
-ar1_neg = arima.sim(n=200, list(ar=-0.8))
-ar2_pos = arima.sim(n=200, list(ar=c(0.3, 0.2)))
-ar2_neg = arima.sim(n=200, list(ar=c(-0.3, 0.2)))
+ar1_pos = arima.sim(n=600, list(ar=0.8))
+ar1_neg = arima.sim(n=600, list(ar=-0.8))
+ar2_pos = arima.sim(n=600, list(ar=c(0.3, 0.2)))
+ar2_neg = arima.sim(n=600, list(ar=c(-0.3, 0.2)))
 (autoplot(ar1_pos, main = "AR(1)", y = NULL) + 
  	autoplot(ar1_neg, main = "AR(1)", y = NULL)) /
 	(autoplot(ar2_pos, main = "AR(2)", y = NULL) + 
@@ -293,9 +353,19 @@ ar2_neg = arima.sim(n=200, list(ar=c(-0.3, 0.2)))
 	 	)
 ```
 
-### Reconnaitre un modèle AR(p)
+### Exemples : réponse
 
-Pour reconnaître un AR(p) on peut analyser l'autocorrélogramme partiel (PACF) : $r(k)$ mesure relation entre $y_t$ et $y_{t-k}$ en enlevant les effets de $y_{t-1},\dots y_{t-k-1}$  
+Dans les graphiques de droite on observe une alternance entre périodes positives et négatives : $\phi_1<0$
+
+\footnotesize
+
+```{r, eval=FALSE,ref.label="ar-simuls"}
+
+```
+
+### Reconnaitre un modèle $AR(p)$
+
+Pour reconnaître un $AR(p)$ on peut analyser l'autocorrélogramme partiel (PACF) : $r(k)$ mesure relation entre $y_t$ et $y_{t-k}$ en enlevant les effets de $y_{t-1},\dots y_{t-k-1}$  
 $\alpha_k$ est le coefficient $\phi_k$ dans la régression
 $$
 y_t=c+\phi_1y_{t-1}+\dots+\phi_k y_{t-k}+\varepsilon_t
@@ -305,18 +375,17 @@ $$
 On a $r(1)=\rho(1)$
 
 
-Pour un AR(p) :
+Pour un $AR(p)$ :
 
-- $r(h)$ décroit exponentiellement vers 0 (ou sinusoidale)
+- **ACF** : $\rho(h)$ décroit exponentiellement vers 0 (ou de manière sinusoïdale si $\phi_1<0$)  
+- **PACF** : $r(h)=0$ pour $h>p$ 
 
-- $\rho(h)=0$ pour $h>p$
-
-
-### Exemples AR(2) $y_t = 0.3y_{t-1}+0.2y_{t-2} + \varepsilon_t$
+### Exemple $AR(2)$ $y_t = 0.3y_{t-1}+0.2y_{t-2} + \varepsilon_t$
 
 ```{r, echo = FALSE}
-ggAcf(ar2_neg)/
-	ggPacf(ar2_neg)
+ggAcf(ar2_pos)/
+	ggPacf(ar2_pos) & 
+	labs(title = TeX("$AR(2)$ $y_t = 0.3y_{t-1}+0.2y_{t-2} + \\epsilon_t$"))
 ```
 
 ### Conditions de stationnarité
@@ -330,7 +399,7 @@ Pour cela il faut que les racines de $\Phi$ soient en dehors du cercle unité (s
 
 ::::{.colums}
 :::{.colum width=30%}
-Modèle *moyenne mobile* d'ordre $q$, $MA(p)$ :
+Modèle *moyenne mobile* d'ordre $q$, $MA(q)$ :
 :::
 :::{.colum width=60%}
 \vspace{-0.5cm}
@@ -346,18 +415,16 @@ X_t
 Rmq : dans certains logiciels/packages (e.g. `RJDemetra`) on utilise plutôt la notation $X_t = \varepsilon_t - \theta_1\varepsilon_{t-1} - \theta_2 \varepsilon_{t-2} - \dotsb - \theta_q \varepsilon_{t-q}$
 
 
-Résulte d'une accumulation non persistante de "q" chocs indépendants
-
-Phénomènes qui fluctuent autour d'une moyenne : MA(1) avec une constante
+Résulte d'une accumulation non persistante de $q$ chocs indépendants
 
 ### Exemples
 
 ```{r, echo = FALSE}
 set.seed(100)
-ma1_pos = arima.sim(n=200, list(ma=0.8))
-ma1_neg = arima.sim(n=200, list(ma=-0.8))
-ma2_pos = arima.sim(n=200, list(ma=c(0.3, 0.2)))
-ma2_neg = arima.sim(n=200, list(ma=c(-0.3, 0.2)))
+ma1_pos = arima.sim(n=600, list(ma=0.8))
+ma1_neg = arima.sim(n=600, list(ma=-0.8))
+ma2_pos = arima.sim(n=600, list(ma=c(0.3, 0.2)))
+ma2_neg = arima.sim(n=600, list(ma=c(-0.3, 0.2)))
 (autoplot(ma1_pos, main = "MA(1)", y = NULL) + 
  	autoplot(ma1_neg, main = "MA(1)", y = NULL)) /
 	(autoplot(ma2_pos, main = "MA(2)", y = NULL) + 
@@ -365,22 +432,23 @@ ma2_neg = arima.sim(n=200, list(ma=c(-0.3, 0.2)))
 	 	)
 ```
 
-### Reconnaitre un modèle MA(q)
+### Reconnaitre un modèle $MA(q)$
 
-Pour reconnaître un MA(q) on peut analyser l'autocorrélogramme (ACF)
+Pour reconnaître un $MA(q)$ on peut analyser l'autocorrélogramme (ACF)
 
-Pour un MA(q) :
+Pour un $MA(q)$ :
 
-- $\rho(h)=0$ pour $h>q$ 
+- **ACF** : $\rho(h)=0$ pour $h>q$ 
 
-- $r(h)=0$ décroit exponentiellement vers 0
+- **PACF** : $r(h)=0$ décroit exponentiellement vers 0
 
 
-### Exemples AR(2) $y_t = 0.3\varepsilon_{t-1}+0.2\varepsilon_{t-2} + \varepsilon_t$
+### Exemple $MA(2)$ $y_t = \varepsilon_t + 0.3\varepsilon_{t-1}+0.2\varepsilon_{t-2}$
 
 ```{r, echo = FALSE}
-ggAcf(ma2_pos)/
-	ggPacf(ma2_pos)
+ggAcf(ma2_pos) /
+	ggPacf(ma2_pos) & 
+	labs(title = TeX("$MA(2)$ $y_t = \\epsilon_t + 0.3\\epsilon_{t-1}+0.2\\epsilon_{t-2}$"))
 ```
 
 
@@ -418,61 +486,6 @@ Identique à $ARMA (p+P*s, q+Q*s)$
 
 Exemple série mensuelle : $ARMA (1,1)(1,1)$ = $ARMA (13,13)$  
 
-### Modèles Intégrés (1/3)
-
-Soit X, processus « tendance linéaire » :
-$$
-X_t=\alpha+\beta t + \varepsilon_t
-$$
-
-Calculer l'espérance et la variance de la v.a. $X_t$ ?  
-X est stationnaire ?  
-
-. . .
-
-Différence d'ordre 1 : $$(I-B)X_t = ?$$
-
-La série obtenue est-elle stationnaire ?
-
-
-Si $X$ est un processus « tendance polynomiale d'ordre 2 », comment stationnariser la série ?
-
-
-### Modèles Intégrés (2/3)
-
-Soit X, processus « saisonnier stable  » :
-$$
-X_t=S_t+\varepsilon_t\quad
-\text{avec}
-\quad
-\forall t,\, S_t=S_{t+s}
-$$
-$X$ stationnaire ? 
-
-. . .
-
-Différence d'ordre 1, avec retard d'ordre $s$ :
-$$(I-B^s)X_t = ?$$
-
-
-La série obtenue est-elle stationnaire ?
-
-Si $X_t = a+bt + S_t +\varepsilon_t$, que donnerait cette différenciation ?
-
-
-### Modèles Intégrés (3/3)
-
-Une différenciation « simple » d'ordre $d$ supprime les tendances polynomiales d'ordre $d$ :
-$$
-(I-B)^dX_t
-$$
-Une différenciation « saisonnière » supprime aussi les tendances linéaires :
-$$(I-B^s)X_t$$
-
-Une différenciation « saisonnière » d'ordre $D$ plus grand que 1 est rare :
-$$(I-B^s)^DX_t$$
-
-
 
 ### Modèles ARIMA
 
@@ -480,8 +493,6 @@ $ARIMA(p,d,q)$ modélise les séries non stationnaires avec tendance
 $$
 \Phi(B)(I-B)^dX_t = \Theta(B)\varepsilon_t
 $$
-
-
 
 $ARIMA(p,d,q)(P,D,Q)$ modélise les séries avec tendance et saisonnalité
 $$
@@ -491,7 +502,7 @@ Factorisation des polynômes en $B$ de la partie *régulière* et de la partie *
 
 . . .
 
-Modèle le plus souvent observé : ARIMA(0,1,1)(0,1,1) appelé modèle Airline (voir TP)
+Modèle le plus souvent observé : $ARIMA(0,1,1)(0,1,1)$ appelé modèle Airline (voir TP)
 
 
 # Détermination du modèle ARIMA
@@ -570,7 +581,7 @@ Il y a plusieurs équivalences entre ETS et ARIMA :
 
 - Les modèles ETS sont non-stationnaires
 
-### Exemple 1 : ETS(A,N,N)
+### Exemple 1 : $ETS(A,N,N)$
 
 $$
 \begin{cases}
@@ -583,7 +594,7 @@ $$
 (1-B)y_{t}=(1+(\alpha-1)B)\varepsilon_t
 $$
 
-### Exemple 2 : ETS(A,A,N)
+### Exemple 2 : $ETS(A,A,N)$
 
 $$
 \begin{cases}
@@ -607,7 +618,7 @@ D'où
 
 et $y_t\sim ARIMA(0,2,2)$
 
-### Exemple 3 : ETS(A,A,A)
+### Exemple 3 : $ETS(A,A,A)$
 
 \footnotesize
 
@@ -644,7 +655,7 @@ Peut-on comparer les modèles ETS et ARIMA en utilisant un critère d'informatio
 
 . . . 
 
-... Mais quid lorsque les modèles sont équivalents : peut-on comparer ETS(A,A,A) avec un ARIMA(0,1,1)(0,1,1) ?
+... Mais quid lorsque les modèles sont équivalents : peut-on comparer $ETS(A,A,A)$ avec un $ARIMA(0,1,1)(0,1,1)$ ?
 
 . . . 
 

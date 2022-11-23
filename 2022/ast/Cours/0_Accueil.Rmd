@@ -13,6 +13,11 @@ output:
 themeoptions: "coding=utf8,language=french"
 classoption: 'usepdftitle=false,french'
 fontsize: 10pt
+knit: (function(inputFile, encoding) {
+      repertoire_sortie <- "Diapos";
+      rmarkdown::render(inputFile,
+                        encoding=encoding, 
+                        output_file=file.path(dirname(inputFile), repertoire_sortie, paste0(sub(".Rmd","",basename(inputFile)),".pdf"))) })
 ---
 
 ```{r setup, include=FALSE}
@@ -20,62 +25,52 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ### Faire connaissance
-
 Un tour de table pour faire connaissance :
 
-Prénom, Nom\
-Service ou établissement d'origine\
-Fonction occupée\
+Prénom, Nom  
+Service ou établissement d'origine  
+Fonction occupée   
 Expérience sur \faIcon{r-project} et sur les séries temporelles
 
 Pourquoi suivez-vous cette formation ?
-Qu'attendez vous de cette formation ?\
-
+Qu'attendez vous de cette formation ?  
 À quelles questions souhaitez-vous obtenir une réponse ?
+
 
 ### Objectifs de la formation
 
-Ensemble des documents disponibles sous : https://aqlt-formation-ast.netlify.app
+Ensemble des documents disponibles sous : https://aqlt.github.io/formation/2022/ast
 
--   Utilisation de \faIcon{r-project} et RStudio
+- Utilisation de \faIcon{r-project} et RStudio
 
--   Manipulation des séries temporelles sous \faIcon{r-project} : `ts` et `tsibble` principalement ; `xts`, `zoo` pour quelques manipulations
+- Manipulation des séries temporelles sous \faIcon{r-project} : `ts` et `tsibble` principalement ;  `xts`, `zoo` pour quelques manipulations
 
--   Analyses graphiques d'une série temporelle : chronogramme, lag plot (diagramme retardé), autocorrélogrammes, saisonnalité, analyse spectrale
+- Analyses graphiques d'une série temporelle : chronogramme, lag plot (diagramme retardé),
+autocorrélogrammes, saisonnalité, analyse spectrale
 
--   Décomposition d'une série temporelle
+- Décomposition d'une série temporelle
 
--   Prévision sans régresseur externe avec :
+- Prévision sans régresseur externe avec :
 
-    -   Le lissage exponentiel
+	- Le lissage exponentiel
 
-    -   La stationnarité et la modélisation ARIMA
+	- La stationnarité et la modélisation ARIMA
 
 . . .
 
 \bcinfo À approfondir : modèles de régression et de prévision, désaisonnalisation et correction des jours ouvrables, analyse de données à haute fréquence
 
+
 ### Bibliographie
 
-Aragon, Y.
-(2011), *Séries temporelles avec R. Méthodes et cas*, Springer.
+Aragon, Y. (2011), *Séries temporelles avec R. Méthodes et cas*, Springer.
 
-Brockwell, P. J.
-and Davis, R. A.
-(1991) *Time Series: Theory and Methods*.
-Second edition.
-Springer.
+Brockwell, P. J. and Davis, R. A. (1991) *Time Series: Theory and Methods*. Second edition. Springer.
 
 Avec `ts()` :
 
-Hyndman, R.J., & Athanasopoulos, G.
-(2018) *Forecasting: principles and practice*, 2nd edition, OTexts: Melbourne, Australia.
-OTexts.com/fpp2.
-Accessed on nov. 2022.
+Hyndman, R.J., & Athanasopoulos, G. (2018) *Forecasting: principles and practice*, 2nd edition, OTexts: Melbourne, Australia. OTexts.com/fpp2. Accessed on nov. 2022.
 
 Sur `tsibble` :
 
-Hyndman, R.J., & Athanasopoulos, G.
-(2021) *Forecasting: principles and practice*, 3rd edition, OTexts: Melbourne, Australia.
-OTexts.com/fpp3.
-Accessed on nov. 2022.
+Hyndman, R.J., & Athanasopoulos, G. (2021) *Forecasting: principles and practice*, 3rd edition, OTexts: Melbourne, Australia. OTexts.com/fpp3. Accessed on nov. 2022.

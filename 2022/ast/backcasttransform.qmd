@@ -1,0 +1,107 @@
+---
+title: "Backcast transformation"
+format: 
+ html: 
+  number-sections: true
+lang: fr
+language: 
+ title-block-author-single: Auteur
+---
+
+Voir notamment <https://robjhyndman.com/hyndsight/backtransforming/>.
+
+Cette page vient en complément du cours [2 - Analyse graphique](Cours/2_Analyse_Graphique.pdf).
+
+# Convergence vers la médiane
+
+Soit $f_\lambda$ la transformation de Box-Cox
+$$
+f_\lambda(x)=\begin{cases}
+\log(x)&\text{ si }\lambda=0\\
+\frac{sign(x)|x|^\lambda -1}{
+\lambda
+}&\text{ si }\lambda\ne0
+\end{cases}
+$$
+et $g_\lambda$ la transformation inverse
+$$
+\quad
+g_\lambda(x)=f^{-1}_\lambda(x) =
+\begin{cases}
+\exp(x) & \text{ si }\lambda=0\\
+\text{sign}(\lambda x + 1)|\lambda x+1|^{1/\lambda} & \text{ si }\lambda\ne0
+\end{cases}.
+$$
+
+Généralement la transformation inverse de la valeur prédite ne pourra pas être considérée comme la valeur moyenne de la distribution des prévisions mais plutôt comme la médiane.
+Il n'y a en général pas de problème à cela mais dans certains cas (comme les prévisions hiérarchiques où l'on fait des agrégations de prévisions) il est nécessaire de faire une correction puisque l'on s'intéresse à la moyenne de la distribution des prévisions (voir section @sec-bias-correction).
+
+Cette convergence vers la médiane est vraie lorsque la distribution est symétrique puisque dans ce cas :
+$$
+Moyenne[f_\lambda(X)]=Mediane[f_\lambda(X)]=f_\lambda(Mediane[X]).
+$$
+Il vient donc
+$$
+g_\lambda\big(Moyenne[f_\lambda(X)]\big) =
+Mediane\big[g_\lambda(f_\lambda(X))\big]=
+Mediane[X].
+$$
+
+# Correction du bais avec la transformation Box-Cox {#sec-bias-correction}
+
+Soit $\mu$ la moyenne de la série transformée et $\sigma^{2}$ sa variance. Les trois premiers
+termes du développement de Taylor en série entière s'écrivent :
+$$
+g_\lambda(\mu+x)\simeq g_\lambda(\mu)+g_\lambda'(\mu)x+g_\lambda''(\mu)\frac{{x^{2}}}{2}.
+$$
+
+Il vient donc :
+\begin{align*}
+\mathbb{E}\left[g_\lambda(X)\right] & =\mathbb{E}\left[g_\lambda(\mu+X-\mu)\right]\\
+ & \simeq\mathbb{E}\left[g_\lambda(\mu)+g_\lambda'(\mu)(X-\mu)+\frac{1}{2}g_\lambda''(\mu)\left(X-\mu\right)^{2}\right]\\
+ & =g_\lambda(\mu)+g_\lambda'(\mu)\underbrace{\mathbb{E}\left[X-\mu\right]}_{=0}+\frac{1}{2}g_\lambda''(\mu)\underbrace{\mathbb{E}\left[\left(X-\mu\right)^{2}\right]}_{=\sigma^{2}}\\
+ & =g_\lambda(\mu)+g_\lambda''(\mu)\frac{\sigma^{2}}{2}.
+\end{align*}
+
+De la même façon on peut montrer que
+$$
+\mathbb{V}\left[g_\lambda(X)\right]\simeq\left(g_\lambda'(\mathbb{E}\left[X\right])\right)^{2}\mathbb{V}\left[X\right]=\left(g_\lambda'(\mu)\right)^{2}\sigma^{2}-\frac{1}{4}\left(g_\lambda''(\mu)\right)^{2}\sigma^{4}.
+$$
+
+Dans le cas de la transformation de Box-Cox
+$$
+g_\lambda(x)=\begin{cases}
+\exp(x) & \text{ si }\lambda=0\\
+\text{sign}(\lambda x+1)|\lambda x+1|^{1/\lambda} & \text{ si }\lambda\ne0
+\end{cases},
+$$
+donc 
+$$
+g_\lambda'(x)=\begin{cases}
+\exp(x) & \text{ si }\lambda=0\\
+\text{sign}(\lambda x+1)|\lambda x+1|^{1/\lambda-1} & \text{ si }\lambda\ne0
+\end{cases}
+$$
+et 
+$$
+g_\lambda''(x)=\begin{cases}
+\exp(x) & \text{ si }\lambda=0\\
+\text{sign}(\lambda x+1)(1-\lambda)|\lambda x+1|^{1/\lambda-2} & \text{ si }\lambda\ne0
+\end{cases}.
+$$
+
+La moyenne de la transformation inverse de Box-Cox est donc 
+$$
+\begin{cases}
+\exp(\mu)\left(1+\frac{\sigma^{2}}{2}\right) & \text{ si }\lambda=0\\
+\text{sign}(\lambda\mu+1)|\lambda\mu+1|^{1/\lambda}\left(1+\frac{\sigma^{2}(1-\lambda)}{2|\lambda\mu+1|^{2}}\right) & \text{ si }\lambda\ne0
+\end{cases}.
+$$
+
+C'est-à-dire :
+$$
+\begin{cases}
+g_\lambda(\mu)\left(1+\frac{\sigma^{2}}{2}\right) & \text{ si }\lambda=0\\
+g_\lambda(\mu)\left(1+\frac{\sigma^{2}(1-\lambda)}{2 g_\lambda(\mu)^{2\lambda}}\right) & \text{ si }\lambda\ne0
+\end{cases}.
+$$

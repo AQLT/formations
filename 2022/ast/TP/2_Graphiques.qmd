@@ -101,12 +101,12 @@ Analyser les séries de `fpp3::aus_arrivals` (arrivées internationales trimestr
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r aus-arrivals}
 aus_arrivals %>% autoplot(Arrivals)
 ```
 Le nombre d'arrivées augmentent avec le temps, sauf ceux en provenance du Japon après 1995.
 Les séries semblent saisonnières avec une saisonnalité qui dépend du niveau (sauf pour US) et on observe un changement de saisonnalité pour les arrivées en provenance du Japon
-```{r}
+```{r aus-arrivals-season}
 aus_arrivals %>% gg_season(Arrivals)
 ```
 Remarque : le multivarié ne marche pas avec forecast.
@@ -117,7 +117,7 @@ arrivées plus élevées aux T1 et T4 pour le Royaume-Uni.
 elles sont plus faibles au T1 pour la Nouvelle-Zélande et au plus haut au T3.
 Pour le Japon : plus faibles aux T2 et T4 sur années récentes.
 Pour les États-Unis le graphique n'est pas facile à lire
-```{r}
+```{r aus-arrivals-subseries}
 aus_arrivals %>% gg_subseries(Arrivals)
 ```
 Pour le Royaume-Uni la hausse des entrées est surtout saisonnière (forte hausse aux T1 et T3).
@@ -136,27 +136,27 @@ En utilisant les différentes fonctions apprises pour tracer les graphiques (`au
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r hsales}
 autoplot(hsales)
 ```
 Pas de tendance, il semble il y avoir une saisonnalité et un cycle
-```{r}
+```{r hsales-season}
 ggseasonplot(hsales)
 ```
 Les ventes semblent plus faibles en janv-déc et plus élevées en mars
-```{r}
+```{r hsales-subseries}
 ggsubseriesplot(hsales)
 ```
 On retrouve en moyenne les résultats précédents mais les variations des coefficients saisonniers laissent penser à un cycle
-```{r}
+```{r hsales-lag}
 gglagplot(hsales)
 ```
 Forte corrélation avec les valeurs précédentes et les valeurs saisonnières
-```{r}
+```{r hsales-acf}
 ggAcf(hsales)
 ggAcf(hsales, 12*7)
 ```
-On augmentant le nombre de lag on repère plus facilement les cycles longs (environ 8 ans)
+En augmentant le nombre de lag on repère plus facilement les cycles longs (environ 8 ans).
 :::
 
 ## Densité spectrale
@@ -183,13 +183,12 @@ Il faut utiliser les paramètres `spectrum(., detrend = FALSE, log = "no")`.
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r spectre-tendance}
 t = ts(1:100, frequency = 12, start = 2000)
 spectrum(t, 
 		 detrend = FALSE,
 		 method = "pgram", log = "no")
 spectrum(t, 
-		 detrend = FALSE,
 		 method = "ar", log = "no")
 ```
 :::
@@ -201,14 +200,13 @@ Calculer le périodogramme et le spectre autorégressif d'une série mensuelle s
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r spectre-saisonnalite}
 s = ts(0, frequency = 12, start = 2000, end = 2020)
 s[cycle(s) == 2] <- 1
 spectrum(s, 
 		 detrend = FALSE,
 		 method = "pgram", log = "no")
 spectrum(s, 
-		 detrend = FALSE,
 		 method = "ar", log = "no")
 ```
 :::
@@ -220,13 +218,12 @@ Calculer le périodogramme et le spectre autorégressif d'une cycle de 36 mois.
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r spectre-cycle}
 c = ts(cos(2*pi/36*(1:100)) + sin(2*pi/36*(1:100)), frequency = 12, start = 2000)
 spectrum(c, 
 		 detrend = FALSE,
 		 method = "pgram", log = "no")
 spectrum(c, 
-		 detrend = FALSE,
 		 method = "ar", log = "no")
 ```
 :::
@@ -234,12 +231,11 @@ spectrum(c,
 ::: callout-note
 ## Exercice
 Pourquoi a-t-on un spectre différent en simulant un cycle de cette façon ?
-```{r}
+```{r spectre-cycle-saison}
 c = ts(0, frequency = 12, start = 2000, end = 2020)
 c[cycle(c) == 12][c(TRUE, FALSE, FALSE)] <- 1
 c
 spectrum(c, 
-		 detrend = FALSE,
 		 method = "pgram", log = "no")
 ```
 :::
@@ -256,14 +252,13 @@ Calculer le périodogramme d'un bruit blanc (utiliser `rnorm()`).
 
 ::: {.callout-tip collapse="true"}
 ## Solution
-```{r}
+```{r spectre-irregulier}
 set.seed(1)
 i = ts(rnorm(100), frequency = 12, start = 2000)
 spectrum(i, 
 		 detrend = FALSE,
 		 method = "pgram", log = "no")
 spectrum(i, 
-		 detrend = FALSE,
 		 method = "ar", log = "no")
 ```
 Question supplémentaire : à quoi correspond la droite du graphique précédent ?
@@ -292,41 +287,63 @@ Pour les séries suivantes, étudier s'il faut faire une transformation de Box-C
 ::: {.callout-tip collapse="true"}
 ## Solution
 
-```{r}
+```{r jj}
 autoplot(JohnsonJohnson)
-# Il semble y avoir une saisonnalité plus importante lorsque la série est élevée et la tendance semble exponentielle
+```
+Il semble y avoir une saisonnalité plus importante lorsque la série est élevée et la tendance semble exponentielle.
+```{r jj-log}
 autoplot(BoxCox(JohnsonJohnson, 0))
-# La transformation en log semble trop forte : la variabilité au début de la série est plus importante qu'en fin de série
+```
+La transformation en log semble trop forte : la variabilité au début de la série est plus importante qu'en fin de série.
+```{r jj-bc}
 (autoplot(BoxCox(JohnsonJohnson, 0.5)) + autoplot(BoxCox(JohnsonJohnson, 0.3))) /
 	(autoplot(BoxCox(JohnsonJohnson, 0.1)) + autoplot(BoxCox(JohnsonJohnson, 0.2)))
-# La racine carrée n'est assez forte mais les autres transformations semblent donner de bons résultats. La méthode Guerrero donne lambda = 0.15
+```
+La racine carrée n'est assez forte mais les autres transformations semblent donner de bons résultats. 
+La méthode Guerrero donne $\lambda = 0,15$.
+```{r}
 BoxCox.lambda(JohnsonJohnson)
+```
 
+```{r AirPassengers}
 autoplot(AirPassengers)
-# Il semble y avoir une saisonnalité plus importante lorsque la série est élevée 
+```
+Il semble y avoir une saisonnalité plus importante lorsque la série est élevée .
+```{r AirPassengers-bc}
 autoplot(BoxCox(AirPassengers, 0))
-# La transformation en log semble suffisante
 BoxCox.lambda(AirPassengers)
-# La méthode Guerrero donne lambda = -0.3. Le graphique est proche de celui du passage au log : la recommandation est de garder la transformation en log, plus explicable
 autoplot(BoxCox(AirPassengers, BoxCox.lambda(AirPassengers))) + autoplot(log(AirPassengers))
+```
+La transformation en log semble suffisante.
+La méthode Guerrero donne $\lambda = -0,3$. 
+Le graphique est proche de celui du passage au logarithme : la recommandation est de garder la transformation en logarithme, plus explicable.
 
+```{r co2}
 autoplot(co2)
-# Une tendance linéaire mais la saisonnalité n'est pas proportionnelle au niveau
-# Aucune transformation n'est nécessaire. La méthode Guerrero donne lambda = 0.0 (log) sans que cela change les résultats
 BoxCox.lambda(co2)
 autoplot(co2) + autoplot(log(co2))
+```
+Une tendance linéaire mais la saisonnalité n'est pas proportionnelle au niveau
+Aucune transformation n'est nécessaire.
+La méthode Guerrero donne $\lambda = 0,0$ (log) sans que cela change les résultats.
 
-
+```{rusdeaths-bc}
 autoplot(usdeaths)
-# Pas de tendance : aucune transformation n'est nécessaire. La méthode Guerrero donne lambda = 0.0 (log) sans que cela change les résultats
 BoxCox.lambda(usdeaths)
 autoplot(usdeaths) + autoplot(BoxCox(usdeaths, 0))
-
+```
+Pas de tendance : aucune transformation n'est nécessaire.
+La méthode Guerrero donne $\lambda = 0,0$ (log) sans que cela change les résultats.
+```{r usgdp}
 autoplot(usgdp)
-# On observe une tendance exponentielle : il peut être utile de faire une transformation
+```
+On observe une tendance exponentielle : il peut être utile de faire une transformation
+```{r usgdp-log}
 autoplot(BoxCox(usgdp, 0))
-# La transformation en log semble suffisante, légèrement trop forte.
-# La méthode Guerrero donne lambda = 0.36
+```
+La transformation en log semble suffisante,  peut-être légèrement trop forte.
+La méthode Guerrero donne $\lambda = 0,36$.
+```{r usgdp-bc}
 BoxCox.lambda(usgdp)
 autoplot(BoxCox(usgdp, 0))  + 
     geom_smooth(method='lm', formula= y~x, size = 0.5) +
@@ -337,9 +354,8 @@ autoplot(BoxCox(usgdp, 0))  +
 
 ::: callout-note
 ## Exercice
-
-```{r}
-#Pourquoi la transformation de Box-Cox n'est pas adaptée à la série `expsmooth::cangas` ?
+Pourquoi la transformation de Box-Cox n'est pas adaptée à la série `expsmooth::cangas` ?
+```{r cangas}
 autoplot(cangas)
 ```
 :::
@@ -356,7 +372,7 @@ La transformation de Box-Cox n'est adaptée que lorsque la variabilité de la s�
 Les précédents exercices portaient uniquement les fonctions de `forecast`.
 Pour appliquer la méthode Guerrero avec un objet `tsibble` on peut utiliser la fonction `features(., features = guerrero)` :
 
-```{r}
+```{r feasts-ex}
 aus_arrivals %>% 
 	features(features = guerrero)
 aus_arrivals %>% 
