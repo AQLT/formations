@@ -1,0 +1,353 @@
+---
+title: "5 - JDemetra+ en production"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(rjwsacruncher)
+library(RJDemetra)
+library(kableExtra)
+library(knitr)
+```
+
+> L'objectif de ce TP est d'apprendre à manipuler des workspaces pour une mise en production.
+
+Lors de la mise en production, le plus simple est de manipuler des workspaces et de mettre à jour les modèles, lors de l'arrivée de nouvelles données à travers le [JWSACruncher](https://github.com/jdemetra/jwsacruncher). Pour faciliter son utilisation depuis R, le package `rjwsacruncher` peut être utilisé.
+
+Lorsque les workspaces sont créés depuis R, on perd toutes les métadonnées (lien vers les fichiers, commentaires, etc.), une solution pour cela : utiliser [`rjdworkspace`](https://github.com/InseeFrLab/rjdworkspace) (package non publié sur le CRAN) pour récupérer ces données depuis un autre workspace.
+
+2. Utiliser le package `RJDemetra` qui permet d'effectuer des désaisonnalisations avec les mêmes algorithmes et paramètres que JDemetra+ et de manipuler des workspaces.
+
+Dans ce TP on utilisera les données du package `RJDemetra` mais n'hésitez pas à utiliser vos propres séries, en utilisant par exemple le code ci-dessous :
+
+Si besoin, ci-dessous un exemple de code pour récupérer vos données :
+
+```{r, eval=FALSE}
+fichier <- tempfile(fileext = "xlsx")
+url <- "https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"
+download.file(url, fichier)
+data_rte <- readxl::read_excel(fichier)
+date_deb <- 2006
+data_rte <- ts(data_rte[,-1], start = date_deb,
+               frequency = 12)
+```
+
+
+# JWSACruncher et `rjwsacruncher` {#sec:jwsacruncher}
+
+
+## Configuration du JWSACruncher {#sec:installation}
+
+Le JWSACruncher est téléchargeable ici : <https://github.com/jdemetra/jwsacruncher/releases>.
+
+Pour utiliser les dernières versions il faut avoir une version de Java supérieure à la 8, si ce n'est pas le cas, il faut télécharger une version portable de Java et configurer le JWSACruncher en conséquence (voir [manuel d'installation](/2021/rte/manuel_installation.qmd)). Ces manipulations peuvent aussi se faire à partir de `rjwsacruncher` :
+
+```{r, eval=FALSE}
+# install.packages("rjwsacruncher") # Si pas déjà installé
+library(rjwsacruncher)
+# Télécharge l'archive du JWSACruncher et la met sur le D:/
+download_cruncher("D:/") 
+# Dézipper l'archive et ensuite pour configurer avec une version portable de Java :
+jwsacruncher_path <- "D:/jwsacruncher-2.2.2-bin/bin/jwsacruncher.bat" # Lien vers le fichier jwsacruncher.bat
+java_path <- "D:/Java8/bin/java.exe" # Lien vers le fichier java.exe de la version portable de Java
+configure_jwsacruncher(jwsacruncher_path, java_path)
+```
+
+Pour indiquer à `rjwsacruncher` où se trouve le JWSACruncher, le plus simple est de mettre à jour l'option `cruncher_bin_directory` :
+
+```{r}
+# Chemin vers le dossier bin du JWSACruncher
+options(cruncher_bin_directory =
+            "/Users/alainquartierlatente/Desktop/jwsacruncher-2.2.2-bin/bin") 
+getOption("cruncher_bin_directory") # Pour afficher la valeur actuelle
+```
+
+
+## Utilisation du JWSACruncher
+
+Pour éviter que le package `rjwsacruncher` soit trop volumineux, il ne contient pas le JWSAcruncher de JDemetra+. Ce dernier peut être téléchargé à l'adresse suivante : <https://github.com/jdemetra/jdemetra-app/releases> ou en utilisant la fonction `rjwsacruncher::download_cruncher()`. Pour sa configuration avec une version portable, voir le [manuel d'installation](/2021/rte/manuel_installation.qmd).
+
+Pour lancer le JWSACruncher il faut trois fichiers :
+
+- un fichier contenant les paramètres sur la méthode de rafraîchissement à utilisée pour mettre à jour le workspace (créé à partir de la fonction `create_param_file()`) ;  
+- un workspace valide de JDemetra+ ;  
+- l'adresse vers le JWSACruncher (option `cruncher_bin_directory`).
+
+Dans le package `rjwsacruncher``, il existe trois fonctions associées au lancement du cruncher :  
+
+- `create_param_file()` qui permet de créer le fichier de paramètres ;  
+- `cruncher()` qui permet de lancer le cruncher sur un workspace à partir d'un fichier de paramètres ;  
+- `cruncher_and_param()` qui permet de lancer le cruncher tout en créant le fichier de paramètres et de personnaliser certaines sorties du cruncher.
+
+
+### Création du fichier de paramètres avec `create_param_file()`
+
+Les paramètres de la fonction `create_param_file()` sont les mêmes que ceux décrits dans le wiki du cruncher de JDemetra+ (<https://github.com/jdemetra/jwsacruncher/wiki>). Les trois paramètres les plus importants de `create_param_file()` sont :  
+
+1. `policy` qui est la méthode de rafraîchissement utilisée (voir tableau ci-dessous).
+
+```{r,echo=FALSE}
+refresh_policy <- structure(list(`Option sous JDemetra+` = c("Fixed model", 
+"Estimate regression coefficients", 
+"Estimate regression coefficients + Arima parameters", 
+"Estimate regression coefficients + Last outliers", 
+"Estimate regression coefficients + all outliers", 
+"Estimate regression coefficients + Arima model", 
+"Concurrent"), `Option du cruncher` = c("current", "fixedparameters (ou fixed)", 
+"parameters (paramètre par défaut)", "lastoutliers", "outliers", 
+"stochastic", "complete ou concurrent"), Signification = c("Le modèle ARIMA, les outliers et les autres paramètres du modèle de régression ne sont ni ré-identifiés ni ré-estimés. Le schéma de décomposition est inchangé.", 
+"Le modèle ARIMA, les outliers et les autres paramètres du modèle regARIMA ne sont pas ré-identifiés. Les coefficients du modèle ARIMA sont fixés et les autres paramètres du modèle de régression sont ré-estimés. Le schéma de décomposition est inchangé.", 
+"Le modèle ARIMA, les outliers et les autres paramètres du modèle de régression ne sont pas ré-identifiés mais sont tous ré-estimés. Le schéma de décomposition est inchangé.", 
+"Le modèle ARIMA, les outliers (sauf ceux de la dernière année) et les autres paramètres du modèle de régression ne sont pas ré-identifiés mais sont tous ré-estimés. Les outliers de la dernière année sont ré-identifiés. Le schéma de décomposition est inchangé.", 
+"Le modèle ARIMA et les paramètres du modèle regARIMA autres que les outliers ne sont pas ré-identifiés mais ré-estimés. Tous les outliers sont ré-identifiés. Le schéma de décomposition est inchangé.", 
+"Ré-identification de tous les paramètres du modèle regARIMA hormis les variables calendaires. Le schéma de décomposition est inchangé.", 
+"Ré-identification de tout le modèle regARIMA.")), .Names = c("Option sous JDemetra+", 
+"Option du cruncher", "Signification"), class = "data.frame", row.names = c(NA, 
+-7L))
+if (opts_knit$get("rmarkdown.pandoc.to") == "latex"){
+    kable(refresh_policy, caption = "Les différentes politiques de rafraîchissement",
+          booktabs = TRUE, format = "latex") %>% 
+        kable_styling(full_width = T,
+                      latex_options = "hold_position") %>% 
+        group_rows("Partial concurrent adjustment", 1, 6) %>% 
+        group_rows("Concurrent", 7, 7) %>% 
+        column_spec(1, width = "4cm") %>% 
+        column_spec(2, width = "2.5cm")
+}else{
+    refresh_policy[1:6, 1] <-  paste("Partial concurrent adjustment ->", refresh_policy[1:6, 1])
+    kable(refresh_policy, caption = "Les différentes politiques de rafraîchissement",
+             booktabs = TRUE)%>%
+  kable_styling()
+}
+```
+
+2. `matrix_item` qui est une chaîne de caractères contenant les noms des paramètres à exporter. 
+Par défaut, ce sont ceux de l'option [`default_matrix_item`](/2021/rte/PDF/output_jd.pdf). 
+On peut donc au choix modifier l'option `default_matrix_item` ou le paramètre `matrix_item` :
+```{r, eval = FALSE}
+library(rjwsacruncher)
+ # Pour afficher les paramètres par défaut :
+getOption("default_matrix_item")
+# Pour modifier les paramètres par défaut pour n'exporter par exemple
+# que les critères d'information :
+options(default_matrix_item = c("likelihood.aic",
+                                "likelihood.aicc",
+                                "likelihood.bic",
+                                "likelihood.bicc"))
+```
+
+3. `tsmatrix_series` qui est une chaîne de caractères contenant les noms des paramètres à exporter. Par défaut, ce sont ceux de l'option [`default_tsmatrix_series`](/2021/rte/PDF/output_jd.pdf). On peut donc au choix modifier l'option `default_tsmatrix_series` ou le paramètre `tsmatrix_series` :
+```{r, eval = FALSE}
+ # Pour afficher les paramètres par défaut :
+getOption("default_tsmatrix_series")
+# Pour modifier les paramètres par défaut pour n'exporter par exemple que
+# la série désaisonnalisée et ses prévisions :
+options(default_tsmatrix_series = c("sa", "sa_f"))
+```
+
+
+Pour voir l'ensemble des paramètres, il suffit d'utiliser sous R la commande `?create_param_file`.
+
+Après cela, il ne reste plus qu'à créer le fichier de paramètres. Ci-dessous quelques exemples.
+
+```{r, eval = FALSE}
+# Un fichier parametres.param sera créé sous D:/ avec la politique de rafraîchissement
+# "lastoutliers" et les autres paramètres par défaut
+create_param_file(dir_file_param = "D:/",
+                  policy = "lastoutliers")
+# Si l'on a modifié les options "default_matrix_item" et "default_tsmatrix_series" pour
+# n'exporter que les critères d'information, la série désaisonnalisée et ses
+# prévisions, la commande précédente est équivalent à : 
+create_param_file(dir_file_param = "D:/",
+                  policy = "lastoutliers",
+                  matrix_item = c("likelihood.aic", "likelihood.aicc",
+                                  "likelihood.bic", "likelihood.bicc"),
+                  tsmatrix_series = c("sa", "sa_f"))
+```
+
+
+::: callout-note
+## Exercice
+Utiliser la fonction `create_param_file()` pour créé un fichier de paramètres permettant de mettre à jour un workspace :
+
+- En reestimant le modèle ARIMA, les outliers et les autres paramètres du modèle de régression et en re-identifiant les outliers uniquement sur la dernière année.
+- En exportant la statistique M7, la statistique Q-M2 et les tests de jours ouvrables résiduels ;
+- En exportant La série brute, la série désaisonnalisée et la tendance (de manière verticale).
+:::
+
+```{r, solution = TRUE, eval = FALSE}
+create_param_file(dir_file_param = "/Users/alainquartierlatente/Desktop/",
+                  policy = "lastoutliers",
+                  matrix_item = c("m-statistics.m7",
+                                  "m-statistics.q-m2",
+                                  "diagnostics.residual trading days tests.f-test on sa (td):2",
+                                  "diagnostics.residual trading days tests.f-test on i (td):2"),
+                  tsmatrix_series = c("y", "sa", "t"),
+                  csv_layout = "vtable" 
+)
+```
+
+### Lancement du cruncher
+
+Pour lancer le cruncher avec `cruncher()` ou `cruncher_and_param()`, il faut spécifier le chemin d'accès au dossier contenant le cruncher (paramètre `cruncher_bin_directory`) ainsi que celui du workspace à traiter (paramètre `workspace`).
+
+Par défaut, le chemin d'accès au dossier du cruncher est celui contenu dans le paramètre `cruncher_bin_directory` : il suffit donc de modifier une seule fois cette option afin qu'elle s'applique à toutes les exécutions du cruncher. Le chemin à indiquer est celui du dossier contenant le fichier *jwsacruncher.bat*, situé dans le dossier "Bin" du dossier d'installation du cruncher. Ainsi, s'il a été installé sous `D:\jdemetra-cli-2.2.3`, le fichier *jwsacruncher.bat* sera présent sous `D:\jdemetra-cli-2.2.3\bin`. Il faut donc modifier l'option `cruncher_bin_directory` de la façon suivante :
+
+```{r, eval = FALSE}
+options(cruncher_bin_directory = "D:/jdemetra-cli-2.2.3/bin/")
+```
+
+Si aucun chemin de workspace n'est renseigné, une fenêtre s'ouvre, invitant à sélectionner le workspace sur lequel on souhaite lancer le cruncher.
+
+
+```{r, eval = FALSE}
+cruncher(workspace = "workspace.xml",
+         param_file_path = "/Users/alainquartierlatente/Desktop/parameters.param"
+)
+```
+
+Si vous n'avez pas de workspace vous pouvez utiliser le code suivant pour en générer un :
+```{r, eval = FALSE}
+library(RJDemetra)
+spec_x13 <- x13_spec(spec = "RSA5c")
+wk <- new_workspace()
+new_multiprocessing(wk, "sa1")
+
+for (nom_series in colnames(data_rte)){
+  model <- jx13(data_rte[,nom_series], spec_x13)
+  add_sa_item(wk, "sa1", model, nom_series)
+}
+
+save_workspace(wk, "workspace.xml")
+```
+
+Si non spécifié dans le fichier des paramètres, les résultats sont exportés dans le sous dossier "Output" du workspace (pour le `workspace.xml`, les résultats seront donc sous `workspace/Output/`). On peut aussi créer le fichier des paramètres et lancer le JWSAcruncher avec la fonction `cruncher_and_param`. Cette fonction permet aussi de renommer les dossiers exportées avec les noms des multi-processings utilisés dans JDemetra+ (évite d'avoir des dossiers du type `SAProcessing-1`).
+
+```{r, eval = FALSE}
+cruncher_and_param(
+        workspace = "workspace.xml",
+        policy = "lastoutliers",
+        matrix_item = c("m-statistics.m7",
+                        "m-statistics.q-m2",
+                        "diagnostics.residual trading days tests.f-test on sa (td):2",
+                        "diagnostics.residual trading days tests.f-test on i (td):2"),
+        tsmatrix_series = c("y", "sa", "t"),
+        csv_layout = "vtable"
+)
+```
+
+
+# Mise à jour des metadonnées avec `rjdworkspace` {#sec:rjdworkspace}
+
+Lorsque l'on manipule des objets depuis RJDemetra, plusieurs informations sont perdues par rapport à JDemetra+, dont :
+
+- le lien vers les données d'origine
+
+- les éventuels commentaires que l'on peut faire
+
+Toutes ces informations sont les *metadata*. Lorsque vous créer un workspace depuis JDemetra+, vous pouvez par exemple voir ces données en ouvrant le fichier `SAProcessing/SAProcessing-1.xml` associé au dossier de votre workspace. Dans l'exemple ci-dessous, dans les premières lignes de ce fichier Excel on peut voir les données utilisées, le nom de la série et dans la partie "metaData" le chemin vers le fichier Excel contenant les données :
+
+```{css, eval = FALSE}
+ <item name="sa1">
+        <subset>
+            <item name="ts">
+                <ts name="Synthèse_Demetra&#10;Consommation Grande Industrie">
+                    <freq>12</freq>
+                    <firstYear>2006</firstYear>
+                    <firstPeriod>1</firstPeriod>
+                    <data>6542179.0 6060178.999999999 6715436.999999999 6320097.0 6603324.0 6438527.0 6427106.0 5681771.0 6415103.0 6514026.000000001 6374691.0 6327080.0 6379568.0 5948676.0 6668337.0 6295034.000000001 6560207.000000001 6340884.000000001 6500927.0 5699246.999999999 6266460.0 6580681.0 6297561.0 6317880.999999999 6576340.0 6284824.000000001 6699689.0 6589911.0 6531932.999999999 6440064.999999999 6546568.0 5699724.0 6252188.0 6436158.0 5872777.0 5142576.000000001 5463632.0 5180435.0 5402975.0 5306805.0 5511320.0 5608810.0 5805213.000000001 4997441.999999999 5714643.0 6007884.0 5699245.0 5241503.0 5693164.0 5350723.0 6024338.0 5846382.0 6050963.0 5895316.0 6050403.0 5289759.999999999 5821723.000000001 5802213.999999999 6014116.0 5830801.0 5966347.0 5575510.0 6220566.0 6016980.0 6197665.999999999 5954697.999999999 6005230.000000001 5288825.0 5821013.000000001 5813729.0 5649842.999999999 5411468.0 5769726.0 5441343.000000001 5951428.999999999 5779753.000000001 5870267.000000001 5720560.0 5918781.0 5120177.000000001 5669168.0 5815931.000000001 5647693.0 5205906.0 5541208.000000001 5180191.0 5781674.0 5585759.999999999 5620112.0 5535373.000000001 5730311.0 4999490.0 5574448.0 5775084.000000001 5578929.0 5316666.999999999 5550411.0 5178456.0 5693416.0 5636462.0 5681160.0 5428734.0 5746606.999999999 4995591.000000001 5642608.999999999 5843851.0 5666887.0 5409251.0 5607526.0 5237873.0 5857162.0 5649254.0 5712108.0 5622601.0 5717344.999999999 5092692.0 5655590.0 5747178.0 5601075.0 5311528.0 5710545.0 5304304.0 5605914.000000001 5450143.0 5426808.0 5339665.000000001 5637000.0 5102241.0 5549202.0 5693882.0 5633573.0 5399061.999999999 5742768.0 5263264.0 5664626.0 5526423.000000001 5766487.999999999 5620842.000000001 5737585.000000001 5214656.000000001 5659672.0 5847824.0 5729670.000000001 5616760.999999999 5761710.000000001 5308397.000000001 5702232.999999999 5319390.0 5503539.000000001 5471782.999999999 5662473.0 5187800.0 5517995.0 5729508.000000001 5635093.000000001 5411676.999999999 5730458.0 5270200.0 5688804.0 5441071.999999999 5582419.0 5362103.000000001 5572642.000000001 5056025.0 5274880.0 5436253.0 5230728.0 4644680.000000001 5188932.000000001 5119956.000000001 4626124.0 3883984.9999999995 4478548.0 4671027.0 4959356.000000001 4548636.0 4965894.0</data>
+                    <metaData>
+                        <property name="@timestamp" value="Thu Jul 01 09:28:25 CEST 2021"/>
+                        <property name="@source" value="XCLPRVDR"/>
+                        <property name="@id" value="demetra://tsprovider/XCLPRVDR/20111201/SERIES?file=%2FUsers%2Falainquartierlatente%2FDesktop%2FFormation%2Fdata_rte.xlsx#seriesName=Consommation+Grande+Industrie&amp;sheetName=Synth%C3%A8se_Demetra"/>
+                    </metaData>
+                </ts>
+```
+
+Ce workspace exemple est disponible sous <https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip>.
+
+Supposons que ce soit le workspace utilisé en production (i.e. : le workspace sur lequel vous lancez `rjwsacruncher`). On va se placer dans le cas où l'on souhaite modifier ce workspace depuis R.
+
+
+
+::: callout-note
+## Exercice
+Créer un nouveau workspace `rte_prod_tmp.xml` où l'on a modifié toutes les spécifications du workspace `rte_prod.xml` (<https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip>) en rajoutant un AO en mars et avril 2020.
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+library(RJDemetra)
+# Téléchargement du workspace
+dir <- tempdir()
+download.file("https://aqlt-formation-rte.netlify.app/data/rte_prod.zip",
+              file.path(dir, "rte_prod.zip"))
+unzip(file.path(dir, "rte_prod.zip"),
+      exdir = dir)
+# Chargement du workspace
+wk <- load_workspace(file.path(dir, "rte_prod.xml"))
+compute(wk)
+# Import de tous les modèles
+# On a une list qui contient autant d'éléments que de multiprocessings
+# et chaque élément est une liste qui contient autant d'éléments que de modèle
+# dans le multiprocessing considéré
+all_models <- get_model(wk, progress_bar = FALSE)
+
+wk2 <- new_workspace()
+for(sa_name in names(all_models)){
+  new_multiprocessing(wk2, sa_name)
+  for (series_name in names(all_models[[sa_name]])){
+    new_spec <- x13_spec(all_models[[sa_name]][[series_name]],
+                         usrdef.outliersEnabled = TRUE,
+                         usrdef.outliersType = c("AO", "AO"),
+                         usrdef.outliersDate = c("2020-03-01", "2020-04-01"))
+    new_jmod <- jx13(get_ts(all_models[[sa_name]][[series_name]]),
+                     new_spec)
+    add_sa_item(workspace = wk2, multiprocessing = sa_name,
+                sa_obj = new_jmod,
+                name = series_name)
+  }
+}
+save_workspace(wk2, "rte_prod_tmp.xml")
+```
+:::
+
+Si vous ouvrez maintenant le fichier `rte_prod_tmp/SAProcessing/SAProcessing-1.xml` vous remarquez donc qu'il n'y a plus les parties `metaData` !
+
+Pour les mettre à jour il existe deux fonctions dans `rjdworkspace` :
+
+1. `update_medata` qui, à partir d'un workspace de référence (`rte_prod.xml`), met à jour un workspace (`rte_prod_tmp.xml`) en faisant un matching sur le nom des séries (il y a donc potentiellement un problème si on a plusieurs séries avec le même nom)
+
+2. `update_metadata_roughly()`, à partir d'un workspace de référence (`rte_prod.xml`), met à jour un workspace (`rte_prod_tmp.xml`) en fonction de l'ordre de la série dans le modèle (le premier modèle de `rte_prod_tmp.xml` est mis à jour avec les informations du premier modèle de `rte_prod.xml`, etc.).
+
+Dans notre cas, `update_metadata_roughly()` suffit :
+
+```{r}
+library(rjdworkspace)
+wk3 <- update_metadata_roughly(wk, # D'abord le workspace qui contient les metadata 
+                               wk2 # Ensuite le workspace à mettre à jour
+                               )
+# Il reste à sauvegarder le nouveau workspace
+save_workspace(wk3, "rte_prod_tmp2.xml")
+```
+
+
+```{r, remove-workspace, include=FALSE}
+file.remove("rte_prod_tmp.xml")
+unlink("rte_prod_tmp", recursive=TRUE)
+file.remove("rte_prod_tmp2.xml")
+unlink("rte_prod_tmp2", recursive=TRUE)
+file.remove("mon_premier_workspace.xml")
+unlink("mon_premier_workspace", recursive=TRUE)
+```

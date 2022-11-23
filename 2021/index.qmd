@@ -1,0 +1,10 @@
+---
+lang: fr
+language: 
+ title-block-author-single: Auteur
+comments: false
+---
+
+# 2021
+
+- Juin 2021 : [Désaisonnalisation avec JDemetra+ et RJDemetra](/2021/rte/) (RTE) ![](/2021/rte/Cours/img/RTElogo.png){width="5%"}  

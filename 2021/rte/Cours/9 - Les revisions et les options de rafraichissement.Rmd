@@ -1,0 +1,217 @@
+---
+title: "9 - Les révisions et les options de rafraîchissement"
+subtitle: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+author: "Alain Quartier-la-Tente"
+division: "Lemna, Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        toc: false
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        fig_caption: true
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+lan: french
+---
+
+```{r setup, include=FALSE}
+options(xtable.comment = FALSE)
+library(zoo)
+library(rsdmx)
+library(ggplot2)
+beamer_textwidth <- 11.13435
+beamer_textheight <- 7.89807
+conv_cm_to_in <- 0.393701
+conv_cm_to_px <- 75
+knitr::opts_chunk$set(echo = FALSE, fig.pos = 'H',message=FALSE,
+                      fig.height = beamer_textheight * conv_cm_to_in,
+                      fig.width =  beamer_textwidth * conv_cm_to_in, results = 'asis')
+```
+
+### Questions de positionnement
+
+Quelles sont les différentes sources de révision d'une CVS-CJO ?
+\vfill
+
+Les révisions sur la fin de série, quelles causes ?
+\vfill
+
+Quelle politique de gestion des révisions pour l'étude de la conjoncture ?
+
+
+### Les différentes sources de révisions
+
+- Révisions des données brutes  
+
+- Changement de modèles CVS-CJO :  
+    + modèle Reg-ARIMA et filtres X11  
+    + affecte toute la série (révisions annuelles)  
+    
+- Révisions liées aux ajouts de nouveaux points : affectent la fin de série (révisions infra-annuelles)  
+
+On se limite à ce dernier type de révision par la suite
+
+### Illustration : filtre de longueur 13
+```{r, include=FALSE}
+extractValue <- function(x , date){
+    sapply(date,function(d){
+        as.numeric(window(x,start = d, end = d))
+    })
+}
+    
+
+url <- "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/010537230"
+ipi <- as.data.frame(rsdmx::readSDMX(url,isURL = T))[,c("TIME_PERIOD","OBS_VALUE")]
+ipi <- ipi[order(ipi$TIME_PERIOD,decreasing = FALSE),]
+dateDeb <- ipi$TIME_PERIOD[1]
+dateDeb <- as.numeric(regmatches(dateDeb,gregexpr("-",dateDeb),invert=T)[[1]])
+ipi <- ts(as.numeric(ipi$OBS_VALUE),start = dateDeb, frequency = 12)
+ipi_f <- predict(arima(ipi,order = c(0,1,1),seasonal = c(0,1,1)),n.ahead = 12)$pred
+
+der_date_connue <- as.numeric(tail(time(ipi),1))
+ipi <- window(ipi, start= trunc(der_date_connue - 7))
+ipi_tot <- ts(c(ipi,ipi_f), start = start(ipi), frequency = 12)
+ipi_f <- window(ipi_tot, start= der_date_connue)
+
+#Calcul des différentes dates :
+der_date_connue <- zoo::as.yearmon(der_date_connue)
+date_ref_est <- der_date_connue - 6/12
+dates_def <- der_date_connue - 3 + seq(-6/12,6/12,1/12)
+dates_prov <- der_date_connue + seq(-6/12,6/12,1/12)
+vertical_line <- data.frame(date = as.numeric(c(dates_def[1],dates_def[13], dates_prov[1],dates_prov[13],dates_def[7],dates_prov[7])),
+                            type=c(rep("dotted",4),rep("solid",2)))
+vertical_line$y <- extractValue(ipi_tot,vertical_line$date)-3
+graph <- ggplot(data.frame(date=time(ipi),y=ipi),
+                aes(x = date,y = y))+
+    geom_segment(mapping = aes(xend=date, yend=0,lty=type), 
+                 size=1, data=vertical_line,show.legend = FALSE)+
+    scale_linetype_manual(values=c("dotted", "solid")) + 
+    geom_line(colour="#287EB7") + 
+    geom_line(data = data.frame(date=time(ipi_f),y=ipi_f),
+              colour="#287EB7",lty="dashed")+theme_bw() + 
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+    labs(x=NULL,y=NULL,title = "IPI poste 08.9")+
+    theme(plot.title = element_text(hjust = 0.5))+scale_y_continuous() + 
+    coord_cartesian(ylim = range(ipi_tot),expand = FALSE) + 
+    geom_errorbarh(aes(y = min(ipi_tot),xmin = vertical_line[c(1),"date"],
+                           xmax = vertical_line[c(2),"date"],height=3),size=1) +
+    geom_errorbarh(aes(y = min(ipi_tot),xmin = vertical_line[c(3),"date"],
+                       xmax = vertical_line[c(4),"date"],height=3),size=1)
+ggsave(filename ="img/seq_3_ipi_089.png", plot = graph,
+       width = beamer_textwidth*2, height = beamer_textheight*1.5,
+       units = "cm")
+```
+
+\includegraphics[width=\textwidth]{img/seq_3_ipi_089.png}
+
+### Exemple basé sur un calcul
+\small
+
+```{r}
+der_date_format <- paste0(months(der_date_connue),format(der_date_connue," %Y"))
+date_est_finale_format <- paste0(months(dates_def[7]),format(dates_def[7]," %Y"))
+
+dates_def <-  as.character(format(dates_def,"%m.%Y"))
+dates_prov <- as.character(format(dates_prov,"%m.%Y"))
+
+cvs_finale <- paste0("CVS_{",dates_def[7]
+                     ,"\\lvert ",dates_prov[7],
+                     "} &= \\nu_6 x_{",dates_def[1],"} +\\nu_5 x_{",dates_def[2],
+                     "} + \\dotsb + \\nu_0x_{",dates_def[7],
+                     "} + \\nu_1 x_{",dates_def[8],
+                     "} + \\dotsb + \\nu_6 x_{",dates_def[13],"}"
+)
+l1 <- paste0("CVS_{",dates_prov[7]
+             ,"\\lvert ",dates_prov[7],
+             "} &=\\nu_6 x_{",dates_prov[2],"} +\\nu_5 x_{",dates_prov[3],
+             "} + \\dotsb + \\nu_0x_{",dates_prov[7],
+             "} \\\\ \n& \\phantom{=} + \\nu_1 \\hat{x}_{",dates_prov[8],"\\lvert ",dates_prov[7],
+             "} + \\dotsb + \\nu_6 \\hat{x}_{",dates_prov[13],"\\lvert ",dates_prov[7],"}"
+)
+l2 <- paste0("CVS_{",dates_prov[7]
+             ,"\\lvert ",dates_prov[8],
+             "} &=\\nu_6 x_{",dates_prov[2],"} +\\nu_5 x_{",dates_prov[3],
+             "} + \\dotsb + \\nu_0x_{",dates_prov[7],
+             "} \\\\ \n& \\phantom{=} + \\nu_1 x_{",dates_prov[8],
+             "} + \\dotsb + \\nu_6 \\hat{x}_{",dates_prov[13],"\\lvert ",dates_prov[8],"}"
+)
+l3 <- paste0("CVS_{",dates_prov[7]
+             ,"\\lvert ",dates_prov[13],
+             "} &=\\nu_6 x_{",dates_prov[2],"} +\\nu_5 x_{",dates_prov[3],
+             "} + \\dotsb + \\nu_0x_{",dates_prov[7],
+             "} + \\nu_1 x_{",dates_prov[8],
+             "} + \\dotsb + \\nu_6 x_{",dates_prov[13],"}"
+)
+texte_final <- paste0("\\vspace{-0.8cm}\n",
+    "\\begin{align*}\n\\intertext{Estimation finale du point de ",date_est_finale_format," :}\n",cvs_finale,
+                      "\n\\intertext{Estimations préliminaires du point de ",der_date_format,":}\n",
+                      l1," \\\\ \n",l2," \\\\ \n", l3,
+                      "\n\\end{align*}")
+
+erreur <- paste0("$e_j = x_j - \\hat{x}_{j\\lvert ",dates_prov[7],"}$")
+revisions <- paste0("$R_{",dates_prov[7],"} = \\nu_1 e_{",dates_prov[8],"} + \\dotsb + \\nu_5 e_{",dates_prov[12],"} + \\nu_6 e_{",dates_prov[13],"}$")
+cat(texte_final)
+```
+
+
+Erreur de prévision à la date $j$ : `r erreur`
+
+Révision totale du point de `r der_date_format` : `r revisions` 
+
+dépend de la nature stochastique de la série (modèle) et des erreurs de prévision
+
+Réviser signifie utiliser les nouvelles données :
+**figer les estimations, c'est ignorer de l'information récente**
+
+### Les différentes options de rafraichissement
+
++ Méthode current : les paramètres du modèle sont identifiés et estimés une fois par an, les coefficients saisonniers sont projetés et figés jusqu'à la prochaine campagne annuelle.  
+
++ Méthode concurrent : les paramètres sont ré-identifiés et ré-estimés à chaque nouveau point
+
++ \highlightbf{Méthode partial-concurrent} : les paramètres du modèle sont identifiés une fois par an mais on les ré-estime à chaque nouveau point.   
+\faArrowCircleRight{} voir https://aqlt.github.io/2021/rte/PDF/refresh_policies.pdf
+
+Recommandation : recherche d'outliers sur la dernière année
+
+### Faut-il réviser sur l'ensemble de la période ?
+
+Chaque nouvelle estimation entraîne une révision de l'ensemble de la série... est-ce qu'il y a un sens à réviser les points de 1990 avec la publication du mois de juin 2021 ? \pause
+
+\bigskip
+
+ESS guidelines **best alternative** : limiter les révisions à une certaine période : au moins 3 ans et date fixée pendant au plus 5 ans  
+
+\faArrowCircleRight{} Si la série est longue, se pose la question du raccordement
+
+\bigskip
+
+Option **acceptable** :  réviser sur l'ensemble de la série
+
+### Les essentiels
+
+Par construction, la fin d'une série CVS-CJO est révisée avec l'ajout d'un nouveau point.
+
+Ce mécanisme traduit la prise en compte de nouvelles informations.
+
+Juger la qualité d'une CVS-CJO **uniquement** par la « quantité » de révisions, c'est comme juger la qualité d'un estimateur par sa vitesse de convergence, quand bien même il serait biaisé.
+
+La méthode partial-concurrent last outliers est recommandée.
+
+Si possible, ne pas réviser la séries désaisonnalisée sur l'ensemble de la période
+
+
+### Bibliographie
+
+\begin{thebibliography}{999}
+\bibitem[Eurostat (2015)]{E2015} Eurostat (2015), The ESS guidelines for seasonal adjustment, Eurostat manuals and guidelines, Product Code: KS-GQ-15-001. \url{http://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-001}.
+\bibitem[Pham et Quartier-la-Tente (2018)]{PQLT2018} Pham, H., Quartier-la-Tente, A. (2018), Désaisonnaliser les séries très longues par sous-période, gains et choix de la longueur de traitement - exemple des séries de l'IPI, Actes des $13^{\mbox{\tiny èmes}}$ Journées de Méthodologie Statistique. 
+\end{thebibliography}
+
+
+

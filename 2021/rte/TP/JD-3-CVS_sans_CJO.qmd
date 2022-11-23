@@ -1,0 +1,85 @@
+---
+title: "3 - Désaisonnalisation sans correction des jours ouvrables"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+```
+
+> L'objectif de ce TP est d'apprendre à faire une désaisonnalisation sans correction des jours ouvrables (CJO).
+
+# Réaliser une désaisonnalisation automatique sans correction des effets de calendrier
+
+-   Créer un nouveau workspace
+
+-   Sauvegarder le workspace
+
+-   Importer les séries (si nécessaire)
+
+-   Réaliser une désaisonnalisation automatique de ces séries en choisissant la spécification pré-définie `X13 > RSA3`
+
+-   Renommer le "SAProcessing-1" ("X13" par exemple) en faisant un clic droit sur son nom sous l'onglet `multi-documents`, puis `Rename...`
+
+# Analyser des paramètres automatiques choisis par JDemetra+
+
+Pour chaque série,
+
+## 9.1. Schéma de décomposition
+
+-   Dans la fenêtre `Main results`
+
+    -   Quel est le schéma de décomposition choisi par JDemetra+ ? Est-ce que vous êtes d'accord ?
+
+## Outliers
+
+-   Dans la fenêtre `Main results`
+
+    -   Combien d'*outliers* ont été détectés par JDemetra+ ?
+
+        -   Y en a-t-il trop ?
+
+-   Dans la fenêtre `Pre-processing`
+
+    -   Quels sont les différents types d'outliers détéctés par JDemetra+ ?
+
+-   Retourner dans la fenêtre `Main results`
+
+    -   Aller dans `Main results > Charts`
+
+        -   Regarder les différents graphiques : pouvez-vous repérer, sur la série brute, les points atypiques détéctés dans le modèle ?
+
+## S-I Ratio
+
+-   Aller dans la fenêtre `Main results > S-I ratio`
+
+-   Pouvez-vous repérer le schéma de décomposition ?
+
+-   Quel est l'objectif de ce graphique ?
+
+-   Les coefficients saisonniers sont-ils stables ?
+
+# Analyse de la qualité de la désaisonnalisation
+
+Pour chaque série, parcourir les diagnostics disponibles dans `Main results` :
+
+-   Quelle est la qualité de la phase de pré-ajustement ?
+
+-   Pour des diagnostics plus détaillés, aller dans les sous-branches de `Pre-processing`
+
+-   Quelle est la qualité de la décomposition (X11) ?
+
+-   La série CVS présente-t-elle des effets saisonniers résiduels ?
+
+-   La série CVS présente-t-elle des effets « jours ouvrables » résiduels ?
+
+-   La décomposition réalisée par X11 est-elle de qualité satisfaisante ?

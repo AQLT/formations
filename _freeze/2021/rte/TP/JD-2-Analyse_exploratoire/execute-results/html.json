@@ -1,0 +1,14 @@
+{
+  "hash": "93983ba853f2a7f53daf0150262ef624",
+  "result": {
+    "markdown": "---\ntitle: \"2 - Analyse exploratoire\"\nsubtitle: |\n  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra\n  ![](img/logo.png){width=1in}\nauthor: \"Alain Quartier-la-Tente\"\nformat: html\nlang: fr\nlanguage:\n title-block-author-single: Auteur\n---\n\n\n\n\n> L'objectif de ce TP est d'apprendre à faire une analyse exploratoire sous JDemetra+.\n\n# Tracer un graphique dans JDemetra+\n\n-   Cliquer sur la commande `Tools>Container>Chart` de la barre de menus en haut de l'écran\n\n    -   Que se passe-t-il ?\n\n-   Faire glisser une série de l'onglet `Providers` vers l'onglet `Chart`.\n\n    -   Que peut-on dire ?\n\n        -   Est-ce que la série présente une tendance ?\n\n        -   Est-ce que la série semble saisonnière?\n\n-   Est-ce que la série présente des pics ?\n\n    -   Si oui, ces pics ont-ils ont toujours la même amplitude ?\n\n-   Cliquer sur la courbe\n\n-   Clic-droit sur la courbe\n\n-   Cliquer sur `Split into yearly components`\n\n    -   Que se passe-t-il ?\n\n    -   Que peut-on dire en analysant ce graphique ?\n\n# Tracer les taux de croissance d'une série dans JDemetra+\n\n-   Cliquer sur la commande `Tools>Container>GrowthChart` de la barre de menus en haut de l'écran\n\n    -   Que se passe-t-il ?\n\n-   Faire glisser une série de l'onglet `Providers` vers l'onglet `GrowthChart`.\n\n    -   Quel est le taux de croissance représenté par défaut sur ce graphique ?\n\n    -   Représenter le taux de croissance en glissement annuel par un clic droit sur le graphique et en sélectionnant ensuite dans le menu qui s'affiche l'item `Kind` puis `Previous Year`.\n\n    -   Placer le curseur de la souris sur une des « barres » du graphique : que se passe-t-il?\n\n-   Quelles informations peut-on tirer de ces graphiques ?\n\n# Tracer le spectre d'une série sous JDemetra+\n\n-   Cliquer sur la commande `Tools>Spectral analysis>Periodogram` de la barre de menus en haut de l'écran\n\n    -   Que se passe-t-il ?\n\n-   Faire glisser une série de l'onglet `Providers` vers l'onglet `Periodogram Window`.\n\n    -   Le spectre présente-il des pics ?\n\n        -   Si oui, à quelles fréquences ?\n\n-   Faire la même chose en prenant un autre outil que le Periodogram.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

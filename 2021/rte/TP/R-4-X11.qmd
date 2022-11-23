@@ -1,0 +1,129 @@
+---
+title: "4 - Qualité de la décomposition sous R"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+options(enable_print_style = FALSE)
+library(RJDemetra)
+library(kableExtra)
+library(knitr)
+```
+
+
+> L'objectif de ce TP est d'apprendre à étudier la qualité de la décomposition depuis RJDemetra
+
+Si besoin, ci-dessous un exemple de code pour récupérer vos données :
+
+```{r}
+fichier <- "../data/data_rte.xlsx"
+# # Ou en téléchargeant le fichier depuis internet :
+# fichier <- tempfile(fileext = "xlsx")
+# url <- "https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"
+# download.file(url, fichier)
+data_rte <- readxl::read_excel(fichier)
+date_deb <- 2006
+data_rte <- ts(data_rte[,-1], start = date_deb,
+               frequency = 12)
+```
+
+Prenons une spécification par défaut :
+
+```{r, include=FALSE}
+library(RJDemetra)
+ipi_fr <- ipi_c_eu[, "FR"]
+mysa <- x13(ipi_fr)
+```
+
+Dans ce TP nous allons voir différentes façon de vérifier la qualité de la décomposition.
+Tout d'abord, on peut commencer par regarder les statistiques m dont les définitions sont rappelées ci-dessous
+
+```{r, echo = FALSE}
+data_statm <- XLConnect::readWorksheetFromFile("../Cours/Stat M.xlsx",sheet = 1,
+                                               rownames = 1)
+colnames(data_statm) <- gsub(".", " ", colnames(data_statm),fixed = TRUE)
+kbl(data_statm, booktabs = TRUE,
+    align = c("c","l","l","l"),escape = FALSE) %>% 
+  kable_styling(position = "center")
+```
+
+À partir d'un objet `"X13"`, les statistiques m disponibles dans la sous-liste `.$decomposition` :
+
+```{r}
+mysa$decomposition
+```
+
+::: callout-note
+## Exercice
+Que signifie ces valeurs des statistiques m plus grandes que 1 ? Est-ce important ? Si oui comment les corriger ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Que pensez-vous de la tendance (`plot(mysa$final, type_chart = "sa-trend")`) ? Quelle est la contribution du cycle à la variance totale (`mysa$diagnostics$variance_decomposition`) ? 
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+La tendance est plutôt plate et la contribution du cycle à la variance totale est petite, on peut donc ignorer la statistique m3. 
+La statistique M5 suggère de prendre un filtre saisonnier plus long, par exemple en utilisant le code suivant :
+
+`mysa2 <- x13(get_ts(mysa), x13_spec(mysa, x11.seasonalma = "S3X9"))`
+
+Mais en faisant cela on crée de la saisonnalité résiduelle ! (`mysa2$diagnostics`), c'est donc mieux de rester sur les paramètres par défaut.
+:::
+
+Alors que pour changer le filtre saisonnier il suffit d'utiliser le paramètre `x11.seasonalma`, pour changer la longueur du filtre de Henderson il faut désactiver l'option de recherche automatique de la longueur du filtre (`x11.trendAuto = FALSE`) et spécifier la longueur dans le paramètre `x11.trendma`:
+
+```{r}
+new_spec <- x13_spec(mysa, x11.trendma = 15)
+new_spec$x11# Colonne trendma inchangée !
+new_spec <- x13_spec(mysa, x11.trendma = 15, x11.trendAuto = FALSE)
+new_spec$x11
+```
+
+Sur la qualité de la décomposition, la sous liste `.$diagnostics` contient les contributions des différentes composantes à la variance de la série, le test combiné et les tests sur la saisonnalité et jours ouvrables résiduels :
+
+```{r}
+mysa$diagnostics
+```
+
+Ces tests sont effectués sur l'ensemble de la série, alors que dans le main result le f-test est effectué sur les 8 dernières années.
+Il n'est pour l'instant pas possible d'exporter les tests de saisonnalité résiduelle sur les 8 ou 10 dernières années.
+À partir du packages `rjd3sa` il est en revanche possible de calculer la tous les tests à l'exception du f-test.
+
+Par rapport aux éléments vus en cours, les msr par mois sont exportables en utilisant le paramètre `userdefined` de `x13`.
+Il y a cependant actuellement un bug qui ne permet pas de l'exporter pour le dernier mois :
+
+```{r}
+mysa <- x13(ipi_fr, 
+            userdefined = c("diagnostics.msr-global",
+                            sprintf("diagnostics.msr(%i)", 1:12)))
+c(mysa$user_defined)
+```
+
+Pour extraire tous les MSR, préférer la solution suivante :
+
+```{r}
+extract_msr <- function(x, i = 1:12){
+    jmodel <- suppressWarnings(jx13(get_ts(x), x13_spec(x)))
+    jres <- jmodel$result@internal$getResults()
+    jres <- new(Class = "X13_java", internal = jres)
+    res <- sapply(i, function(i_){
+        RJDemetra:::result(jres,
+                           sprintf("msr(%i)", i_))
+    })
+    names(res) <- sprintf("msr(%i)", i)
+    res
+}
+extract_msr(mysa)
+```

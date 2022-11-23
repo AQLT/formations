@@ -1,0 +1,132 @@
+---
+title: "3 - Qualité du préajustement sous R"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+options(enable_print_style = FALSE)
+library(RJDemetra)
+library(kableExtra)
+library(knitr)
+```
+
+
+> L'objectif de ce TP est d'apprendre à vérifier la qualité du pré-ajustement dans RJDemetra
+
+Si besoin, ci-dessous un exemple de code pour récupérer vos données :
+
+```{r}
+fichier <- "../data/data_rte.xlsx"
+# # Ou en téléchargeant le fichier depuis internet :
+# fichier <- tempfile(fileext = "xlsx")
+# url <- "https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"
+# download.file(url, fichier)
+data_rte <- readxl::read_excel(fichier)
+date_deb <- 2006
+data_rte <- ts(data_rte[,-1], start = date_deb,
+               frequency = 12)
+```
+
+Prenons une spécification par défaut :
+
+```{r}
+library(RJDemetra)
+ipi_fr <- ipi_c_eu[, "FR"]
+mysa <- x13(ipi_fr)
+```
+
+Comme on l'a vu dans le TP2, les tests de Student peuvent être utilisés pour tester la significativité des coefficients, et on peut également faire des tests de Fisher avec le package `car` pour voir si l'on peut simplifier les régresseurs jours ouvrables.
+Voir également le TP2 pour les tests sur la présence de jours ouvrables résiduelle.
+
+```{r}
+summary(mysa$regarima)
+library(car)
+# On rejette l'hypothèse de nullité globale des coefficients
+linearHypothesis(mysa,
+                 c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"),
+                 c(0, 0, 0, 0, 0, 0), test = "F")
+# On pourrait rassembler les jours de la semaine :
+linearHypothesis(mysa,
+                 c("Monday = Tuesday","Tuesday = Wednesday","
+                   Wednesday = Thursday", "Thursday = Friday"), test = "F")
+```
+
+Concernant la qualité du modèle RegARIMA, on peut citer trois tests :
+
+-   Le test d'indépendance des résidus
+
+-   Le test d'homoscédasticité des résidus
+
+-   Le test de normalité des résidus
+
+Ces trois tests, également disponibles par des fonctions spécifiques sous R (la commande `residuals(mysa)` permet de récupérer les résidus du modèle), sont également disponibles dans le sous objet `.$regarima$residuals.stat$tests` :
+
+```{r}
+mysa$regarima$residuals.stat$tests
+```
+
+L'hétéroscédasticité et la non-normalité proviennent souvent de la présence de points atypiques non corrigés (pour jouer sur le seuil de détection, rajouter dans la spécification `outlier.usedefcv = FALSE` et prendre une valeur de `outlier.cv` inférieur à 4, qui est la valeur par défaut).
+Changer le schéma de décomposition peut aussi aider (`transform.function = "None"` pour un modèle additif ou `transform.function = "Log"` pour un modèle multiplicatif) :
+
+```{r}
+mysa2 <- x13(ipi_fr, x13_spec(mysa, outlier.usedefcv = FALSE,
+                              outlier.cv = 3))
+# Bien plus d'outliers sont détectés !
+summary(mysa2$regarima)
+```
+
+La qualité des prévisions peut également être vérifiée à travers plusieurs tests :
+
+-   Est-ce que la moyenne des erreurs prévisions *in sample* (i.e. : modèle estimé sur toute la période) et la moyenne des prévisions *out of sample* (i.e. : modèle estimé de manière dynamique en ajoutant une a à une les nouvelles données) sont nulles ?
+    Ces tests sont sensibles à la non-normalité des résidus
+
+-   Est-ce que les variances des erreurs de prévision *in sample* et *out of sample* sont les mêmes ?
+    Ce test est sensible à la non-normalité des résidus
+
+-   Est-ce qu'il y a "trop" d'outliers ?
+    Dans JDemetra+, on considère par défaut qu'il y a trop d'outliers si la proportion d'outliers par rapport aux nombres d'observations est supérieure à 5 %.
+
+Les trois premiers tests ne sont pas par défaut exportés dans RJDemetra : il faut les rajouter à la main avec le paramètre `userdefined`.
+Ils seront alors disponibles dans la sous-liste `.$user_defined`.
+Concernant la proportion d'outliers, elle peut être calculée à la main à partir du nombre d'outliers (par exemple disponible dans `.$regarima$model$spec_rslt`) :
+
+```{r}
+mysa <- x13(ipi_fr, x13_spec(mysa),
+            userdefined = c("diagnostics.fcast-insample-mean",
+                            "diagnostics.fcast-outsample-mean",
+                            "diagnostics.fcast-outsample-variance"))
+mysa$regarima$model$spec_rslt
+
+# Pour éviter outputs trop longs, l'affichage est réduit :
+mysa$user_defined
+
+# Pour supprimer cela, vous pouvez par exemple utiliser le code suivant :
+c(mysa$user_defined)
+```
+
+Vous pouvez bien sûr utiliser votre tests préféré à partir de ceux disponibles sous R (autre test de normalité...).
+
+Pour comparer différents modèles, vous pouvez également utiliser les critères d'information (mais il faut que les modèles ARIMA aient les mêmes ordres de différenciation !).
+Vous pouvez pour cela utiliser les fonctions de bases de R (`AIC()`, `BIC()`...) ou prendre ceux de JDemetra+ (affichés lors du `summary()`, qu'on peut également retrouver par la commande `.$regarima$loglik`) :
+
+```{r}
+AIC(mysa)
+BIC(mysa)
+
+# Il y a un peu plus de critères que dans base R : AICc et BICc
+mysa$regarima$loglik
+```
+
+::: callout-note
+## Exercice
+Prenez une série et étudier la qualité du modèle RegARIMA. Essayer de changer quelques paramètres : est-ce que le nouveau modèle vous parait meilleur ou moins bien que l'ancien ?
+:::

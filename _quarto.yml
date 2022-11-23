@@ -2,7 +2,7 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!2021/rte"
+    - "!2021/rte/Cours"
     - "!2022/ast/Cours"
 
 website:
@@ -22,10 +22,10 @@ website:
         menu:
         - text: "Analyse séries temporelles avec R"
           file: "2022/ast/index.qmd"
-      # - text: "2021"
-      #   menu:
-      #   - text: "Désaisonnalisation avec JDemetra+ et RJDemetra"
-      #     file: "2021/rte/index.qmd"
+      - text: "2021"
+        menu:
+        - text: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+          file: "2021/rte/index.qmd"
   page-footer:
     left: "Copyright 2022, Alain Quartier-la-Tente, Insee"
     right:

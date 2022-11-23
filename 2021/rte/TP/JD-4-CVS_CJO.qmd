@@ -1,0 +1,210 @@
+---
+title: "4 - Désaisonnalisation avec correction des jours ouvrables"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+```
+
+# Importer les jeux de régresseurs « Jours Ouvrables » sous JDemetra+
+
+-   Cliquer sur l'onglet `Providers`
+
+-   Clic-droit sur `Spreadsheets`
+
+    -   Cliquer sur `Open`
+
+    -   Cliquer sur le bouton `…`
+
+    -   Sélectionner le fichier Excel « regcjo.xls » contenant les régresseurs « Jours Ouvrables » créés depuis R à partir de l'objet `regresseurs_JO`.
+
+    -   Cliquer sur `OK`
+
+-   Cliquer sur l'onglet `Workspace`
+
+-   Cliquer sur le `+` à côté d'`Utilities`
+
+-   Clic-droit sur `Variables`
+
+-   Cliquer sur `New`
+
+-   Cliquer sur le `+` à côté de `Variables`
+
+-   Double cliquer sur l'icône `Vars-1`
+
+    -   Que se passe-t-il ?
+
+-   Retourner dans l'onglet `Providers`
+
+-   Faire glisser l'ensemble des séries du fichier « regcjo.xls » dans l'onglet `Vars-1`
+
+-   Renommer les séries en reprenant leur nom d'origine dans le fichier excel « regcjo.xls ».
+
+Ce travail peut être très fastidieux... Heureusement depuis R il existe une solution plus automatique !
+Ci-dessous un code pour vous éviter de faire ce travail (un peu compliqué mais une fois le code écrit, vous pouvez l'utiliser tel quel !).
+
+```{r, eval = FALSE}
+# On va créer un nouveau workspace où l'on va ajouter les nouvelles variables
+library(RJDemetra)
+library(rJava)
+complete_variables <- function(liste_var, workspace){
+  if(!is.mts(liste_var))
+    stop("liste_var doit être de type mts")
+  context_dictionary <- .jcall(workspace,"Lec/tstoolkit/algorithm/ProcessingContext;", "getContext")
+  ts_variable_managers <- context_dictionary$getTsVariableManagers()
+  ts_variables <- .jnew("ec/tstoolkit/timeseries/regression/TsVariables")
+  jd_r_variables <- ts_variable_managers$get("r")
+  if (is.null(jd_r_variables)) {
+    ts_variable_managers$set("r",
+                             .jnew("ec/tstoolkit/timeseries/regression/TsVariables"))
+    jd_r_variables <- ts_variable_managers$get("r")
+  }
+  jd_var_names <- jd_r_variables$getNames()
+
+  model_var_names <- colnames(liste_var)
+
+  for (i in seq_along(model_var_names)) {
+    name <- model_var_names[i]
+    dictionary_var <- jd_r_variables$get(name)
+    tsvar <- .jnew("ec/tstoolkit/timeseries/regression/TsVariable",
+                   name, RJDemetra:::ts_r2jd(liste_var[, i]))
+    if (is.null(dictionary_var)) {
+      jd_r_variables$set(name, tsvar)
+    } else {
+      warning(sprintf("La variable %s existe déjà", name))
+    }
+  }
+}
+
+# Pour la création des regresseurs, voir le TP R associé.
+# Par exemple :
+library(rjd3modelling)
+frenchCalendar <- calendar.new()
+calendar.holiday(frenchCalendar, "NEWYEAR")
+calendar.holiday(frenchCalendar, "EASTERMONDAY") # Lundi de Pâques
+calendar.holiday(frenchCalendar, "MAYDAY") # 1er mai
+calendar.fixedday(frenchCalendar, 5, 8)
+calendar.holiday(frenchCalendar, "WHITMONDAY") # Lundi de Pentecôte
+calendar.fixedday(frenchCalendar, 7, 14)
+calendar.holiday(frenchCalendar, "ASSUMPTION") # Assomption
+calendar.holiday(frenchCalendar, "ALLSAINTDAY") # Toussaint
+calendar.holiday(frenchCalendar, "ARMISTICE")
+
+leap_year <- function(start = 1990, end = 2030, frequency = 12){
+  ly <- ts(0, start = start, end = end, frequency = 12)
+  mois_feb <- cycle(ly) == 2
+  annees <- trunc(round(time(ly), 3)) # arrondi car parfois des pbs avec fonction time
+  # On utilise la définition exacte
+  is_ly <- (annees %% 400 == 0) |
+    ((annees %% 4 == 0) & (annees %% 100 != 0))
+  ly[mois_feb] <- 28 - 28.2425
+  ly[mois_feb & is_ly] <- 29 - 28.2425
+  # on change si besoin la fréquence
+  stats::aggregate(ly, nfrequency = frequency)
+}
+frequency <- 12
+start <- c(1990,1)
+end = c(2030, 1)
+length = (end[1] - start[1]) * 12 + end[2] - start[2]
+
+ly <- leap_year(frequency = frequency, start = start,
+                end = end)
+reg6 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 2, 3, 4, 5, 6, 0))
+reg5 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 2, 3, 4, 5, 0, 0))
+reg4 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 2, 2, 2, 3, 4, 0))
+reg3 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 2, 2, 2, 2, 0, 0))
+reg2 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 1, 1, 1, 1, 2, 0))
+reg1 <- htd(frenchCalendar, frequency = frequency, start = start, length = length,
+            groups = c(1, 1, 1, 1, 1, 0, 0))
+
+
+regresseurs_JO <- ts(cbind(reg1, reg2, reg3, reg4, reg5, reg6),
+                     start = start, frequency = frequency)
+regresseurs_JO <- ts.union(regresseurs_JO,
+                           ly)
+colnames(regresseurs_JO) <- c("REG1_semaine",
+                              sprintf("REG2_%s", c("lundi_a_vendredi", "samedi")),
+                              sprintf("REG3_%s", c("lundi", "mardi_a_vendredi")),
+                              sprintf("REG4_%s", c("lundi", "mardi_a_jeudi", "vendredi", "samedi")),
+                              sprintf("REG5_%s", c("lundi", "mardi", "mercredi", "jeudi", "vendredi")),
+                              sprintf("REG6_%s", c("lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi")),
+                              "leap_year")
+
+# Création d'un nouveaux
+wk <- new_workspace()
+# regresseurs_JO est l'objet mts qui contient tous vos régresseurs
+# Il doit donc déjà être créé (voir code ci-dessus) !
+complete_variables(regresseurs_JO, wk)
+save_workspace(wk,"my workspace.xml")
+```
+
+# Créer une spécification incluant les jeux de régresseurs « jours ouvrables » Insee
+
+-   Cliquer sur l'onglet `Workspace`
+
+-   Double cliquer sur `Seasonal adjustment`
+
+-   Double cliquer sur `specifications`
+
+-   Double cliquer sur `x13`
+
+-   Clic-droit sur `RSA5c`
+
+-   Cliquer sur `Clone`
+
+    -   Que se passe-t-il ?
+
+-   Double-cliquer sur `X13Spec-1`
+
+-   Cliquer sur le `+` à côté de `Calendar`
+
+-   Cliquer sur le `+` à côté de `tradingDays`
+
+-   Cliquer sur `Default` à côté de option
+
+    -   Que se passe-t-il ?.
+
+-   Cliquer sur `UserDefined`
+
+-   Cliquer sur `Unused` à côté de `userVariables`
+
+    -   Que se passe-t-il ?
+
+-   Faire passer les 6 régresseurs du jeu de régresseurs REG6 + leap_year de la gauche vers la droite
+
+-   Cliquer sur le bouton `Done`
+
+-   Cliquer sur `OK`
+
+# Réaliser une désaisonnalisation automatique de vos séries en utilisant la spécification X13Spec-1
+
+Voir exercice 1.
+
+# Analyser les diagnostics relatifs à la correction des effets de calendrier
+
+Pour chaque série, répondez aux questions suivantes :
+
+-   Y a-t-il eu une correction des effets de calendrier ?
+
+    -   Si oui, est-ce que tous les coefficients associés aux régresseurs « JO » sont significativement différents de 0 ?
+
+        -   Si non, essayer d'autres jeux de régresseurs « JO »
+
+    -   Y a-t-il eu une correction de l'effet Pâques ?
+
+-   La série CVS-CJO présente-t-elle des effets « Jours Ouvrables » résiduels ?

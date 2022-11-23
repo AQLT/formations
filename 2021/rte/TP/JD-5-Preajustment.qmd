@@ -1,0 +1,119 @@
+---
+title: "5 - Pré-ajustement"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE,}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+```
+
+> L'objectif de ce TP est d'analyser la qualité du pre-ajustement et de modifier, si nécessaire, la spécification
+
+# Lecture du modèle Reg-ARIMA
+
+-   Pour plusieurs séries, essayer de trouver et d'écrire (sur une feuille de papier), le modèle ARIMA utilisé (ordres et coefficients)
+
+-   Vérifier le résultat dans la fenêtre `Pre-processing > ARIMA`
+
+# Spécification du modèle Reg-ARIMA
+
+Cliquer sur une série et appuyer sur le bouton `Specification` en haut à droite de la fenêtre de votre multiprocessing
+
+![](img/tp5_jd_1.png)
+
+Dans la suite vous allez modifier des options dans la spécification : pour les appliquer, appuyer sur le bouton `Apply`.
+
+::: {.callout-warning}
+## Pour information
+Dans JDemetra+, il y a une façon simple de comparer les résultats de différentes spécifications :
+
+1. Faire une nouvelle fenêtre graphique (`Tools > Container > Chart` par exemple)
+
+2. Faire glisser la composante souhaitée (généralement la série désaisonnalisée) dans la nouvelle fenêtre graphique. Pour cela, cliquer par exemple sur la composante `sa` du graphique de la fenêtre `Main results` et faite glisser la série (en laissant le clic gauche appuyé) :
+
+![](img/tp5_jd_2.png)
+
+3. Une fois la nouvelle série ajoutée, cliquer dessus sur la légende, ensuite clic-droit et choisir `Freeze`
+
+![](img/tp5_jd_3.png)
+
+4. Cela va créer une copie de votre série. Il ne vous reste plus qu'à la renommer (clic gauche dessus sur la légende puis `Rename`) pour vous y retrouver :
+
+![](img/tp5_jd_4.png)
+
+5. Modifier la spécification et appuyer sur `Apply` : vous verrez que la série `sa` sera modifiée !
+
+:::
+
+## Transformation
+
+-   Essayez de changer le schéma de décomposition (onglet `TRANSFORMATION > function`)
+
+    -   Qu'est-ce que vous remarquez ?
+        Est-ce qu'il y a eu des changements dans la partie le pré-ajustement ?
+
+    -   Est-ce que les critères AICc et BIC ont été modifiés ?
+
+## Régresseurs calendaires
+
+-   Essayez de changer le jeu de régresseurs jours ouvrables :
+
+-   Que pouvez-vous noter sur les tests de Student, Fischer, coefficients, AICc et BIC ?
+
+-   Est-ce qu'il y a des effets calendaires résiduels ?
+
+-   Quelle est la qualité du modèle Reg-ARIMA ?
+
+## Outliers
+
+-   Dans la partie `REGRESSION > Pre-specified outliers`
+
+    -   Ajouter des outliers qui vous semblent pertinents et qui ne sont pas détectés par JDemetra+ (si vous avez connaissance d'un évènement particulier)
+
+-   Essayer de changer le seuil critique de détection des outliers (`Critical value`)
+
+-   Que remarquez vous sur le nombre d'outliers, l'AICc et le BIC ?
+
+-   En quoi cela affecte la qualité de l'ajustement et des résidus du modèle ?
+
+-   Essayer de changer le type d'outliers détectés.
+
+## Forecasts results
+
+-   Aller dans la partie `Pre-processing > Forecasts > Out-of-sample test`
+
+-   Que comprenez-vous ?
+
+-   En quoi c'est utile ?
+
+# Fine-tuning du pre-processing the pre-processing quality
+
+Essayez de répondre aux questions suivantes
+
+-   Autocorrélation des résidus du modèle Reg-ARIMA
+
+    -   Comment résoudre ce problème ? Est-ce grave ?
+
+-   Problème d'hétéroscédasticité des résidus du modèle Reg-ARIMA
+
+-   Comment résoudre ce problème ?
+    Est-ce grave ?
+
+-   Problème de normalité des résidus du modèle Reg-ARIMA
+
+-   Comment résoudre ce problème ?
+    Est-ce grave ?
+
+-   Problème dans les tests Out-of-sample
+
+-   Comment résoudre ce problème ?
+    Est-ce grave ?

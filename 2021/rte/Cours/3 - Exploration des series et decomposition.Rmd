@@ -1,0 +1,532 @@
+---
+title: "3 - Exploration des séries et décomposition"
+subtitle: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+author: "Alain Quartier-la-Tente"
+division: "Lemna, Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        fig_caption: true
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+lan: french
+---
+
+```{r setup, include=FALSE}
+options(xtable.comment = FALSE)
+library(ggplot2)
+library(reshape2)
+library(grid)
+library(gridExtra)
+library(xtable)
+library(RJDemetra)
+beamer_textwidth <- 11.13435
+beamer_textheight <- 7.89807
+conv_cm_to_in <- 0.393701
+conv_cm_to_px <- 75
+knitr::opts_chunk$set(echo = FALSE, fig.pos = 'H',message=FALSE,
+                      fig.height = beamer_textheight * conv_cm_to_in,
+                      fig.width =  beamer_textwidth * conv_cm_to_in)
+```
+
+### Objectifs de cette séquence
+Présenter les concepts élémentaires relatifs aux séries temporelles, ainsi que les outils de base pour les appréhender.
+
+
+Après cette séquence vous saurez :  
+
+- la définition d'une série temporelle ainsi que ses principales composantes  
+- utiliser les outils graphiques pour explorer une série temporelle  
+- identifier le schéma de décomposition d'une série
+
+# Quelques définitions
+
+### Questions de positionnement
+
+Quelle définition d'une série temporelle ?
+
+\vfill
+
+Qu'est-ce qu'une tendance ?
+\vfill
+
+Qu'est-ce qu'un cycle ?
+\vfill
+
+Que sont les effets de calendrier ?
+\vfill
+
+Qu'est-ce que l'irrégulier ?
+
+## Définitions d'une série temporelle
+
+### Définition d'une série temporelle
+
+**Définition :** Suite de valeurs numériques ordonnées et indicées par le temps, généralement mesurées à des intervalles réguliers :  
+- valeurs continues (cours d'une action boursière)   
+- ou discrètes (la plupart des séries économiques)
+
+Se rencontrent dans tous les domaines : économie, démographie, météorologie, astronomie, etc.
+
+### Définition statistique d'une série temporelle
+
+Statistiquement on peut définir une série temporelle comme une suite de *variables aléatoires* ${(X_t)}_t$ dont on observe une réalisation ${(X_t(\omega))}_t$
+
+La suite ${(X_t)}_t$ est appelée *processus stochastique*
+
+\faArrowCircleRight{} Il n'y a pas d'hypothèse sur la relation entre les $X_t$
+
+## Descriptions des différentes composantes d'une série
+
+### Les composantes d'une série
+
+La *série brute* se décompose en plusieurs éléments de base inobservables :  
+
+- la composante tendance-cycle   
+    + tendance  
+    + cycle  
+- la composante saisonnière  
+- les autres effets de calendrier  
+    + la composante « jours ouvrables »   
+    + l'effet de graduel de Pâques (fêtes mobiles)  
+- la composante irrégulière (« l'irrégulier »)  
+
+La série désaisonnalisée est constituée des composantes tendance-cycle **et** irrégulière
+
+
+### La composante tendance-cycle
+- La tendance est l'évolution de longue durée de la série  
+Cette composante traduit les variations de fond de la série observées sur une longue période de temps. C'est une composante « lisse » ne traduisant « pas d'évolution brusque » 
+
+- Le cycle est le mouvement lisse et presque périodique autour de la tendance.  
+Il se caractérise par une alternance de périodes d'expansion et de contraction, dont la longueur varie entre une année et demie et dix ans (pour les « cycle de croissance »).
+
+Difficile de les estimer séparément en pratique car les séries sont courtes (et ce n'est pas l'objectif !).  
+Les méthodes de décomposition estiment ensemble tendance et cycle.  
+La composante tendance-cycle n'est pas publiée à l'Insee.
+
+
+### Les effets de calendrier
+- Effet des jours ouvrables  
+Lié à la composition journalière du mois ou du trimestre : un dimanche de plus ou de moins peut affecter la production.  
+Effets des jours fériés, le mois de mai en particulier.    
+
+- Effet de Pâques (fêtes mobiles)  
+Pâques est en mars ou en avril, au 1\ier{} ou au 2\ieme{} trimestre  
+Or Pâques affecte les ventes de chocolat, fleurs, agneau etc.  
+Les effets sont *ponctuel* et/ou *graduels*
+
+### La composante irrégulière
+La composante irrégulière est faite des fluctuations résiduelles et erratiques qui ne peuvent être attribuées aux autres composantes : tendance-cycle, saisonnalité, effets de calendrier.  
+
+Exemples :  
+
+- Événements inhabituels : grèves, inondations, etc.  
+- Erreurs de mesures sur la variable elle-même dues à la collecte et au traitement des données.  
+- Fin d'une mesure fiscale ponctuelle, d'un programme d'aide ponctuel, etc.
+
+# L'exploration d'une série
+
+### Questions de positionnement
+
+Comment et par quoi démarrer l'étude d'une série temporelle ?
+
+Quels sont les outils simples que l'on peut utiliser ?
+
+Quand et pourquoi étudier les données dans le domaine des fréquences ?
+
+Qu'est ce qu'un spectre ?
+
+
+## L'exploration : une phase indispensable
+
+### Que faire avec une série ?
+
+- Se renseigner sur la série (mode de collecte, etc.) : y a-t-il une saisonnalité ?
+
+- Décrire : déterminer des composantes  
+
+- Filtrer : transformer la série par moyenne mobile par exemple
+
+- Modéliser : rechercher les causalités, les corrélations  
+
+- Prévoir : anticiper sur les informations futures
+
+### L'exploration : une phase essentielle !!
+Objectifs :
+
+- Prédéterminer certaines caractéristiques de la série :  
+Composantes (tendance, saisonnalité…), points atypiques, ruptures de série ou de profil saisonnier…  
+
+- Deviner le type de schéma de décomposition pour la série  
+Schéma additif ou multiplicatif ?
+
+
+## L'analyse graphique
+### Défi à l'empan mnésique !
+Que pouvez-vous dire sur cette série ? (IPI France)
+
+```{r,echo=FALSE, results='asis'}
+y <- ipi_c_eu[, "FR"]
+mysa <- x13(y, spec = "RSA5c")
+
+ipi_fr <- mysa$final$series
+ipi_fr_y <- mysa$final$series[,"y"]
+# Extraction effets JO
+tde <- mysa$regarima$model$effects[,"tde"]
+ipi_fr <- ts.union(ipi_fr, tde)
+colnames(ipi_fr) <- gsub("^ipi_fr\\.","", colnames(ipi_fr))
+
+tableau_ipifr <- gsub("\\.",",",
+                      .preformat.ts(round(ipi_fr_y, 2)))
+print(xtable::xtable(tableau_ipifr,
+                     align = rep("c",ncol(tableau_ipifr)+1)),
+      size="\\tiny", caption.placement = "top")
+```
+
+### Défi à l'empan mnésique ! (code)
+
+```{r,echo=TRUE, eval = FALSE}
+library(RJDemetra)
+y <- ipi_c_eu[, "FR"]
+mysa <- x13(y, spec = "RSA5c")
+
+ipi_fr <- mysa$final$series
+ipi_fr_y <- mysa$final$series[,"y"]
+# Extraction effets JO
+tde <- mysa$regarima$model$effects[,"tde"]
+ipi_fr <- ts.union(ipi_fr, ipi_fr_y)
+colnames(ipi_fr) <- gsub("$ ipi_fr\\.","", colnames(ipi_fr))
+
+tableau_ipifr <- gsub("\\.",",",
+                      .preformat.ts(round(ipi_fr_y, 2)))
+print(xtable::xtable(tableau_ipifr,
+                     align = rep("c",ncol(tableau_ipifr)+1)),
+      size="\\tiny", caption.placement = "top")
+```
+
+
+### Rôle fondamental du graphique !
+
+```{r, include=FALSE}
+graph_comp <- data.frame(date = time(ipi_fr),ipi_fr)
+graph_ipi_fr <- ggplot(graph_comp, aes(x = date,y = y))+
+    geom_line(colour="#287EB7") + theme_bw() + 
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
+    labs(x=NULL,y=NULL,title = "IPI France")+
+    theme(plot.title = element_text(hjust = 0.5))
+ggsave(filename ="img/seq_2_ipi_fr.png", plot = graph_ipi_fr,
+       width = beamer_textwidth*2, height = beamer_textheight*1.5,
+       units = "cm")
+```
+
+Et maintenant ? 
+
+\begin{center}
+\includegraphics[height=0.75\textheight]{img/seq_2_ipi_fr.png}
+\end{center}
+
+### Rôle fondamental du graphique ! (code)
+
+```{r,echo=TRUE, eval = FALSE}
+library(ggplot2)
+graph_comp <- data.frame(date = time(ipi_fr),ipi_fr)
+graph_ipi_fr <- ggplot(graph_comp, aes(x = date,y = y))+
+    geom_line(colour="#287EB7") + theme_bw() + 
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
+    labs(x=NULL,y=NULL,title = "IPI France")+
+    theme(plot.title = element_text(hjust = 0.5))
+graph_ipi_fr
+```
+
+Ou avec le package `feasts` :
+```{r,echo=TRUE, eval = FALSE}
+library(tsibble)
+library(feasts)
+ipi_fr_ts = as_tsibble(ipi_fr, pivot_longer = FALSE)
+ipi_fr_ts %>% autoplot(.vars=y, colour="#287EB7")+ 
+  theme_bw() + 
+  labs(x=NULL,y=NULL,title = "IPI France")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+### Représentation par année
+```{r, include=FALSE}
+graphique_par_annee <- .preformat.ts(ipi_fr_y)
+noms_mois <- colnames(graphique_par_annee)
+# on arrondi pour éviter des problèmes sur trunc si chiffres non entiers
+annees <- as.character(trunc(round(time(ipi_fr_y),3)))
+data_par_annee <- data.frame(annee = annees,
+           mois = noms_mois[cycle(ipi_fr_y)],
+           mois_num = cycle(ipi_fr_y),
+           value = ipi_fr_y)
+graphique_par_annee <- ggplot(data_par_annee, mapping = aes(x = mois_num,y = value, color = annee)) +
+  geom_line() +
+  scale_x_continuous(breaks=1:12,
+                     labels=function(x)noms_mois[x])+ theme_bw()+
+  theme(legend.position="bottom",plot.title = element_text(hjust = 0.5))+
+  guides(colour=guide_legend(nrow=3,byrow=TRUE,title = NULL))+
+  labs(x=NULL,y=NULL,title = "IPI france")
+
+ggsave(filename ="img/seq_2_ipi_fr_par_annee.png", plot = graphique_par_annee,
+       width = beamer_textwidth*1.8, height = beamer_textheight*1.5,
+       units = "cm")
+```
+
+\begin{center}
+\includegraphics[width=\textwidth]{img/seq_2_ipi_fr_par_annee.png}
+\end{center}
+
+### Représentation par année (code)
+
+\footnotesize 
+```{r, eval = FALSE, echo=TRUE}
+noms_mois <- colnames(.preformat.ts(ipi_fr_y))
+# on arrondi pour éviter des problèmes sur trunc si chiffres non entiers
+annees <- as.character(trunc(round(time(ipi_fr_y),3)))
+data_par_annee <- data.frame(annee = annees,
+           mois = noms_mois[cycle(ipi_fr_y)],
+           mois_num = cycle(ipi_fr_y),
+           value = ipi_fr_y)
+ggplot(data_par_annee, mapping = aes(x = mois_num,y = value, color = annee)) +
+  geom_line() +
+  scale_x_continuous(breaks=1:12,
+                     labels=function(x)noms_mois[x])+ theme_bw()+
+  theme(legend.position="bottom",plot.title = element_text(hjust = 0.5))+
+  guides(colour=guide_legend(nrow=3,byrow=TRUE,title = NULL))+
+  labs(x=NULL,y=NULL,title = "IPI france")
+```
+
+Avec `feasts` :
+
+```{r, eval = FALSE, echo=TRUE}
+ipi_fr_ts %>% gg_season(y) +  theme_bw()
+```
+
+
+Sous JDemetra+, dans un graphique clic droit + split into yearly components
+
+### Quelles premières informations ?
+Forte saisonnalité en août, point bas – octobre plutôt un point haut 
+
+Pas de tendance nette
+
+Pas de rupture (en tendance ou en saisonnalité) visible
+
+Série non stationnaire
+
+Schéma plutôt additif
+
+
+## Autres outils disponibles
+
+### Le Spectre d'une série
+
+**Représentation classique d'une série :** fluctuations de la série en fonction du temps…
+
+**Représentation spectrale :**
+une série peut être représentée dans le domaine des fréquences. Un spectre montre les fluctuations de la série par fréquence.
+$$
+\text{fréquence}=\frac{2\pi}{\text{période}}
+$$
+
+Interprétation : **décomposition de la variance de la série** selon les différentes fréquences
+	
+Intérêt :  
+Il y a des fréquences qui correspondent aux composantes : tendance-cycle, saisonnalité et effets de calendrier
+
+\bcattention plusieurs façons de calculer le spectre !
+
+\bcinfo fonction `spectrum` sous R mais préférer JDemetra+
+
+
+### Exemple d'un Spectre (1/2)
+Que voit-on ?
+
+\includegraphics[width=\textwidth]{img/seq_2_ipi_3109_spectre.png}
+
+Pic spectral aux basses fréquences
+
+### Exemple d'un Spectre (2/2)
+Que voit-on ?
+
+\includegraphics[width=\textwidth]{img/seq_2_ipi_3109_spectre_diff.png}
+
+Pics spectraux aux fréquences $k\frac{\pi}{6} = k\frac{2\pi}{12}$
+
+### Spectres théoriques des composantes
+
+\includegraphics[width=\textwidth]{img/seq_2_spectre_theorique.png}
+
+
+# Schémas de décomposition
+
+## Exemple des différentes composantes
+
+### Exemple (1/2)
+
+```{r, echo=FALSE}
+library(patchwork)
+plot_comp <- function(comp){
+  ggplot(graph_comp,aes_string(x = "date",y = comp))+
+    geom_line(colour="#287EB7")+theme_bw() + 
+    labs(x=NULL,y=NULL,title = comp)+
+    theme(plot.title = element_text(hjust = 0.5)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 4),
+                       labels = function(x) format(x, decimal.mark = ","))
+}
+plot_comp("y") / plot_comp("t")
+```
+
+
+### Exemple (2/2)
+
+```{r, echo=FALSE}
+plot_comp("s") / plot_comp("tde") / plot_comp("i")
+```
+
+### Exemple (code)
+
+\footnotesize
+```{r, echo=TRUE, eval=FALSE}
+library(patchwork)
+plot_comp <- function(comp){
+  ggplot(graph_comp,aes_string(x = "date",y = comp))+
+    geom_line(colour="#287EB7")+theme_bw() + 
+    labs(x=NULL,y=NULL,title = comp)+
+    theme(plot.title = element_text(hjust = 0.5)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 4),
+                       labels = function(x) format(x, decimal.mark = ","))
+}
+plot_comp("y") / plot_comp("t")
+plot_comp("s") / plot_comp("tde") / plot_comp("i")
+```
+
+## Les modèles de décomposition
+### Modèles de décomposition
+
+Schéma additif :
+$$X_t = {TC}_t + S_t + I_t$$
+Schéma multiplicatif :
+$$
+X_t = {TC}_t \times S_t \times I_t\text{ ou }
+X_t = {TC}_t \times(1 +\tilde{S_t}) \times(1 +\tilde{I_t})
+$$
+Schéma pseudo-additif :
+$$
+X_t = {TC}_t \times (S_t + I_t)
+$$
+Schéma log-additif :
+$$
+\log(X_t) = \log({TC}_t) + \log(S_t) + \log(I_t)
+$$
+
+Effets de calendrier, points aberrants, etc.  
+Les points aberrants sont en pratique distribués dans la tendance ou l'irrégulier
+$$
+X_t = {TC}_t + S_t + I_t + {WD}_t
+$$
+
+
+### Exemples (1/2)
+
+```{r,echo=FALSE, include=FALSE}
+#idbank : 001654937
+ipi_1041 <- c(47.83, 47.66, 51.87, 42.68, 42.68, 29.29, 22.02, 42.45, 47.74, 
+52.8, 46.32, 45.5, 50.04, 44.18, 48.01, 51.63, 42.42, 39.9, 24.18, 
+47.49, 53.79, 54.45, 51.13, 47.21, 56.2, 54.88, 58.49, 55.79, 
+52.2, 48.36, 21.51, 37.02, 45.07, 50.78, 49.12, 44.48, 48.21, 
+49.33, 46.59, 41.07, 37.41, 26.41, 16.28, 37.62, 49.94, 50.21, 
+44.65, 42.03, 47.31, 39.43, 44.3, 44.01, 40.4, 35.95, 16.5, 44.19, 
+50.08, 55.16, 50.53, 51.66, 52.12, 47.53, 54.78, 52.49, 50.06, 
+45.88, 27.28, 37.47, 49.45, 54.44, 54.92, 47.51, 54.36, 51.99, 
+52.94, 50.06, 49.37, 46.17, 28.63, 43.73, 45.78, 54.24, 53.23, 
+51.72, 56.54, 51.88, 59.4, 57.68, 55.41, 53.22, 29.46, 46.85, 
+46.85, 55.38, 52.11, 51.57, 61.47, 50.36, 55.27, 50.35, 50.5, 
+42.74, 25.55, 49.93, 49.42, 52.7, 49.08, 52.87, 50.84, 44.49, 
+46.18, 45.19, 54.21, 40.55, 23.59, 50.91, 50.72, 57.19, 48.85, 
+47.14, 55.55, 51.2, 53.13, 52.27, 52.33, 51.98, 25.41, 46.31, 
+51.13, 55.89, 53.24, 55.19, 54.63, 51.34, 55.52, 53.51, 54.54, 
+55.02, 38.96, 45.13, 49.32, 53.14, 49.44, 55.81, 56.34, 54.29, 
+59.29, 51.62, 48.86, 54.52, 31.43, 47.56, 52.08, 57.92, 56.48, 
+57.83, 56.44, 51.97, 61.16, 58.04, 53.96, 53.18, 41.23, 50.26, 
+51.9, 52, 58.83, 58.52, 54.7, 52.51, 60.53, 58.05, 61.29, 56.2, 
+34.8, 49.32, 52.83, 62.94, 57.1, 61.34, 57.45, 57.99, 60.52, 
+60.46, 64.02, 56.28, 40.27, 49.74, 56.23, 67.48, 63.84, 66.39, 
+65.88, 59.38, 68, 66.94, 69.26, 62.8, 49.19, 39.85, 55.3, 71.48, 
+69.5, 73.28, 70.94, 71.57, 74.6, 72.56, 71.99, 72.09, 57, 47.25, 
+62.03, 74.51, 73.15, 78.08, 78.56, 76.64, 85.15, 76.72, 77.91, 
+78.56, 63.35, 59.66, 84, 90.86, 96.01, 100.69, 105.14, 88.22, 
+103.82, 99.22, 103.86, 98.38, 67.86, 79.95, 98.71, 103.58, 112.72, 
+105.67, 115.49, 100.3, 107.46, 106.4, 102.76, 81.76, 80.24, 84.04, 
+100.72, 100.13, 107.05, 113.64, 106.2, 99.75, 116.93, 100.81, 
+102.82, 93.62, 68.58, 90.09, 106.75, 90.91, 106.31, 118.45, 128.04, 
+107.67, 125.06, 125.24, 110.51, 105.55, 69.25, 106.98, 114.67, 
+117.72, 129.1, 125.8, 122.91, 109, 117.19, 119.82, 114.58, 96.13, 
+74.34, 103.55, 119.49, 130.97, 120.94, 126.85, 120.17, 122.67, 
+132.9, 128.16, 134.69, 103.92, 98.61, 112.94, 115.96, 137.08, 
+135.92, 132.14, 130.87, 129.21, 136.16, 131.92, 111.59, 102.39, 
+115.69, 128.62, 125.22, 135.7, 133.13, 132.45, 127.37, 122.65, 
+130.37, 130.04, 120.57, 96.58, 121.69, 131.79, 124.09, 136.27, 
+130.65, 143.03)
+ipi_1041 <- ts(ipi_1041, start=1990, frequency = 12)
+graph_ipi_1041 <- ggplot(data.frame(date=time(ipi_1041),y=ipi_1041),
+       aes(x = date,y = y))+
+    geom_line(colour="#287EB7")+theme_bw() + 
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
+    labs(x=NULL,y=NULL,title = "IPI branche 1041")+
+    theme(plot.title = element_text(hjust = 0.5))
+ggsave(filename ="img/seq_2_ipi_1041.png", plot = graph_ipi_1041,
+       width = beamer_textwidth*2, height = beamer_textheight*1.5,
+       units = "cm")
+
+```
+
+Schéma additif
+
+\includegraphics[width=\textwidth]{img/seq_2_ipi_1041.png}
+
+### Exemples (2/2)
+
+Schéma multiplicatif
+
+\includegraphics[width=\textwidth]{img/seq_2_ipi_3109.png}
+
+
+
+# Conclusion
+
+### Tout est relatif !
+On doit résoudre une équation à plusieurs inconnues, composantes inobservables.   
+
+> Il n'existe pas de solution unique !
+
+En particulier, une série ne possède pas UNE seule tendance : cela dépend du problème  et des hypothèses que l'on prend.
+
+$\implies$ Une solution est donc relative au choix du point de vue et des hypothèses
+
+La statistique est l'art de résumer des informations, il n'y a pas qu'un "bon" résumé.
+
+
+### Les essentiels
+
+- Une CVS donne le mouvement de moyen et long terme de la série (tendance-cycle), ainsi que des informations ponctuelles (irrégulier)
+
+- Démarrer par une exploration graphique de ses séries  
+
+- Une série peut être étudiée dans sa dimension temporelle ou sa dimension fréquentielle (le spectre)
+
+- Le schéma de décomposition peut être additif ou multiplicatif, ce dernier est plus fréquent  
+
+- Le résultat de la décomposition n'est pas unique et dépend du point de vue et des hypothèses de travail
+
+

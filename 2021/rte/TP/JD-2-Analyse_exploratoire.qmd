@@ -1,0 +1,77 @@
+---
+title: "2 - Analyse exploratoire"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+```
+
+> L'objectif de ce TP est d'apprendre à faire une analyse exploratoire sous JDemetra+.
+
+# Tracer un graphique dans JDemetra+
+
+-   Cliquer sur la commande `Tools>Container>Chart` de la barre de menus en haut de l'écran
+
+    -   Que se passe-t-il ?
+
+-   Faire glisser une série de l'onglet `Providers` vers l'onglet `Chart`.
+
+    -   Que peut-on dire ?
+
+        -   Est-ce que la série présente une tendance ?
+
+        -   Est-ce que la série semble saisonnière?
+
+-   Est-ce que la série présente des pics ?
+
+    -   Si oui, ces pics ont-ils ont toujours la même amplitude ?
+
+-   Cliquer sur la courbe
+
+-   Clic-droit sur la courbe
+
+-   Cliquer sur `Split into yearly components`
+
+    -   Que se passe-t-il ?
+
+    -   Que peut-on dire en analysant ce graphique ?
+
+# Tracer les taux de croissance d'une série dans JDemetra+
+
+-   Cliquer sur la commande `Tools>Container>GrowthChart` de la barre de menus en haut de l'écran
+
+    -   Que se passe-t-il ?
+
+-   Faire glisser une série de l'onglet `Providers` vers l'onglet `GrowthChart`.
+
+    -   Quel est le taux de croissance représenté par défaut sur ce graphique ?
+
+    -   Représenter le taux de croissance en glissement annuel par un clic droit sur le graphique et en sélectionnant ensuite dans le menu qui s'affiche l'item `Kind` puis `Previous Year`.
+
+    -   Placer le curseur de la souris sur une des « barres » du graphique : que se passe-t-il?
+
+-   Quelles informations peut-on tirer de ces graphiques ?
+
+# Tracer le spectre d'une série sous JDemetra+
+
+-   Cliquer sur la commande `Tools>Spectral analysis>Periodogram` de la barre de menus en haut de l'écran
+
+    -   Que se passe-t-il ?
+
+-   Faire glisser une série de l'onglet `Providers` vers l'onglet `Periodogram Window`.
+
+    -   Le spectre présente-il des pics ?
+
+        -   Si oui, à quelles fréquences ?
+
+-   Faire la même chose en prenant un autre outil que le Periodogram.

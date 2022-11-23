@@ -1,0 +1,126 @@
+---
+title: "Récapitulatif journée 1"
+subtitle: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+author: "Alain Quartier-la-Tente"
+division: "Lemna, Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        toc: false
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "Diapos") })
+---
+
+
+### Pourquoi désaisonnaliser ?
+
+\pause
+
+Objectif : analyser une série temporelle (direction, points de retournement, liens avec autres séries, etc.)
+
+\faArrowCircleRight{} Effets saisonniers sans grande importance analytique, les enlever :
+
+- met en évidence ce qui est nouveau
+
+- permet une comparaison temporelle et spatiale
+
+
+\pause
+\bcquestion Faut-il toujours désaisonnaliser ?
+\pause
+
+Parfois, la série brute est la série d'intérêt (ex : IPC)
+
+### Modèles de décomposition
+
+Schéma additif :
+
+$$X_t = {TC}_t + S_t + I_t$$
+
+Schéma multiplicatif :
+
+$$
+X_t = {TC}_t \times S_t \times I_t
+$$
+
+Comment les reconnait-on ? Quels hypothèses sur $S_t$ ? et les coefficients jours ouvrables dans tout ça ?
+
+### X-13-ARIMA
+
+À quoi sert le pré-ajustement ? \pause
+
+\faArrowCircleRight{} supprimer les « non-linéarités » (outliers + jours ouvrables) + prolonger la série sur un an
+
+
+\pause
+À quoi correspond les outliers A0, SO, LS, et TC et à quelle composantes ils sont affectés ?
+
+\pause
+- AO = Additive outlier = choc ponctuel, affecte l'irrégulier
+
+- SO = seasonal outlier = rupture de saisonnalité à un moins donné, affecte la composante saisonnière
+
+- LS = level shift = changement de niveau, affecte la tendance
+
+- TC = transitory change = changement de niveau transitoire, affecte l'irrégulier
+
+
+### X-13-ARIMA
+
+À quoi sert X-11 ? Quels est le principe itératif de X-11 ?
+
+
+### Principe itératif de X11 (1/2)
+Une première estimation de la CVS : 
+
+1. Estimation de la **tendance-cyle** par moyenne mobile $2\times 12$ :
+$$
+TC_t^{(1)}=M_{2\times 12}(X_t)
+$$
+2. Estimation de la composante **saisonnier-irrégulier** : 
+$$
+(S_t+I_t)^{(1)}= X_t - TC_t^{(1)}
+$$
+3. Estimation de la composante **saisonnière** par moyenne mobile $3\times 3$ sur **chaque mois** :
+$$
+S_t^{(1)}= M_{3\times 3}\left[(S_t+I_t)^{(1)}\right]
+\text{ et normalisation }
+Snorm_t^{(1)}=S_t^{(1)} - M_{2\times 12}\left(S_t^{(1)}\right)
+$$
+4. Estimation de la série corrigée des variations saisonnières : 
+$$
+Xsa_t^{(1)}= (TC_t+I_t)^{(1)} = X_t - Snorm_t^{(1)}
+$$
+
+### Principe itératif de X11 (2/2)
+Une seconde estimation de la CVS : 
+
+1. Estimation de la **tendance-cyle** par moyenne de Henderson (généralement 13 termes) :
+$$
+TC_t^{(2)}=H_{13}(Xsa_t^{(1)})
+$$
+2. Estimation de la composante **saisonnier-irrégulier** : 
+$$
+(S_t+I_t)^{(2)}= X_t - TC_t^{(2)}
+$$
+3. Estimation de la composante **saisonnière** par moyenne mobile $3\times 5$ (généralement) sur **chaque mois** :
+$$
+S_t^{(2)}= M_{3\times 5}\left[(S_t+I_t)^{(2)}\right]
+\text{ et normalisation }
+Snorm_t^{(2)}=S_t^{(2)} - M_{2\times 12}\left(S_t^{(2)}\right)
+$$
+4. Estimation de la série corrigée des variations saisonnières : 
+$$
+Xsa_t^{(2)}= (TC_t+I_t)^{(2)} = X_t - Snorm_t^{(2)}
+$$
+
+
+

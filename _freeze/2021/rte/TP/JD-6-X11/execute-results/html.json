@@ -1,0 +1,14 @@
+{
+  "hash": "76eb787aa69d427e4cc26f89a786db29",
+  "result": {
+    "markdown": "---\ntitle: \"6 - X11\"\nsubtitle: |\n  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra\n  ![](img/logo.png){width=1in}\nauthor: \"Alain Quartier-la-Tente\"\nformat: html\nlang: fr\nlanguage:\n title-block-author-single: Auteur\n---\n\n\n\n\n> L'objectif de ce TP est d'analyser la décomposition et de changer la spécification si nécessaire\n\n# Recherche des filtres utilisés dans X-11\n\n-   Ouvrir un multiprocessing\n\n-   Sélectionner une série et aller dans la fenêtre `Decomposition (X11)`\n\n    -   Pouvez-vous trouver les filtres utilisés dans X11 ?\n\n# Spécifications de X11\n\nCliquer sur une série et appuyer sur le bouton `Specification` en haut à droite de la fenêtre de votre multiprocessing.\n\n![](img/tp5_jd_1.png)\n\n## Filtre saisonnier\n\n-   Essayer de changer le filtre saisonnier dans `X11 > Seasonal filter`\n\n    -   Lorsque vous prenez un filtre plus long ou plus court, qu'observez vous sur les M statistics, S-I ratios, la saisonnalité et la série désaisonnalisée ?\n\n    -   En quoi cela affecte les autres diagnostics (en particulier la saisonnalité résiduelle) ?\n\n## Filtre de Henderson\n\n-   Essayer de changer le filtre de Henderson dans `X11 > Henderson filter`\n\n    -   Lorsque vous prenez un filtre plus long ou plus court, qu'observez vous sur les M statistics, S-I ratios, la saisonnalité et la série désaisonnalisée ?\n\n    -   En quoi cela affecte les autres diagnostics ?\n\n## Lsigma and Usigma\n\n-   Essayer de changer les paramètres `Lsigma` et `Usigma`\n\n    -   Qu'observez-vous sur les statistiques M ?\n\n    -   En quoi cela affecte les autres diagnostics ?\n\n## Calendar sigma\n\n-   Aller dans la fenêtre `Decomposition (X11) > Quality measures > Details` et descendre jusqu'au test de Cochran\n\n    -   Est-ce que le test est rejeté ?\n        Si oui qu'est-ce que cela implique ?\n        Regarder les S-I ratios : est-ce que vous êtes d'accord avec ce test ?\n\n    -   Changer le paramètre calendarsigma à \"Signif\" : en quoi les différents diagnostics sont impactés ?\n\n# Fine-tuning de la décomposition\n\nPour chaque série ayant une mauvaise décomposition, essayer d'améliorer l'ajustement en changeant la spécification par défaut.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,346 @@
+---
+title: "7 - Étude de cas"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+library(RJDemetra)
+dir <- tempdir()
+download.file("https://aqlt-formation-rte.netlify.app/data/Etude_de_cas.zip",
+              file.path(dir, "Etude_de_cas.zip"))
+unzip(file.path(dir, "Etude_de_cas.zip"),
+      exdir = dir)
+u_def_var <- c("diagnostics.td-sa-last", "diagnostics.td-i-last",
+               "diagnostics.fcast-insample-mean", "diagnostics.fcast-outsample-mean",
+               "diagnostics.fcast-outsample-variance")
+wk <- load_workspace(file.path(dir, "Etude_de_cas.xml"))
+compute(wk)
+all_models <- get_model(wk,
+            userdefined = u_def_var)[[1]]
+all_models$RF2932
+```
+
+> L'objectif de ce TP est de faire une étude de cas spécifique pour voir des problèmes possibles et une proposition de solution
+
+Disclaimer : il peut exister plusieurs solutions, celles données dans ce TP ne sont que des propositions qui peuvent être discuté.
+
+Pour télécharger le workspace, cliquer [ici](data/Etude_de_cas.zip) et dézipper le fichier.
+Pour importer les séries depuis R, vous pouvez par exemple utiliser le code suivant :
+
+```{r, eval = FALSE}
+library(RJDemetra)
+dir <- tempdir()
+download.file("https://aqlt.github.io/formations/2021/rte/data/Etude_de_cas.zip",
+              file.path(dir, "Etude_de_cas.zip"))
+unzip(file.path(dir, "Etude_de_cas.zip"),
+      exdir = dir)
+u_def_var <- c("diagnostics.td-sa-last", "diagnostics.td-i-last",
+               "diagnostics.fcast-insample-mean", "diagnostics.fcast-outsample-mean",
+               "diagnostics.fcast-outsample-variance")
+wk <- load_workspace(file.path(dir, "Etude_de_cas.xml"))
+compute(wk)
+all_models <- get_model(wk,
+            userdefined = u_def_var)[[1]]
+all_models$RF2932
+```
+
+# Pré-ajustement
+
+## Série RF2932
+
+```{block, opts.label = "pb"}
+Il y a un problème d'hétéroscédasticité (au seuil de 1 %) et un léger problème de non-normalité (au seuil de 1 %).
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Que pensez-vous du schéma de décomposition ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Décision : forcer le schéma en multiplicatif.
+:::
+
+Solution sous R :
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+RF2932_init <- x13(get_ts(all_models$RF2932),
+                   x13_spec(all_models$RF2932),
+                   userdefined = c("diagnostics.levelstat",
+                                   "diagnostics.logstat"))
+# avec modèle airline, le modèle additif est meilleur en terme d'aicc
+c(RF2932_init$user_defined) 
+RF2932_init$regarima$residuals.stat
+summary(RF2932_init$regarima)
+plot(get_ts(RF2932_init)) # schéma parait plutôt multiplicatif
+RF2932 <- x13(get_ts(RF2932_init),
+              x13_spec(RF2932_init,
+                       transform.function = "Log"))
+# critères d'information plus petits avec le modèle ARIMA final
+summary(RF2932$regarima) 
+RF2932$regarima$residuals.stat
+```
+:::
+
+## Série RF2813
+
+L'analyse de cette série nécessite d'avoir vu les statistiques M qui jugent la qualité de la décomposition.
+
+```{block, opts.label = "pb"}
+Il y a un problème d'autocorrélation des résidus (au seuil de 1 %) et une mauvaise décomposition (Q-M2). 
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Que pensez-vous des outliers détectés ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Le problème d'autocorrélation peut être atténué en forçant le schéma additif (p-valeur du test est alors égale à 0,04). 
+
+La mauvaise décomposition vient du fait que la tendance est plate et donc que la composante irrégulière est plus variable que la composante tendance-cycle.
+
+Décision : forcer le schéma en additif.
+:::
+
+## Série RF2223
+
+```{block, opts.label = "pb"}
+Il y a un effet JO résiduel (au seuil de 5 % mais pas 1 %) et un problème d'hétéroscédasticité (au seuil de 5 % mais pas 1 %).
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Réduire le seuil de détection des outliers pour voir ce qu'il se passe.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Décision : Ajouter deux AO en 8-2007 et 7-2009.
+
+Il est préférable de rajouter les outliers à la main plutôt que de modifier de manière permanente le seuil de détection des outliers : cela évitera, pour les futures révisions du modèle,de détecter trop d'outliers.
+:::
+
+Solution sous R :
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+RF2223_init <- all_models$RF2223
+RF2223_init$regarima$residuals.stat
+summary(RF2223_init$regarima)
+# Pas d'effet JO résiduel sur l'ensemble de la série
+RF2223_init$diagnostics
+# Mais effet JO résiduel si test sur 8 dernières années
+c(RF2223_init$user_defined)
+RF2223 <- x13(get_ts(RF2223_init),
+              x13_spec(RF2223_init,
+                       outlier.usedefcv = FALSE,
+                       outlier.cv = 2.8),
+              userdefined = u_def_var)
+summary(RF2223$regarima)
+# Plus d'effet résiduel
+c(RF2223$user_defined)
+
+# Pour rajouter les outliers à la main
+RF2223 <- x13(get_ts(RF2223_init),
+              x13_spec(RF2223_init,
+                       usrdef.outliersEnabled = TRUE,
+                       usrdef.outliersType = c("AO", "AO"),
+                       usrdef.outliersDate = c("2008-04-01", "2009-07-01")),
+              userdefined = u_def_var)
+summary(RF2223$regarima)
+```
+:::
+
+## Série RF2453 : TC or not TC
+
+```{block, opts.label = "pb"}
+Il y a un effet JO résiduel (au seuil de 1 %).
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Que pensez-vous des outliers détectés ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Supprimer la détection des TC permet de corriger le problème sur l'irrégulier mais pas sur la série désaisonnalisée.
+
+Décision : désactiver la détection automatique de TC.
+:::
+
+Solution sous R :
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+RF2453_init <- all_models$RF2453
+RF2453_init$regarima$residuals.stat
+# Pas d'effet JO résiduel sur l'ensemble de la série
+RF2453_init$diagnostics
+# Mais effet JO résiduel si test sur 8 dernières années
+c(RF2453_init$user_defined)
+# Beaucoup de TC qui se suivent
+summary(RF2453_init$regarima)
+
+# Pour rajouter les outliers à la main
+RF2453 <- x13(get_ts(RF2453_init),
+              x13_spec(RF2453_init,
+                       outlier.tc = FALSE),
+              userdefined = u_def_var)
+summary(RF2453$regarima)
+c(RF2453$user_defined)
+```
+:::
+
+# S-I Ratio
+
+## Série RF1101
+
+::: callout-note
+## Exercice
+Analyser les S-I ratios et le graphique *yearly components* de la série brute : que remarquez vous ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Pour cette série, le modèle est estimé depuis 2004 mais les CVS-CJO ne sont mises à jour qu'à partir de 2012.
+
+Il y a une nette rupture de saisonnalité en 2008 qui n'affecte pas la période après 2012 (filtre M3X5 utilisé, soit pour l'estimation des coefficients saisonniers de l'année A utilise les moyennes de l'année A-3 à A+3). Ainsi, commencer l'estimation du modèle à partir de 2008 permet d'avoir un modèle de pré-ajustement mieux estimé sur le présent et la rupture de saisonnalité n'affectera pas les coefficients publiés. 
+
+Une autre solution est de rajouter un seasonal outlier en août 2008
+:::
+
+# Saisonnalité résiduelle
+
+## Série RF2561
+
+```{block, opts.label = "pb"}
+Il y a de la saisonnalité résiduelle et une mauvaise qualité des résidus du modèle RegARIMA.
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Analyser la série sur la fin de la période pour voir d'où vient la saisonnalité résiduelle. Comment pourrait-on la corriger ? Est-ce qu'il s'agit d'une rupture brute ou progressive ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Une rupture de saisonnalité s'observe en juin 2011 : avant cette date juin était un point haut alors qu'à partir de 2011 il est au même niveau que les mois de mai et juillet. Ajout un SO à cette date corrige la rupture mais laisse une saisonnalité résiduelle qui vient du mois de décembre : on observe sur la série désaisonnalisée des pics systématiques en décembre sur les dernières années. Cette fois-ci ce n'est pas une rupture brute de la saisonnalité : le point de décembre qui était également un point haut avant 2011 devient progressivement de plus en plus bas. Le MSR de décembre (à 0,77) est d'ailleurs bien plus bas que celui des autres mois (qui sont autour de 2) ce qui suggère de prendre un filtre saisonnier plus court en décembre (le filtre actuellement choisi est M3X3). La mauvaise qualité des résidus est difficilement corrigeable, il faudrait prendre une période d'estimation beaucoup plus courtes qui ajouterait donc une instabilité des estimations.
+Décision : rajouter un SO en juin 2011 et utiliser le filtre M3X1 pour le mois de décembre. Pas d'intervention pour corriger la qualité des résidus.
+:::
+
+## Série RF2530 :
+
+```{block, opts.label = "pb"}
+Il y a de la saisonnalité résiduelle (au seuil de 1 %), de l'hétéroscédasticité des résidus (au seuil de 5 %), une mauvaise décomposition (q-m2) et un problème sur la moyenne des erreurs de prévision (au seuil de 5 %).
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Analyser correctement le problème de saisonnalité résiduelle.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+On remarque entre juillet et août 2009 un changement de saisonnalité : ajouter un pure seasonal outlier (PSO) entre juillet et août 2009 permet de corriger la saisonnalité résiduelle, l'hétéroscédasticité mais pas la mauvaise décomposition et le problème sur la moyenne des erreurs de prévision.
+:::
+
+Solution sous R :
+
+```{r, solution = FALSE}
+# Il faut créer le PSO :
+pso <- function(date_rupture1,
+                date_rupture2,
+                date_deb = 1990, date_fin = 2030, frequence = 12){
+    x <- ts(0,start=date_deb,end=date_fin,
+            frequency = frequence)
+    per_rupture1 <- as.numeric(cycle(window(x,start=date_rupture1,end=date_rupture1)))
+    per_rupture2 <- as.numeric(cycle(window(x,start=date_rupture2,end=date_rupture2)))
+    x[(cycle(x) == per_rupture1) & (time(x) < date_rupture1)] <- 1
+    x[(cycle(x) == per_rupture2) & (time(x) < date_rupture2)] <- -1
+    x
+}
+pso_juil_aout2009 <- pso(2009+(7-1)/12,
+                         2009+(8-1)/12)
+plot(pso_juil_aout2009)
+RF2530 <- all_models$RF2530
+c(RF2530$user_defined)
+
+RF2530 <- x13(get_ts(RF2530),
+              x13_spec(RF2530,
+                       usrdef.varEnabled = TRUE,
+                       usrdef.var = pso_juil_aout2009,
+                       usrdef.varType = "Seasonal"
+                       ),
+              userdefined = u_def_var)
+c(RF2530$user_defined)
+```
+
+## Série RF3299
+
+```{block, opts.label = "pb"}
+Il y a de la saisonnalité résiduelle.
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Analyser correctement le problème de saisonnalité résiduelle.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+Ajouter des SO en 10-2012 et 12-2015.
+:::
+
+## Séries C4672
+
+::: callout-note
+## Exercice
+Dans cet exercice il y a deux séries à étudier : la série C4672 depuis 1999 et la même série mais estimée à partir de 2005.
+
+- Commencez par la série qui commence en 1999. Comment vous parait le modèle ?
+
+- Analyser le modèle de la série qui commence en 2005 et comparer les résultats.
+:::
+
+```{block, opts.label = "pb"}
+Saisonnalité résiduelle non détectée pour modèle ensemble mais détectée si modèle coupé à partir de 2005.
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+Ajouter un SO 11-2008.
+:::
+
+## Série C4773
+
+```{block, opts.label = "pb"}
+Saisonnalité résiduelle détectée.
+```
+
+::: {.callout-caution collapse="true"}
+## Indice
+Étudier les S-I ratio : la saisonnalité est-elle stable ?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+On observe une saisonnalité plutôt stable sauf  en juillet et août (étude des S-I ratio). Les S-I ratio montrent aussi en juillet et août un comportement « atypique » de l'irrégulier en début de période. On n'observe pas de changement brusque de saisonnalité. L'étude des MSR par mois suggère de prendre un filtre plus court en juillet et en août : cela permet de corriger la saisonnalité résiduelle.
+:::

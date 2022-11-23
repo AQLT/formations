@@ -1,0 +1,235 @@
+---
+title: "1 - R et JDemetra+"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(rjwsacruncher)
+library(RJDemetra)
+library(kableExtra)
+library(knitr)
+```
+
+> L'objectif de ce TP est d'apprendre à manipuler JDemetra+ sous R à travers le package RJDemetra.
+
+Pour manipuler JDemetra+ sous R il y a actuellement deux façons :
+
+1.  Utiliser le [JWSACruncher](https://github.com/jdemetra/jwsacruncher) qui permet, à partir de la console, de mettre à jour un workspace JDemetra+ et d'exporter les résultats sans devoir ouvrir le logiciel.
+    Pour faciliter son utilisation depuis R, le package `rjwsacruncher` peut être utilisé (voir [TP5 - JDemetra+ en production](R-5-JD_in_production.qmd)).
+
+2.  Utiliser le package `RJDemetra` qui permet d'effectuer des désaisonnalisations avec les mêmes algorithmes et paramètres que JDemetra+ et de manipuler des workspaces.
+
+Dans ce TP on utilisera les données du package `RJDemetra` mais n'hésitez pas à utiliser vos propres séries, en utilisant par exemple le code ci-dessous :
+
+Si besoin, ci-dessous un exemple de code pour récupérer vos données :
+
+```{r, eval=FALSE}
+fichier <- tempfile(fileext = "xlsx")
+url <- "https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"
+download.file(url, fichier)
+data_rte <- readxl::read_excel(fichier)
+date_deb <- 2006
+data_rte <- ts(data_rte[,-1], start = date_deb,
+               frequency = 12)
+```
+
+# RJDemetra
+
+Pour faire de la désaisonnalisation sous R il existe plusieurs packages :
+
+-   `seasonal` et `x12` qui permettent de faire du X-13ARIMA-SEATS en utilisant les programmes du US Census Bureau
+
+-   `RJDemetra` qui est une interface R à JDemetra+ et c'est ce package que l'on va étudier.
+
+`RJDemetra` est sur le CRAN et se base sur les librairies Java de JDemetra+.
+Pour l'utiliser il faut avoir Java 8 ou plus.
+En cas de problème d'installation voir la page : <https://github.com/jdemetra/rjdemetra/wiki/Installation-manual>.
+
+Le package a aussi un site web (<https://jdemetra.github.io/rjdemetra/>).
+
+`RJDemetra` permet :
+
+-   De faire des modèles RegARIMA, TRAMO-SEATS and X-13-ARIMA comme dans JDemetra+ en définissant sa propre spécification
+
+-   Manipuler les workspaces de JDemetra+ :
+
+    -   Importer les modèles workspaces sauvegardés par JDemetra+
+    -   Exporter les modèles créés sous RJDemetra
+
+## Créer une specification
+
+Dans les prochains exercices, la série utilisée sera `ipi_c_eu[, "FR"]` qui est l'IPI français.
+Vous pouvez bien sûr adapter le code pour utiliser vos propres séries.
+Les fonctions utilisées seront `x13()`, `x13_spec()`, `regarima_x13`, `regarima_x13_spec` ou `regarima`.
+Le détail des spécifications pré-définies par JDemetra+ sont disponibles [ici](/2021/rte/PDF/Predefined_specifications.pdf).
+
+::: callout-note
+## Exercice
+Faire la désaisonnalisation d'une série avec X-13 avec la spécification suivante :
+
+- détection automatique du schéma de décomposition, des outliers et du modèle ARIMA
+- une correction des jours ouvrables "working days" et un effet graduel de Pâques
+
+Faire ensuite un graphique avec la série brute et la série désaisonnalisée.
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Utiliser la spécification `RSA4c` pour la désaisonnalisation.
+
+Si le modèle créé s'appelle `mysa`, regarder les valeurs de `mysa$final`, `mysa$final$series` et `mysa$final$forecasts`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+mysa <- x13(ipi_c_eu[, "FR"], spec = "RSA4c")
+mysa
+y <- mysa$final$series[,"y"]
+# De façon équivalente :
+y <- get_ts(mysa)
+sa <- mysa$final$series[,"sa"]
+plot(y)
+lines(sa, col = "red")
+# ou on peut directement utiliser les fonctions de RJDemetra :
+plot(mysa, first_date = 2000, #Pour n'afficher le graphique qu'à partir de 200
+     type_chart = "sa-trend" # Pour faire le graphique avec y, sa et tendance
+     )
+```
+:::
+
+::: callout-note
+## Exercice
+Modifier le modèle précédent pour enlever l'effet graduel de Pâques.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+spec_sans_easter <- x13_spec(mysa,
+                 easter.enabled = FALSE)
+mysa2 <- x13(ipi_c_eu[, "FR"], spec_sans_easter)
+mysa2$regarima
+```
+:::
+
+::: callout-note
+## Exercice
+Calculer les p-valeurs associées au modèle Reg-ARIMA de la précédente spécification
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Récupérer le modèle Reg-ARIMA et utiliser la fonction `summary()`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+summary(mysa2$regarima)
+```
+:::
+
+## Créer un workspace
+
+Dans cette partie nous allons créer un workspace depuis R.
+Pour cela les fonctions qui peuvent être utilisées sont `new_workspace()`, `load_workspace()`, `new_multiprocessing()`, `add_sa_item()`, `save_workspace()`, `compute()`, `get_object()`, `get_name()`, `get_ts()` ou `count()`.
+
+::: callout-note
+## Exercice
+Créer un workspace qui va contenir une série désaisonnalisée selon 3 spécifications différentes.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+wk <- new_workspace()
+new_multiprocessing(wk, "MP-1")
+add_sa_item(wk, "MP-1", mysa, "X13 avec Pâques")
+add_sa_item(wk, "MP-1", mysa2, "X13 sans Pâques")
+add_sa_item(wk, "MP-1", tramoseats(ipi_c_eu[, "FR"]), "TRAMO-SEATS")
+save_workspace(wk, "mon_premier_workspace.xml")
+```
+:::
+
+::: callout-note
+## Exercice
+Importer le workspace précédent et récupérer :  
+
+- Le nom du premier multi-processing
+- Le nombre de modèles dans ce premier multi-processing
+- L'ensemble des séries brutes
+- Le 2ème modèle
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+wk <- load_workspace("mon_premier_workspace.xml")
+compute(wk)
+count(wk) # Nombre de multiprocessing
+mp1 <- get_object(wk, 1) # Le premier multiprocessing
+get_name(mp1)
+count(mp1)
+all_y <- get_ts(mp1) # toutes les séries brutes
+model2 <- get_object(mp1, 2) # On récupère l'objet associé au 2ème modèle
+get_model(model2, wk)
+```
+:::
+
+## Manipuler les objets Java
+
+L'objectif de cette partie est de manipuler la fonction `jx13()` pour gagner en temps de calcul.
+
+::: callout-note
+## Exercice
+Créer un modèle à partir de la fonction `jx13()` et la spécification sans effet graduel de pâques calculée dans une des sections précédentes.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+myjsa <- jx13(ipi_c_eu[, "FR"], spec_sans_easter)
+get_indicators(myjsa, "sa")
+```
+:::
+
+::: callout-note
+## Exercice
+Toujours avec la même spécification, extraire les révisions de la séries désaisonnalisée du point de janvier 2005 (i.e. : série désaisonnalisée lorsqu'on a les données jusqu'en janvier 2005, puis jusqu'en février 2005, etc.).
+:::
+
+::: {.callout-caution collapse="true"}
+## Indice
+Récupérer l'ensemble des dates de fin d'estimation avec la fonction `window(time(ipi_c_eu[, "FR"]), start = 2005)`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r}
+dates <- window(time(ipi_c_eu[, "FR"]), start = 2005)
+estimations <- sapply(dates, function(last_date_estimation){
+  myjsa <- jx13(window(ipi_c_eu[, "FR"], end = last_date_estimation), spec_sans_easter)
+  sa <- get_indicators(myjsa, "sa")$sa
+  window(sa, start = 2005, end = 2005) # Pour ne récupérer que la valeur en 2005
+})
+estimations <- ts(estimations, start = 2005, frequency = 12)
+plot(estimations)
+```
+:::
+
+
+```{r clean-wk}
+# | include: false
+file.remove("mon_premier_workspace.xml")
+unlink("mon_premier_workspace", recursive = TRUE)
+```

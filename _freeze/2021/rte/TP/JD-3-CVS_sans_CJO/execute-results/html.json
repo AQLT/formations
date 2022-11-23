@@ -1,0 +1,14 @@
+{
+  "hash": "9b3305142f2321ce725899969327e9e6",
+  "result": {
+    "markdown": "---\ntitle: \"3 - Désaisonnalisation sans correction des jours ouvrables\"\nsubtitle: |\n  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra\n  ![](img/logo.png){width=1in}\nauthor: \"Alain Quartier-la-Tente\"\nformat: html\nlang: fr\nlanguage:\n title-block-author-single: Auteur\n---\n\n\n\n\n> L'objectif de ce TP est d'apprendre à faire une désaisonnalisation sans correction des jours ouvrables (CJO).\n\n# Réaliser une désaisonnalisation automatique sans correction des effets de calendrier\n\n-   Créer un nouveau workspace\n\n-   Sauvegarder le workspace\n\n-   Importer les séries (si nécessaire)\n\n-   Réaliser une désaisonnalisation automatique de ces séries en choisissant la spécification pré-définie `X13 > RSA3`\n\n-   Renommer le \"SAProcessing-1\" (\"X13\" par exemple) en faisant un clic droit sur son nom sous l'onglet `multi-documents`, puis `Rename...`\n\n# Analyser des paramètres automatiques choisis par JDemetra+\n\nPour chaque série,\n\n## 9.1. Schéma de décomposition\n\n-   Dans la fenêtre `Main results`\n\n    -   Quel est le schéma de décomposition choisi par JDemetra+ ? Est-ce que vous êtes d'accord ?\n\n## Outliers\n\n-   Dans la fenêtre `Main results`\n\n    -   Combien d'*outliers* ont été détectés par JDemetra+ ?\n\n        -   Y en a-t-il trop ?\n\n-   Dans la fenêtre `Pre-processing`\n\n    -   Quels sont les différents types d'outliers détéctés par JDemetra+ ?\n\n-   Retourner dans la fenêtre `Main results`\n\n    -   Aller dans `Main results > Charts`\n\n        -   Regarder les différents graphiques : pouvez-vous repérer, sur la série brute, les points atypiques détéctés dans le modèle ?\n\n## S-I Ratio\n\n-   Aller dans la fenêtre `Main results > S-I ratio`\n\n-   Pouvez-vous repérer le schéma de décomposition ?\n\n-   Quel est l'objectif de ce graphique ?\n\n-   Les coefficients saisonniers sont-ils stables ?\n\n# Analyse de la qualité de la désaisonnalisation\n\nPour chaque série, parcourir les diagnostics disponibles dans `Main results` :\n\n-   Quelle est la qualité de la phase de pré-ajustement ?\n\n-   Pour des diagnostics plus détaillés, aller dans les sous-branches de `Pre-processing`\n\n-   Quelle est la qualité de la décomposition (X11) ?\n\n-   La série CVS présente-t-elle des effets saisonniers résiduels ?\n\n-   La série CVS présente-t-elle des effets « jours ouvrables » résiduels ?\n\n-   La décomposition réalisée par X11 est-elle de qualité satisfaisante ?\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

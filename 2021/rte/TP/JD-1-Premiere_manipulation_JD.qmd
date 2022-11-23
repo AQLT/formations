@@ -1,0 +1,175 @@
+---
+title: "1 - Première manipulation de JDemetra+"
+subtitle: |
+  Formation - Désaisonnalisation avec JDemetra+ et RJDemetra
+  ![](img/logo.png){width=1in}
+author: "Alain Quartier-la-Tente"
+logo: "img/logo.png"
+format: html
+lang: fr
+language:
+ title-block-author-single: Auteur
+---
+
+```{r setup, include=FALSE,}
+knitr::opts_chunk$set(echo = TRUE, collapse = FALSE, warning = FALSE,
+                      message = FALSE)
+library(knitr)
+```
+
+> L'objectif de ce TP est de faire une première manipulation de JDemetra+ : créer un workspace, importer des données, lancer une première désaisonnalisation.
+
+# Créer et sauvegarder un Workspace
+
+Le "workspace" est l'objet de travail sous JDemetra+ : il contient les données, les modèles de désaisonnalisation, etc.
+
+Il est composé :
+
+1.  D'un fichier `.xml` (par exemple `monworkspace.xml`)
+
+2.  D'un dossier du même nom (par exemple `monworkspace`)
+
+Instructions :
+
+-   Ouvrir le logiciel JDemetra+
+
+-   Sauvegarder le Workspace
+
+-   Cliquer sur `File > Save Workspace As…`
+
+-   Entrer un nom pour le workspace et choisir l'emplacement où sera sauvegardé le workspace
+
+-   Fermer le logiciel JDemetra+ et ouvrir l'emplacement où a été sauvegardé le workspace
+
+    -   Que voit-on ?
+
+# Importer les séries (brutes) dans JDemetra+
+
+Il existe de très nombreuses façons d'importer des données sous JDemetra+ (beaucoup de "providers") : Excel, csv, txt, SDMX... Ici nous nous concentrerons sur le plus "classique" : le fichier Excel.
+
+## Importation d'un fichier Excel sous JDemetra+
+
+On se place ici dans le cas où les données brutes figurent dans un fichier Excel qui respecte les règles suivantes :
+
+-   la première colonne correspond à la date au format JJ/MM/AAAA
+
+-   la première ligne contient le nom des séries
+
+::: {.callout-warning}
+## Pour information
+Pour créer un tel fichier Excel depuis R, voir le [TP 0 - Traitement des séries temporelles sous R](R-0-Traitement_des_series_temporelles.qmd).
+:::
+
+-   Retourner sous JDemetra+
+
+-   Cliquer sur l'onglet `Providers`
+
+-   Clic-droit sur `Spreadsheets`
+
+-   Cliquer sur `Open`
+
+-   Cliquer sur le bouton `…`
+
+-   Sélectionner un fichier Excel contenant les séries à désaisonnaliser
+
+-   Cliquer sur OK
+
+    -   Que voit-on sous `Spreadsheets` ?
+
+## Mettre un fichier en « favori »
+
+-   Sauvegarder le workspace puis l'ouvrir de nouveau
+
+-   Cliquer sur l'onglet `Providers`
+
+-   Que voit-on ?
+
+::: {.callout-tip collapse="true"}
+## Solution
+Les données ont disparues !
+:::
+
+-   Importer de nouveau votre fichier Excel
+
+-   Clic-droit sur le nom du fichier Excel qui est apparu sous `Spreadsheets`
+
+-   Cliquer sur `Add star`
+
+-   Que se passe-t-il ?
+
+-   Sauvegarder le workspace, fermer le logiciel puis l'ouvrir de nouveau
+
+-   Cliquer sur l'onglet `Providers`
+
+    -   Que voit-on ?
+
+::: {.callout-tip collapse="true"}
+## Solution
+Les données restent ! Si on utilise souvent ce fichier Excel c'est un moyen de le garder en mémoire.
+:::
+
+::: {.callout-warning}
+## Pour information
+JDemetra+ stocke l'emplacement du fichier Excel, si vous le changez de répertoire, les données ne seront plus reconnues ! Peu pratique me direz-vous mais c'est en fait indispensable si l'on souhaite mettre à jour. Évitez donc de laisser votre fichier dans le dossier "Téléchargements" !
+:::
+
+# Lancer une première désaisonnalisation automatique sous JDemetra+
+
+## Création d'un nouveau « multi-document »
+
+-   Cliquer sur l'onglet `Workspace`
+
+-   Double-clic sur `Seasonal adjustment`
+
+-   Clic-droit sur `multi-documents`
+
+-   Cliquer sur `New`
+
+-   Double-clic sur `multi-documents`
+
+    -   Que voit-on ?
+
+-   Double-clic sur le « multi-document » créé, nommé `SAProcessing-1` par défaut
+
+    -   Que se passe-t-il ?
+
+## Choisir une spécfication pré-définie
+
+-   Aller dans l'onglet `SAProcessing-1`
+
+-   Cliquer sur la flèche située à côté de la petite « calculatrice »
+
+-   Cliquer sur le `+` à côté de « x13 » puis cliquer sur `RSA5c`
+
+-   Cliquer quelque part dans SAProcessing-1
+
+## Lancer une désaisonnalisation
+
+-   Cliquer sur `Providers`
+
+-   Faire glisser l'ensemble des séries de votre fichier dans l'onglet `SAProcessing-1`
+
+    -   Que voit-on ?
+
+-   Cliquer sur la flèche verte figurant dans l'onglet `SAProcessing-1`
+
+![](img/tp1_jd_1.png)
+
+-   Que se passe-t-il ?
+
+-   Cliquer sur une série
+
+    -   Que voit-on ?
+
+-   Sauvegarder le workspace
+
+::: {.callout-warning}
+## Pour information
+Il y a de grandes chances pour qu'un jour vous oubliiez l'étape 3.2 avant de "faire glisser" vos séries. Dans ce cas, vous aurez beau changer la spécification, cela n'affectera vos séries déjà importées. Deux solutions s'offrent à vous :
+
+1. Solution brutale : fermer le workspace, supprimer toutes les séries, bref, tout recommencer.
+
+2. Solution maligne : sélectionner toutes les séries (ctrl + clic gauche ou ctrl + a, ou ctrl + maj...), clic droit, `Spécification > Select > choisir la spécification voulue`.
+
+![](img/tp1_jd_2.png)
+:::

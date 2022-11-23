@@ -1,0 +1,272 @@
+---
+title: "10 - Les trois temps de la production"
+subtitle: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+author: "Alain Quartier-la-Tente"
+division: "Lemna, Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        fig_caption: true
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+lan: french
+---
+
+```{r setup, include=FALSE}
+options(xtable.comment = FALSE)
+library(ggplot2)
+library(reshape2)
+beamer_textwidth <- 11.13435
+beamer_textheight <- 7.89807
+conv_cm_to_in <- 0.393701
+conv_cm_to_px <- 75
+knitr::opts_chunk$set(echo = FALSE, fig.pos = 'H',message=FALSE,
+                      fig.height = beamer_textheight * conv_cm_to_in,
+                      fig.width =  beamer_textwidth * conv_cm_to_in)
+```
+
+### Objectifs de cette séquence
+Cette séquence a pour objectifs de vous présenter les trois temps de la production et leurs spécificités 
+
+Après cette séquence vous saurez :  
+
+- Les différentes questions auxquelles il est nécessaire de répondre au moment de la mise en place d'un processus de désaisonnalisation
+  
+- Les objectifs des trois temps de la production et ce qu'il faut faire
+
+
+### Questions de positionnement
+
+Quels sont les 3 temps de la production ?
+\vfill
+
+Quels sont les objectifs relatifs à chacun des 3 temps ?
+\vfill
+
+Quelles différences entre méthode Directe et Indirecte ?
+\vfill
+
+
+# Installation du processus de désaisonnalisation
+
+## Plusieurs questions à se poser 
+
+### Répondre à plusieurs questions (1/2)
+
+En s'appuyant sur les recommandations d'Eurostat en matière d'ajustement saisonnier (ESS guidelines on seasonal adjustment) répondre aux questions : 
+
+
+- Les besoins des utilisateurs  
+    + Quelles sont les variables d'intérêt à désaisonnaliser ?  
+    + A quel niveau ?  
+
+- Le choix de la méthode  
+    + X-13-ARIMA  
+    + TRAMO-SEATS 
+
+- Le choix de l'outil  
+    + JDemetra+
+
+- La correction des effets de calendrier  
+    + Autorisée ou non ?  
+    + Quels jeux de régresseurs ?  
+    
+- Le choix de l'approche : Directe ou indirecte ?  Des contraintes de diffusion ?
+
+    
+### Répondre à plusieurs questions (2/2)
+
+- Les révisions  
+    + Comment je décide de les distribuer ?  
+    + Quelle option de « rafraichissement » choisir ?
+
+- Quelle longueur d'estimation et quelle période de révision ? \bcattention Attention aux séries « trop longues » (>20 ans) 
+
+
+- La détection des outliers  
+    + Autorisée ou non ?  
+    + Quels types d'outliers ? Quel seuil de détection ?
+
+- L'ajout de variables externes dans le modèle Reg-ARIMA pour expliquer les évolutions des séries  
+    + La variable d'intérêt à désaisonnaliser peut-elle être expliquée par une variable externe ?  
+    Exemple : le niveau des températures peut expliquer le nombre de chambres occupées dans un hôtel
+    
+
+## Approche directe ou indirecte ?
+
+### Directe / indirecte : avantages et inconvénients
+
+\begin{table}[htbp]
+  \centering
+    \begin{tabular}{|m{2cm}|m{12em}|m{8em}|}
+\cline{2-3}    \multicolumn{1}{m{1.5cm}|}{} & Approche directe & Approche indirecte \\
+    \hline
+    Avantages &\ \newline{}-- plus « lisible »\newline{}-- on supprime la composante saisonnière directement sur toutes les séries (yc niveau agrégé) \newline{} &-- moins coûteux\newline{}-- additivité préservée (diffusion)  \\
+    \hline
+    Inconvénients &-- plus coûteux\newline{} -- pas d'additivité & peu de diagnostics au niveau agrégé : risque de saisonnalité résiduelle \\
+    \hline
+    \end{tabular}
+\end{table}
+
+
+### Les recommandations sur le choix de la méthode
+
+Quand préférer l'approche directe ?  
+
+- Pas de saisonnalité sur les séries « filles », mais l'agrégat oui  
+  Exemple : un pays composé de 13 régions dans lequel une fête a lieu tous les ans à la même date mais qui est organisée à tour de rôle par chacune des régions. Cette fête s'accompagne d'une forte consommation de bière et on cherche justement à désaisonnaliser cette variable au niveau national.  
+  
+- Saisonnalité sur les séries « filles », mais l'agrégat non 
+
+- Les séries « filles » présentent le même profil saisonnier
+
+Quand préférer l'approche indirecte ?  
+
+- Les séries « filles » ne présentent pas le même profil saisonnier  
+
+- Contrainte de diffusion : additivité entre niveaux
+
+**$\longrightarrow$ Un mix entre les deux méthodes peut être utilisé**
+
+
+# Les campagnes annuelles CVS-CJO
+
+## Pourquoi faire une campagne annuelle ?
+
+### Faire une campagne annuelle pour s'adapter aux nouvelles données
+
+Une campagnes annuelles CVS-CJO est une révision annuelle des modèles de désaisonnalisation et de correction des effets de calendrier
+
+Pourquoi faire une campagne annuelle ?  
+
+- S'assurer de l'adaptation du modèle aux données (on dispose d'une année de données en plus…)  
+    + Pas d'effets saisonniers résiduels sur la série CVS-CJO  
+    + Pas d'effets de calendrier résiduels sur la série CVS-CJO  
+    + Qualité des prévisions (révisions faibles) issues du modèle Reg-ARIMA
+
+- Evaluer la performance d'une modélisation automatique  
+    + Besoin d'un outil pour comparer le modèle actuel et le modèle automatique : un bilan qualité (exemple d'une implémentation : https://github.com/InseeFr/JDCruncheR)
+
+
+## Comment faire une campagne annuelle ? 
+### Comment ça marche ? 
+
+ - Modélisation automatique pour l'ensemble des séries  
+
+ - Evaluation de la qualité sur :  
+    + le modèle actuel (celui utilisé au cours de la dernière campagne mensuelle/trimestrielle)  
+    + le modèle automatique (réajustement éventuel)  
+
+ - Analyse : comparaison de la qualité associée à chacun des modèles  
+    + La stabilité est privilégiée : on opte pour le modèle automatique (réajusté) si et seulement si il permet une nette amélioration du traitement
+
+# Les campagnes mensuelles/trimestrielles CVS-CJO
+
+## Des campagnes infra-annuelles pour mieux analyser la fin de la série
+
+### Des campagnes infra-annuelles pour adapter les séries aux nouveaux points
+
+Utilisées pour faire une analyse de la fin de série
+
+Pourquoi ? Car fort enjeu, très regardée par les utilisateurs
+
+Que fait-on ?  
+
+- Valider l'apparition ou la disparition d'outliers sur la fin de série  
+
+- Fixer un éventuel outlier non détecté par JDemetra+  
+
+- Surveiller les révisions de la série CVS-CJO sur la fin de série  
+  L'ajout d'un nouveau point a-t-il entraîné de fortes révisions ?
+
+## Plusieurs points à surveiller
+### Des points de vigilance (1/2)
+
+- Valider les outliers sur la fin de période (en pratique très peu fait)  
+
+    + Significativité économique  
+    + Significativité statistique (t-stat)  
+    + Comparaison graphique  
+        * CVS-CJO avec l'outlier  
+        * CVS-CJO sans l'outlier
+
+- Fixer un éventuel outlier :
+    + De manière raisonnée en s'appuyant sur la connaissance du domaine.  
+    Exemple : une forte hausse sur le dernier point, outlier ou retournement de tendance ? 
+
+### Des points de vigilance (2/2)
+
+Surveiller les révisions sur la fin de série :  
+
+- Calcul d'un critère statistique  
+    + Il est difficile de définir un seuil au delà duquel une révision peut être considérée comme « grosse » et « grosse » ne veut pas toujours dire mauvaise…  
+    + Identifier les causes de révisions
+
+- Comparaison graphique  
+    + CVS-CJO au mois $m$ (ou au trimestre $t$)
+    + CVS-CJO au mois $m-1$ (ou au trimestre $t-1$)
+
+- Etude des révisions successives de la série CVS-CJO  
+    + Diagnostics > Revisions history > SA series
+
+
+# Conclusion
+
+### Différences entre les campagnes annuelles et infra-annuelles
+
+\begin{table}[htbp]
+\footnotesize
+  \small
+    \begin{tabular}{|m{1cm}|m{2.3cm}|m{8em}|m{9em}|}
+    \hline
+    \multicolumn{2}{|c|}{Spécifications} & Campagnes \hspace{1cm} annuelles  & Campagnes infra-annuelles  \\
+    \hline
+    \multicolumn{2}{|m{4cm}|}{Schéma de décomposition} & Peut être modifié & Inchangé \\
+    \hline
+    \multirow{3}[6]{1cm}{Modèle Reg-ARIMA} & Modèle ARIMA &-- Ré-identifié \newline{}-- ré-estimé &-- Inchangé\newline{} Ré-estimé \\
+\cline{2-4}          & Jeu de régresseurs JO &-- Peut être modifié\newline{}-- Ré-estimé &-- Inchangé\newline{}-- Ré-estimé \\
+\cline{2-4}          & Outliers & -- Détection sur toute la série\newline{}-- Ré-estimé &-- Détection sur la dernière année\newline{}-- Ré-estimé \\
+    \hline
+    \multirow{2}{1cm}{X11} & Filtre saisonnier & Peut être modifié & Inchangé (en théorie mais pas en pratique) \\
+\cline{2-4}          & Moyenne mobile de Henderson & Peut être modifié & Inchangé  (en théorie mais pas en pratique) \\
+    \hline
+    \end{tabular}
+\end{table}
+
+Méthode de rafraichissement recommandée pour les campagnes infra-annuelles : *Partial concurrent adjustment > Last outliers*
+
+
+### Les essentiels
+
+La production des CVS-CJO s'organise en 3 temps :  
+
+- installation du processus de traitement  
+
+- campagnes annuelles de mise à jour des modèles  
+
+- campagnes de production mensuelles/trimestrielles  
+
+Chaque temps comporte des questionnements différents et des choix plus ou moins structurants :  
+
+- Processus : coûts, délais et qualité (adapté aux besoins)  
+
+- Modèle : qualité statistique globale  
+
+- Diffusion : qualité des dernières valeurs diffusées  
+
+La maîtrise des révisions sera faite de manière éclairée (comprendre les causes) et non au détriment de la fiabilité statistique
+
+### Bibliographie
+
+\begin{thebibliography}{999}
+\bibitem[Eurostat (2015)]{E2015} Eurostat (2015), The ESS guidelines for seasonal adjustment, Eurostat manuals and guidelines, Product Code: KS-GQ-15-001. \url{http://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-001}.
+\bibitem[Kirchner et al (2018)]{K2018} Kirchner R., Ladiray D. et Mazzi G.L, Quality Measures and Reporting for Seasonal Adjustment, in Handbook on Seasonal Adjustment, edited by G. L. Mazzi, co-edited by D. Ladiray, European Union, Luxembourg. \url{ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-18-001}.
+\end{thebibliography}
+
+

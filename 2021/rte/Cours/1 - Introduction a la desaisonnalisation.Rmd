@@ -1,0 +1,164 @@
+---
+title: "1 – Introduction à la désaisonnalisation"
+subtitle: "Désaisonnalisation avec JDemetra+ et RJDemetra"
+author: "Alain Quartier-la-Tente"
+division: "Lemna, Insee"
+departement: ""
+logo: "img/logo"
+output: 
+    bookdown::beamer_presentation2:
+        template: template.tex
+        keep_tex: false
+        theme: TorinoTh
+        slide_level: 3
+        toc: false
+themeoptions: "coding=utf8,language=french"
+classoption: 'usepdftitle=false,french'
+fontsize: 10pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+### Objectifs de la formation
+
+Formation sur 4 jours (suppports disponibles ici : https://aqlt.github.io/formations/2021/rte).
+
+Objectifs :
+
+- Prendre en main JDemetra+ et `RJDemetra`
+
+- Comprendre les processus derrière les méthodes de désaisonnalisation
+
+- Savoir évaluer la qualité de la désaisonnalisation
+
+### Questions de positionnement
+
+Qu'est-ce qu'un phénomène saisonnier ?
+
+\vfill
+
+Comment le modéliser ?
+
+
+\vfill
+
+Quelles sont les causes de la saisonnalité ?
+
+
+\vfill
+
+Pourquoi désaisonnaliser ?
+
+
+
+### Saisonnalité : un concept flou ? (1/2)
+
+Définition : **fluctuations à l'intérieur d'une année qui se répètent *plus ou moins* régulièrement d'une année à l'autre**
+
+   
+
+Idée d'une certaine régularité et de la fréquence annuelle
+
+  
+
+Flou : « plus ou moins régulier », quand considère-t-on que les fluctuations ne sont plus « régulières » ?
+
+Comment capter un phénomène dont on ne peut définir précisément le contour ?
+
+### Saisonnalité : un concept flou ? (2/2)
+
+**La saisonnalité évolue**  :
+
+- progrès techniques : fruits et légumes en hiver (production, conservation, transport) 
+
+- changements institutionnels et culturels : changement de calendrier scolaire, lois, coutumes
+
+- modification de structure économique : l'emploi dépend moins du secteur primaire, qui est plus saisonnier que les autres secteurs 
+
+\faArrowCircleRight{} Hypothèse de travail : faible évolution de la saisonnalité
+
+### Un premier modèle pour la saisonnalité
+
+Schéma additif : $$
+X_t=qqchose_t+S_t$$
+Hypothèse : la saisonnalité s'annule sur une année, est-ce une idée plausible ?
+
+\pause
+**Saisonnalité constante**  :
+
+Pour chaque date $t$ (par exemple un mois) le coefficient saisonnier reste constant sur deux années consécutives
+\[
+S_t = S_{t+12}
+\]
+Comme cela est vrai pour  $t$ : 
+\[
+\sum_{i=0}^{11}S_{t+i} = \sum_{i=1}^{12}S_{t+i}
+\implies\sum_{i=0}^{11}S_{t+i} = \sum_{i=k}^{11+k}S_{t+i} = cst
+\]
+Finalement
+\[
+\sum_{i=0}^{11}S_{t+i} = 0 \rightarrow
+ \text{ cf session 3}\]
+
+### Causes de saisonnalité
+
+**Saisonnalité climatique :** variations saisonnières dues au climat  
+Exemples : production agricole, consommation d'électricité (chauffage)  
+
+
+**Saisonnalité institutionnelle :** attribuable aux traditions, institutions, règles administratives, règles de gestion  
+Exemples : fête de Noël sur la consommation, calendrier scolaire sur le tourisme, échéances de gestion administrative  
+
+
+**Saisonnalité induite :** attribuable à la saisonnalité d'autres secteurs
+Exemples : industrie alimentaire dépend du secteur agricole, fabrication de jouets dépend des commerces de détail
+
+
+### Pourquoi désaisonnaliser ?
+
+Objectif : analyser une série temporelle (direction, points de retournement, liens avec autres séries, etc.)
+
+\faArrowCircleRight{} Effets saisonniers sans grande importance analytique, les enlever :
+
+- met en évidence ce qui est nouveau
+
+- permet une comparaison temporelle et spatiale
+
+
+\pause
+\bcquestion Faut-il toujours désaisonnaliser ?
+\pause
+
+Parfois, la série brute est la série d'intérêt (ex : IPC)
+
+
+### Les essentiels
+
+- La saisonnalité se caractérise par un profil annuel quasi-périodique
+
+- On cherche à capter une saisonnalité « localement » stable : modèle de saisonnalité constante
+
+- Le profil saisonnier peut cependant évoluer sur la période étudiée  
+\faArrowCircleRight{}Les coefficients saisonniers ne sont pas fixes  
+
+- Le profil saisonnier que l'on mesure dépend des hypothèses que l'on formule sur son comportement  
+\faArrowCircleRight{}Profil plus ou moins évolutif = filtre plus ou moins long\dots On va y revenir  
+\faArrowCircleRight{}Il faut par conséquent connaître les séries et les phénomènes étudiés
+
+### Exercices
+
+1. Installation des logiciels : https://aqlt.github.io/formations/2021/rte/manuel_installation.html
+
+2. TP1, Première manipulation de JDemetra+ ? https://aqlt.github.io/formations/2021/rte/TP/JD-1-Premiere_manipulation_JD.html
+
+### Bibliographie
+\footnotesize
+
+\begin{thebibliography}{999}
+\bibitem[Données désaisonnalisées FAQ]{FAQ} Données désaisonnalisées — Foire aux questions, Statistique Canada. \url{https://www150.statcan.gc.ca/n1/dai-quo/btd-add/btd-add-fra.htm}
+\bibitem[Données désaisonnalisées FAQ]{DocJD+} Documentation de JDemetra+ \url{https://jdemetradocumentation.github.io/JDemetra-documentation/}
+\end{thebibliography}
+
