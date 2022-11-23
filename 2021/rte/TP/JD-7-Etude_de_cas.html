@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alain Quartier-la-Tente">
+
+<title>Formations - 7 - Étude de cas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="css/css.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Formations</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2022</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../2022/ast/index.html">
+ <span class="dropdown-text">Analyse séries temporelles avec R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2021</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="../../../2021/rte/index.html">
+ <span class="dropdown-text">Désaisonnalisation avec JDemetra+ et RJDemetra</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT/formations"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#pré-ajustement" id="toc-pré-ajustement" class="nav-link active" data-scroll-target="#pré-ajustement">Pré-ajustement</a>
+  <ul class="collapse">
+  <li><a href="#série-rf2932" id="toc-série-rf2932" class="nav-link" data-scroll-target="#série-rf2932">Série RF2932</a></li>
+  <li><a href="#série-rf2813" id="toc-série-rf2813" class="nav-link" data-scroll-target="#série-rf2813">Série RF2813</a></li>
+  <li><a href="#série-rf2223" id="toc-série-rf2223" class="nav-link" data-scroll-target="#série-rf2223">Série RF2223</a></li>
+  <li><a href="#série-rf2453-tc-or-not-tc" id="toc-série-rf2453-tc-or-not-tc" class="nav-link" data-scroll-target="#série-rf2453-tc-or-not-tc">Série RF2453 : TC or not TC</a></li>
+  </ul></li>
+  <li><a href="#s-i-ratio" id="toc-s-i-ratio" class="nav-link" data-scroll-target="#s-i-ratio">S-I Ratio</a>
+  <ul class="collapse">
+  <li><a href="#série-rf1101" id="toc-série-rf1101" class="nav-link" data-scroll-target="#série-rf1101">Série RF1101</a></li>
+  </ul></li>
+  <li><a href="#saisonnalité-résiduelle" id="toc-saisonnalité-résiduelle" class="nav-link" data-scroll-target="#saisonnalité-résiduelle">Saisonnalité résiduelle</a>
+  <ul class="collapse">
+  <li><a href="#série-rf2561" id="toc-série-rf2561" class="nav-link" data-scroll-target="#série-rf2561">Série RF2561</a></li>
+  <li><a href="#série-rf2530" id="toc-série-rf2530" class="nav-link" data-scroll-target="#série-rf2530">Série RF2530 :</a></li>
+  <li><a href="#série-rf3299" id="toc-série-rf3299" class="nav-link" data-scroll-target="#série-rf3299">Série RF3299</a></li>
+  <li><a href="#séries-c4672" id="toc-séries-c4672" class="nav-link" data-scroll-target="#séries-c4672">Séries C4672</a></li>
+  <li><a href="#série-c4773" id="toc-série-c4773" class="nav-link" data-scroll-target="#série-c4773">Série C4773</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">7 - Étude de cas</h1>
+<p class="subtitle lead"></p><p>Formation - Désaisonnalisation avec JDemetra+ et RJDemetra <img src="img/logo.png" class="img-fluid" style="width:1in"></p><p></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alain Quartier-la-Tente </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>L’objectif de ce TP est de faire une étude de cas spécifique pour voir des problèmes possibles et une proposition de solution</p>
+</blockquote>
+<p>Disclaimer : il peut exister plusieurs solutions, celles données dans ce TP ne sont que des propositions qui peuvent être discuté.</p>
+<p>Pour télécharger le workspace, cliquer <a href="data/Etude_de_cas.zip">ici</a> et dézipper le fichier. Pour importer les séries depuis R, vous pouvez par exemple utiliser le code suivant :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RJDemetra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://aqlt.github.io/formations/2021/rte/data/Etude_de_cas.zip"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">file.path</span>(dir, <span class="st">"Etude_de_cas.zip"</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">file.path</span>(dir, <span class="st">"Etude_de_cas.zip"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">exdir =</span> dir)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>u_def_var <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"diagnostics.td-sa-last"</span>, <span class="st">"diagnostics.td-i-last"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">"diagnostics.fcast-insample-mean"</span>, <span class="st">"diagnostics.fcast-outsample-mean"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">"diagnostics.fcast-outsample-variance"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="fu">file.path</span>(dir, <span class="st">"Etude_de_cas.xml"</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">compute</span>(wk)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>all_models <span class="ot">&lt;-</span> <span class="fu">get_model</span>(wk,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">userdefined =</span> u_def_var)[[<span class="dv">1</span>]]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>all_models<span class="sc">$</span>RF2932</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="pré-ajustement" class="level1">
+<h1>Pré-ajustement</h1>
+<section id="série-rf2932" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2932">Série RF2932</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a un problème d’hétéroscédasticité (au seuil de 1 %) et un léger problème de non-normalité (au seuil de 1 %).</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Que pensez-vous du schéma de décomposition ?</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Décision : forcer le schéma en multiplicatif.</p>
+</div>
+</div>
+</div>
+<p>Solution sous R :</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>RF2932_init <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(all_models<span class="sc">$</span>RF2932),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">x13_spec</span>(all_models<span class="sc">$</span>RF2932),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.levelstat"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"diagnostics.logstat"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># avec modèle airline, le modèle additif est meilleur en terme d'aicc</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2932_init<span class="sc">$</span>user_defined) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$diagnostics.levelstat
+[1] 1107.123
+
+$diagnostics.logstat
+[1] 1118.317</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RF2932_init<span class="sc">$</span>regarima<span class="sc">$</span>residuals.stat</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$st.error
+[1] 6.357559
+
+$tests
+
+[1mNormality[22m
+          Statistic P.value    
+mean     -0.3191819  0.7500 ***
+skewness  0.0654232  0.7315 ***
+kurtosis  3.8008702  0.0357    
+
+Signif. codes:  H0 (normality of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mIndependence[22m
+                                        Statistic P.value    
+ljung box                              27.5414156  0.1914 ***
+ljung box (residuals at seasonal lags)  0.0000204  1.0000 ***
+
+Signif. codes: H0 (independence of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mLinearity[22m
+                               Statistic P.value  
+ljung box (squared residuals) 42.8148107  0.0050  
+
+Signif. codes:  H0 (no conditional heteroscedasticity of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2932_init<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (1, 1, 0, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(1), no leap year effect, no Easter effect, outliers(1)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Phi(1)     0.32715    0.07446  4.394 1.99e-05 ***
+BTheta(1) -0.42117    0.06825 -6.171 5.07e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+             Estimate Std. Error T-stat Pr(&gt;|t|)    
+Semaine        2.5398     0.2233 11.374  &lt; 2e-16 ***
+LS (11-2008) -23.0820     5.1897 -4.448 1.59e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 6.358 on 160 degrees of freedom
+Log likelihood = -540.5, aic =  1091, aicc =  1091, bic(corrected for length) = 3.823</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">get_ts</span>(RF2932_init)) <span class="co"># schéma parait plutôt multiplicatif</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JD-7-Etude_de_cas_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>RF2932 <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(RF2932_init),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">x13_spec</span>(RF2932_init,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">transform.function =</span> <span class="st">"Log"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># critères d'information plus petits avec le modèle ARIMA final</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2932<span class="sc">$</span>regarima) </span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (1, 1, 0, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: yes
+Regression model: no mean, trading days effect(1), no leap year effect, no Easter effect, outliers(2)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Phi(1)     0.28605    0.07630  3.749 0.000245 ***
+BTheta(1) -0.50935    0.06852 -7.434 5.44e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+              Estimate Std. Error T-stat Pr(&gt;|t|)    
+Semaine       0.024030   0.001803 13.328  &lt; 2e-16 ***
+AO (12-2008) -0.281493   0.036673 -7.676 1.37e-12 ***
+LS (11-2008) -0.236169   0.044617 -5.293 3.78e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 0.05084 on 159 degrees of freedom
+Log likelihood = 255.6, aic =  1037, aicc =  1038, bic(corrected for length) = -5.804</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>RF2932<span class="sc">$</span>regarima<span class="sc">$</span>residuals.stat</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$st.error
+[1] 0.05083682
+
+$tests
+
+[1mNormality[22m
+         Statistic P.value    
+mean     -0.261613  0.7939 ***
+skewness  0.255684  0.1800 ***
+kurtosis  2.963556  0.9239 ***
+
+Signif. codes:  H0 (normality of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mIndependence[22m
+                                       Statistic P.value    
+ljung box                              27.498876  0.1929 ***
+ljung box (residuals at seasonal lags)  0.001761  0.9991 ***
+
+Signif. codes: H0 (independence of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mLinearity[22m
+                              Statistic P.value    
+ljung box (squared residuals) 25.323509  0.2819 ***
+
+Signif. codes:  H0 (no conditional heteroscedasticity of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="série-rf2813" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2813">Série RF2813</h2>
+<p>L’analyse de cette série nécessite d’avoir vu les statistiques M qui jugent la qualité de la décomposition.</p>
+<div class="cell" data-opts.label="pb">
+<p>Il y a un problème d’autocorrélation des résidus (au seuil de 1 %) et une mauvaise décomposition (Q-M2).</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Que pensez-vous des outliers détectés ?</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Le problème d’autocorrélation peut être atténué en forçant le schéma additif (p-valeur du test est alors égale à 0,04).</p>
+<p>La mauvaise décomposition vient du fait que la tendance est plate et donc que la composante irrégulière est plus variable que la composante tendance-cycle.</p>
+<p>Décision : forcer le schéma en additif.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="série-rf2223" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2223">Série RF2223</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a un effet JO résiduel (au seuil de 5 % mais pas 1 %) et un problème d’hétéroscédasticité (au seuil de 5 % mais pas 1 %).</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Réduire le seuil de détection des outliers pour voir ce qu’il se passe.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Décision : Ajouter deux AO en 8-2007 et 7-2009.</p>
+<p>Il est préférable de rajouter les outliers à la main plutôt que de modifier de manière permanente le seuil de détection des outliers : cela évitera, pour les futures révisions du modèle,de détecter trop d’outliers.</p>
+</div>
+</div>
+</div>
+<p>Solution sous R :</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>RF2223_init <span class="ot">&lt;-</span> all_models<span class="sc">$</span>RF2223</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>RF2223_init<span class="sc">$</span>regarima<span class="sc">$</span>residuals.stat</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$st.error
+[1] 4.832668
+
+$tests
+
+[1mNormality[22m
+         Statistic P.value    
+mean       0.05142  0.9591 ***
+skewness   0.12583  0.5093 ***
+kurtosis   3.32112  0.3998 ***
+
+Signif. codes:  H0 (normality of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mIndependence[22m
+                                       Statistic P.value    
+ljung box                               21.21835  0.5073 ***
+ljung box (residuals at seasonal lags)   2.79637  0.2470 ***
+
+Signif. codes: H0 (independence of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mLinearity[22m
+                              Statistic P.value  
+ljung box (squared residuals)  34.60244  0.0426  
+
+Signif. codes:  H0 (no conditional heteroscedasticity of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2223_init<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (0, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(1), no leap year effect, no Easter effect, no outliers
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Theta(1)  -0.55547    0.06552 -8.478 1.24e-14 ***
+BTheta(1) -0.60519    0.06176 -9.799  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+        Estimate Std. Error T-stat Pr(&gt;|t|)    
+Semaine   2.9836     0.2012  14.83   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 4.833 on 161 degrees of freedom
+Log likelihood =  -497, aic =  1002, aicc =  1002, bic(corrected for length) = 3.244</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pas d'effet JO résiduel sur l'ensemble de la série</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>RF2223_init<span class="sc">$</span>diagnostics</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1m Relative contribution of the components to the stationary
+ portion of the variance in the original series,
+ after the removal of the long term trend [22m
+ Trend computed by Hodrick-Prescott filter (cycle length = 8.0 years)
+           Component
+ Cycle         4.360
+ Seasonal     93.060
+ Irregular     1.509
+ TD &amp; Hol.     3.167
+ Others        0.000
+ Total       102.096
+
+[1m Combined test in the entire series [22m
+ Non parametric tests for stable seasonality
+                                                          P.value
+   Kruskall-Wallis test                                      0.000
+   Test for the presence of seasonality assuming stability   0.000
+   Evolutive seasonality test                                0.863
+ 
+ Identifiable seasonality present
+
+[1m Residual seasonality tests [22m
+                                      P.value
+ qs test on sa                          1.000
+ qs test on i                           1.000
+ f-test on sa (seasonal dummies)        0.998
+ f-test on i (seasonal dummies)         0.974
+ Residual seasonality (entire series)   0.997
+ Residual seasonality (last 3 years)    0.951
+ f-test on sa (td)                      0.393
+ f-test on i (td)                       0.228</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mais effet JO résiduel si test sur 8 dernières années</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2223_init<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 2.27703311 0.04330548
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 1.7146908 0.1268881
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] 0.07557263 0.93986257
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -0.05393521  0.95706052
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 0.3837777 0.9891418
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>RF2223 <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(RF2223_init),</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">x13_spec</span>(RF2223_init,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">outlier.usedefcv =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">outlier.cv =</span> <span class="fl">2.8</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">userdefined =</span> u_def_var)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2223<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (0, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(1), no leap year effect, no Easter effect, outliers(2)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Theta(1)  -0.53904    0.06677 -8.074 1.35e-13 ***
+BTheta(1) -0.58038    0.06321 -9.181 2.22e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+            Estimate Std. Error T-stat Pr(&gt;|t|)    
+Semaine       2.9411     0.1915 15.354  &lt; 2e-16 ***
+AO (7-2009) -12.8787     3.6192 -3.558 0.000487 ***
+AO (4-2008)  10.6107     3.6656  2.895 0.004309 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 4.554 on 159 degrees of freedom
+Log likelihood = -486.9, aic = 985.8, aicc = 986.3, bic(corrected for length) = 3.187</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plus d'effet résiduel</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2223<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 2.10576592 0.06043949
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 1.6042176 0.1554087
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] 0.1021795 0.9187544
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -0.1043920  0.9170015
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 0.4375446 0.9773708
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour rajouter les outliers à la main</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>RF2223 <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(RF2223_init),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">x13_spec</span>(RF2223_init,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.outliersEnabled =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.outliersType =</span> <span class="fu">c</span>(<span class="st">"AO"</span>, <span class="st">"AO"</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.outliersDate =</span> <span class="fu">c</span>(<span class="st">"2008-04-01"</span>, <span class="st">"2009-07-01"</span>)),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">userdefined =</span> u_def_var)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2223<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (0, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(1), no leap year effect, no Easter effect, outliers(2)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Theta(1)  -0.53904    0.06677 -8.074 1.35e-13 ***
+BTheta(1) -0.58038    0.06321 -9.181 2.22e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+            Estimate Std. Error T-stat Pr(&gt;|t|)    
+Semaine       2.9411     0.1915 15.354  &lt; 2e-16 ***
+AO (4-2008)  10.6107     3.6656  2.895 0.004309 ** 
+AO (7-2009) -12.8787     3.6192 -3.558 0.000487 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 4.554 on 159 degrees of freedom
+Log likelihood = -486.9, aic = 985.8, aicc = 986.3, bic(corrected for length) = 3.187</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="série-rf2453-tc-or-not-tc" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2453-tc-or-not-tc">Série RF2453 : TC or not TC</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a un effet JO résiduel (au seuil de 1 %).</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Que pensez-vous des outliers détectés ?</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Supprimer la détection des TC permet de corriger le problème sur l’irrégulier mais pas sur la série désaisonnalisée.</p>
+<p>Décision : désactiver la détection automatique de TC.</p>
+</div>
+</div>
+</div>
+<p>Solution sous R :</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>RF2453_init <span class="ot">&lt;-</span> all_models<span class="sc">$</span>RF2453</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>RF2453_init<span class="sc">$</span>regarima<span class="sc">$</span>residuals.stat</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$st.error
+[1] 6.241587
+
+$tests
+
+[1mNormality[22m
+         Statistic P.value    
+mean       -0.1815  0.8562 ***
+skewness    0.1955  0.3054 ***
+kurtosis    3.4186  0.2724 ***
+
+Signif. codes:  H0 (normality of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mIndependence[22m
+                                       Statistic P.value    
+ljung box                                21.7413  0.4754 ***
+ljung box (residuals at seasonal lags)    0.2928  0.8638 ***
+
+Signif. codes: H0 (independence of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mLinearity[22m
+                              Statistic P.value    
+ljung box (squared residuals)   27.3760  0.1973 ***
+
+Signif. codes:  H0 (no conditional heteroscedasticity of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pas d'effet JO résiduel sur l'ensemble de la série</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>RF2453_init<span class="sc">$</span>diagnostics</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1m Relative contribution of the components to the stationary
+ portion of the variance in the original series,
+ after the removal of the long term trend [22m
+ Trend computed by Hodrick-Prescott filter (cycle length = 8.0 years)
+           Component
+ Cycle         4.723
+ Seasonal     67.834
+ Irregular     1.409
+ TD &amp; Hol.     2.177
+ Others       26.445
+ Total       102.587
+
+[1m Combined test in the entire series [22m
+ Non parametric tests for stable seasonality
+                                                          P.value
+   Kruskall-Wallis test                                      0.000
+   Test for the presence of seasonality assuming stability   0.000
+   Evolutive seasonality test                                0.023
+ 
+ Identifiable seasonality present
+
+[1m Residual seasonality tests [22m
+                                      P.value
+ qs test on sa                          1.000
+ qs test on i                           1.000
+ f-test on sa (seasonal dummies)        0.950
+ f-test on i (seasonal dummies)         0.766
+ Residual seasonality (entire series)   0.873
+ Residual seasonality (last 3 years)    0.865
+ f-test on sa (td)                      0.111
+ f-test on i (td)                       0.126</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mais effet JO résiduel si test sur 8 dernières années</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2453_init<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 4.08882336 0.00115262
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 2.30323517 0.04113822
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] -0.1593649  0.8736017
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -0.06024667  0.95204157
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 0.8067789 0.6900112
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beaucoup de TC qui se suivent</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2453_init<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (0, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(5), no leap year effect, no Easter effect, outliers(4)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Theta(1)  -0.47971    0.07151 -6.708 3.00e-10 ***
+BTheta(1) -0.47189    0.07333 -6.435 1.29e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+             Estimate Std. Error T-stat Pr(&gt;|t|)    
+Lundi          1.3390     0.6446  2.077   0.0393 *  
+Mardi          3.8152     0.6722  5.676 6.08e-08 ***
+Mercredi       2.8567     0.7156  3.992 9.85e-05 ***
+Jeudi          3.5577     0.6930  5.134 7.91e-07 ***
+Vendredi       1.4752     0.6674  2.210   0.0285 *  
+LS (10-2008) -26.6687     5.0893 -5.240 4.85e-07 ***
+TC (12-2008) -25.6542     5.3565 -4.789 3.70e-06 ***
+TC (2-2009)  -23.6203     5.1172 -4.616 7.83e-06 ***
+TC (8-2009)   20.5306     5.0996  4.026 8.63e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 6.242 on 153 degrees of freedom
+Log likelihood = -537.9, aic =  1100, aicc =  1102, bic(corrected for length) = 4.003</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour rajouter les outliers à la main</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>RF2453 <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(RF2453_init),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">x13_spec</span>(RF2453_init,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">outlier.tc =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">userdefined =</span> u_def_var)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RF2453<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (0, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-2004 to 10-2018
+Log-transformation: no
+Regression model: no mean, trading days effect(5), no leap year effect, no Easter effect, outliers(3)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Theta(1)  -0.46988    0.07192 -6.534 7.63e-10 ***
+BTheta(1) -0.52141    0.07201 -7.241 1.61e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+             Estimate Std. Error T-stat Pr(&gt;|t|)    
+Lundi          1.3860     0.6935  1.999 0.047291 *  
+Mardi          3.4958     0.7243  4.826 3.15e-06 ***
+Mercredi       3.0510     0.7672  3.977 0.000104 ***
+Jeudi          3.4873     0.7332  4.756 4.28e-06 ***
+Vendredi       1.6673     0.7111  2.345 0.020230 *  
+LS (10-2008) -25.4297     5.5004 -4.623 7.59e-06 ***
+LS (8-2009)   23.8545     5.2981  4.502 1.26e-05 ***
+LS (12-2008) -22.0810     5.5245 -3.997 9.66e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 6.623 on 154 degrees of freedom
+Log likelihood = -548.1, aic =  1118, aicc =  1120, bic(corrected for length) = 4.091</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2453<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 3.617642975 0.002968356
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 2.13370757 0.05725657
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] -0.1399766  0.8888714
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -0.07115003  0.94337572
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 0.7524495 0.7517122
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="s-i-ratio" class="level1">
+<h1>S-I Ratio</h1>
+<section id="série-rf1101" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf1101">Série RF1101</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Analyser les S-I ratios et le graphique <em>yearly components</em> de la série brute : que remarquez vous ?</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pour cette série, le modèle est estimé depuis 2004 mais les CVS-CJO ne sont mises à jour qu’à partir de 2012.</p>
+<p>Il y a une nette rupture de saisonnalité en 2008 qui n’affecte pas la période après 2012 (filtre M3X5 utilisé, soit pour l’estimation des coefficients saisonniers de l’année A utilise les moyennes de l’année A-3 à A+3). Ainsi, commencer l’estimation du modèle à partir de 2008 permet d’avoir un modèle de pré-ajustement mieux estimé sur le présent et la rupture de saisonnalité n’affectera pas les coefficients publiés.</p>
+<p>Une autre solution est de rajouter un seasonal outlier en août 2008</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="saisonnalité-résiduelle" class="level1">
+<h1>Saisonnalité résiduelle</h1>
+<section id="série-rf2561" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2561">Série RF2561</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a de la saisonnalité résiduelle et une mauvaise qualité des résidus du modèle RegARIMA.</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Analyser la série sur la fin de la période pour voir d’où vient la saisonnalité résiduelle. Comment pourrait-on la corriger ? Est-ce qu’il s’agit d’une rupture brute ou progressive ?</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Une rupture de saisonnalité s’observe en juin 2011 : avant cette date juin était un point haut alors qu’à partir de 2011 il est au même niveau que les mois de mai et juillet. Ajout un SO à cette date corrige la rupture mais laisse une saisonnalité résiduelle qui vient du mois de décembre : on observe sur la série désaisonnalisée des pics systématiques en décembre sur les dernières années. Cette fois-ci ce n’est pas une rupture brute de la saisonnalité : le point de décembre qui était également un point haut avant 2011 devient progressivement de plus en plus bas. Le MSR de décembre (à 0,77) est d’ailleurs bien plus bas que celui des autres mois (qui sont autour de 2) ce qui suggère de prendre un filtre saisonnier plus court en décembre (le filtre actuellement choisi est M3X3). La mauvaise qualité des résidus est difficilement corrigeable, il faudrait prendre une période d’estimation beaucoup plus courtes qui ajouterait donc une instabilité des estimations. Décision : rajouter un SO en juin 2011 et utiliser le filtre M3X1 pour le mois de décembre. Pas d’intervention pour corriger la qualité des résidus.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="série-rf2530" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf2530">Série RF2530 :</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a de la saisonnalité résiduelle (au seuil de 1 %), de l’hétéroscédasticité des résidus (au seuil de 5 %), une mauvaise décomposition (q-m2) et un problème sur la moyenne des erreurs de prévision (au seuil de 5 %).</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Analyser correctement le problème de saisonnalité résiduelle.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On remarque entre juillet et août 2009 un changement de saisonnalité : ajouter un pure seasonal outlier (PSO) entre juillet et août 2009 permet de corriger la saisonnalité résiduelle, l’hétéroscédasticité mais pas la mauvaise décomposition et le problème sur la moyenne des erreurs de prévision.</p>
+</div>
+</div>
+</div>
+<p>Solution sous R :</p>
+<div class="cell" data-solution="false">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Il faut créer le PSO :</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>pso <span class="ot">&lt;-</span> <span class="cf">function</span>(date_rupture1,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                date_rupture2,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">date_deb =</span> <span class="dv">1990</span>, <span class="at">date_fin =</span> <span class="dv">2030</span>, <span class="at">frequence =</span> <span class="dv">12</span>){</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="dv">0</span>,<span class="at">start=</span>date_deb,<span class="at">end=</span>date_fin,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">frequency =</span> frequence)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    per_rupture1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">cycle</span>(<span class="fu">window</span>(x,<span class="at">start=</span>date_rupture1,<span class="at">end=</span>date_rupture1)))</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    per_rupture2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">cycle</span>(<span class="fu">window</span>(x,<span class="at">start=</span>date_rupture2,<span class="at">end=</span>date_rupture2)))</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    x[(<span class="fu">cycle</span>(x) <span class="sc">==</span> per_rupture1) <span class="sc">&amp;</span> (<span class="fu">time</span>(x) <span class="sc">&lt;</span> date_rupture1)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    x[(<span class="fu">cycle</span>(x) <span class="sc">==</span> per_rupture2) <span class="sc">&amp;</span> (<span class="fu">time</span>(x) <span class="sc">&lt;</span> date_rupture2)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    x</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>pso_juil_aout2009 <span class="ot">&lt;-</span> <span class="fu">pso</span>(<span class="dv">2009</span><span class="sc">+</span>(<span class="dv">7-1</span>)<span class="sc">/</span><span class="dv">12</span>,</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">2009</span><span class="sc">+</span>(<span class="dv">8-1</span>)<span class="sc">/</span><span class="dv">12</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pso_juil_aout2009)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JD-7-Etude_de_cas_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>RF2530 <span class="ot">&lt;-</span> all_models<span class="sc">$</span>RF2530</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2530<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 1.3937951 0.2260685
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 0.9615718 0.4560279
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] -0.001473487  0.998826339
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -2.39348894  0.01795943
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 1.4525592 0.1157818
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>RF2530 <span class="ot">&lt;-</span> <span class="fu">x13</span>(<span class="fu">get_ts</span>(RF2530),</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">x13_spec</span>(RF2530,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.varEnabled =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.var =</span> pso_juil_aout2009,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">usrdef.varType =</span> <span class="st">"Seasonal"</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                       ),</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">userdefined =</span> u_def_var)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(RF2530<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.td-sa-last`
+[1] 2.77575446 0.01612013
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.td-i-last`
+[1] 1.8370673 0.1009677
+attr(,"description")
+[1] "F with 6 degrees of freedom in the nominator and 88 degrees of freedom in the denominator"
+
+$`diagnostics.fcast-insample-mean`
+[1] 1.0196171 0.3095967
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -1.86986419  0.06350511
+attr(,"description")
+[1] "T with 146 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 1.2460664 0.2326639
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 147 degrees of freedom in the denominator"</code></pre>
+</div>
+</div>
+</section>
+<section id="série-rf3299" class="level2">
+<h2 class="anchored" data-anchor-id="série-rf3299">Série RF3299</h2>
+<div class="cell" data-opts.label="pb">
+<p>Il y a de la saisonnalité résiduelle.</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Analyser correctement le problème de saisonnalité résiduelle.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ajouter des SO en 10-2012 et 12-2015.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="séries-c4672" class="level2">
+<h2 class="anchored" data-anchor-id="séries-c4672">Séries C4672</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dans cet exercice il y a deux séries à étudier : la série C4672 depuis 1999 et la même série mais estimée à partir de 2005.</p>
+<ul>
+<li><p>Commencez par la série qui commence en 1999. Comment vous parait le modèle ?</p></li>
+<li><p>Analyser le modèle de la série qui commence en 2005 et comparer les résultats.</p></li>
+</ul>
+</div>
+</div>
+<div class="cell" data-opts.label="pb">
+<p>Saisonnalité résiduelle non détectée pour modèle ensemble mais détectée si modèle coupé à partir de 2005.</p>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ajouter un SO 11-2008.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="série-c4773" class="level2">
+<h2 class="anchored" data-anchor-id="série-c4773">Série C4773</h2>
+<div class="cell" data-opts.label="pb">
+<p>Saisonnalité résiduelle détectée.</p>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Étudier les S-I ratio : la saisonnalité est-elle stable ?</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On observe une saisonnalité plutôt stable sauf en juillet et août (étude des S-I ratio). Les S-I ratio montrent aussi en juillet et août un comportement « atypique » de l’irrégulier en début de période. On n’observe pas de changement brusque de saisonnalité. L’étude des MSR par mois suggère de prendre un filtre plus court en juillet et en août : cela permet de corriger la saisonnalité résiduelle.</p>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Alain Quartier-la-Tente, Insee</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://aqlt.netlify.app">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

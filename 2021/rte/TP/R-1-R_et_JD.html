@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alain Quartier-la-Tente">
+
+<title>Formations - 1 - R et JDemetra+</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="css/css.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Formations</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2022</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../2022/ast/index.html">
+ <span class="dropdown-text">Analyse séries temporelles avec R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2021</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="../../../2021/rte/index.html">
+ <span class="dropdown-text">Désaisonnalisation avec JDemetra+ et RJDemetra</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT/formations"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#rjdemetra" id="toc-rjdemetra" class="nav-link active" data-scroll-target="#rjdemetra">RJDemetra</a>
+  <ul class="collapse">
+  <li><a href="#créer-une-specification" id="toc-créer-une-specification" class="nav-link" data-scroll-target="#créer-une-specification">Créer une specification</a></li>
+  <li><a href="#créer-un-workspace" id="toc-créer-un-workspace" class="nav-link" data-scroll-target="#créer-un-workspace">Créer un workspace</a></li>
+  <li><a href="#manipuler-les-objets-java" id="toc-manipuler-les-objets-java" class="nav-link" data-scroll-target="#manipuler-les-objets-java">Manipuler les objets Java</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">1 - R et JDemetra+</h1>
+<p class="subtitle lead"></p><p>Formation - Désaisonnalisation avec JDemetra+ et RJDemetra <img src="img/logo.png" class="img-fluid" style="width:1in"></p><p></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alain Quartier-la-Tente </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>L’objectif de ce TP est d’apprendre à manipuler JDemetra+ sous R à travers le package RJDemetra.</p>
+</blockquote>
+<p>Pour manipuler JDemetra+ sous R il y a actuellement deux façons :</p>
+<ol type="1">
+<li><p>Utiliser le <a href="https://github.com/jdemetra/jwsacruncher">JWSACruncher</a> qui permet, à partir de la console, de mettre à jour un workspace JDemetra+ et d’exporter les résultats sans devoir ouvrir le logiciel. Pour faciliter son utilisation depuis R, le package <code>rjwsacruncher</code> peut être utilisé (voir <a href="../../../2021/rte/TP/R-5-JD_in_production.html">TP5 - JDemetra+ en production</a>).</p></li>
+<li><p>Utiliser le package <code>RJDemetra</code> qui permet d’effectuer des désaisonnalisations avec les mêmes algorithmes et paramètres que JDemetra+ et de manipuler des workspaces.</p></li>
+</ol>
+<p>Dans ce TP on utilisera les données du package <code>RJDemetra</code> mais n’hésitez pas à utiliser vos propres séries, en utilisant par exemple le code ci-dessous :</p>
+<p>Si besoin, ci-dessous un exemple de code pour récupérer vos données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fichier <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">"xlsx"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, fichier)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(fichier)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>date_deb <span class="ot">&lt;-</span> <span class="dv">2006</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> <span class="fu">ts</span>(data_rte[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">start =</span> date_deb,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">frequency =</span> <span class="dv">12</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="rjdemetra" class="level1">
+<h1>RJDemetra</h1>
+<p>Pour faire de la désaisonnalisation sous R il existe plusieurs packages :</p>
+<ul>
+<li><p><code>seasonal</code> et <code>x12</code> qui permettent de faire du X-13ARIMA-SEATS en utilisant les programmes du US Census Bureau</p></li>
+<li><p><code>RJDemetra</code> qui est une interface R à JDemetra+ et c’est ce package que l’on va étudier.</p></li>
+</ul>
+<p><code>RJDemetra</code> est sur le CRAN et se base sur les librairies Java de JDemetra+. Pour l’utiliser il faut avoir Java 8 ou plus. En cas de problème d’installation voir la page : <a href="https://github.com/jdemetra/rjdemetra/wiki/Installation-manual" class="uri">https://github.com/jdemetra/rjdemetra/wiki/Installation-manual</a>.</p>
+<p>Le package a aussi un site web (<a href="https://jdemetra.github.io/rjdemetra/" class="uri">https://jdemetra.github.io/rjdemetra/</a>).</p>
+<p><code>RJDemetra</code> permet :</p>
+<ul>
+<li><p>De faire des modèles RegARIMA, TRAMO-SEATS and X-13-ARIMA comme dans JDemetra+ en définissant sa propre spécification</p></li>
+<li><p>Manipuler les workspaces de JDemetra+ :</p>
+<ul>
+<li>Importer les modèles workspaces sauvegardés par JDemetra+</li>
+<li>Exporter les modèles créés sous RJDemetra</li>
+</ul></li>
+</ul>
+<section id="créer-une-specification" class="level2">
+<h2 class="anchored" data-anchor-id="créer-une-specification">Créer une specification</h2>
+<p>Dans les prochains exercices, la série utilisée sera <code>ipi_c_eu[, "FR"]</code> qui est l’IPI français. Vous pouvez bien sûr adapter le code pour utiliser vos propres séries. Les fonctions utilisées seront <code>x13()</code>, <code>x13_spec()</code>, <code>regarima_x13</code>, <code>regarima_x13_spec</code> ou <code>regarima</code>. Le détail des spécifications pré-définies par JDemetra+ sont disponibles <a href="../../../2021/rte/PDF/Predefined_specifications.pdf">ici</a>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Faire la désaisonnalisation d’une série avec X-13 avec la spécification suivante :</p>
+<ul>
+<li>détection automatique du schéma de décomposition, des outliers et du modèle ARIMA</li>
+<li>une correction des jours ouvrables “working days” et un effet graduel de Pâques</li>
+</ul>
+<p>Faire ensuite un graphique avec la série brute et la série désaisonnalisée.</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Utiliser la spécification <code>RSA4c</code> pour la désaisonnalisation.</p>
+<p>Si le modèle créé s’appelle <code>mysa</code>, regarder les valeurs de <code>mysa$final</code>, <code>mysa$final$series</code> et <code>mysa$final$forecasts</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mysa <span class="ot">&lt;-</span> <span class="fu">x13</span>(ipi_c_eu[, <span class="st">"FR"</span>], <span class="at">spec =</span> <span class="st">"RSA4c"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mysa</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[4m[1mRegARIMA[22m[24m
+y = regression model + arima (2, 1, 1, 0, 1, 1)
+Log-transformation: no
+Coefficients:
+          Estimate Std. Error
+Phi(1)     0.05291      0.108
+Phi(2)     0.18672      0.074
+Theta(1)  -0.52137      0.103
+BTheta(1) -0.66132      0.042
+
+             Estimate Std. Error
+Week days      0.6927      0.031
+Leap year      2.0903      0.694
+Easter [1]    -2.5476      0.442
+TC (4-2020)  -35.6481      2.092
+AO (3-2020)  -21.1492      2.122
+AO (5-2011)   13.1869      1.810
+LS (11-2008)  -9.2744      1.758
+LS (1-2009)   -7.2838      1.756
+
+
+Residual standard error: 2.193 on 346 degrees of freedom
+Log likelihood = -795.1, aic =  1616 aicc =  1617, bic(corrected for length) = 1.767
+
+
+
+[4m[1mDecomposition[22m[24m
+[1m Monitoring and Quality Assessment Statistics: [22m 
+      M stats
+M(1)    0.127
+M(2)    0.079
+M(3)    1.094
+M(4)    0.558
+M(5)    1.093
+M(6)    0.022
+M(7)    0.085
+M(8)    0.242
+M(9)    0.064
+M(10)   0.261
+M(11)   0.247
+Q       0.355
+Q-M2    0.389
+
+Final filters: 
+Seasonal filter:  3x5
+Trend filter:  13 terms Henderson moving average
+
+
+[4m[1mFinal[22m[24m
+Last observed values
+             y        sa        t           s           i
+Jan 2020 101.0 102.87273 103.0457  -1.8727280  -0.1730003
+Feb 2020 100.1 103.69025 103.0626  -3.5902540   0.6276448
+Mar 2020  91.8  82.69170 103.2654   9.1083000 -20.5736602
+Apr 2020  66.7  66.55184 103.6945   0.1481625 -37.1426277
+May 2020  73.7  79.28883 104.1379  -5.5888279 -24.8490764
+Jun 2020  98.2  87.35362 104.4539  10.8463757 -17.1002284
+Jul 2020  97.4  92.26057 104.5518   5.1394323 -12.2912806
+Aug 2020  71.7  97.54392 104.3369 -25.8439193  -6.7929846
+Sep 2020 104.7  97.75728 103.8361   6.9427184  -6.0788659
+Oct 2020 106.7  97.87016 103.1969   8.8298396  -5.3267823
+Nov 2020 101.6 100.01475 102.6601   1.5852540  -2.6453446
+Dec 2020  96.6  99.61740 102.4081  -3.0173983  -2.7907314
+
+Forecasts:
+               y_f     sa_f      t_f         s_f        i_f
+Jan 2021  94.29728 101.0937 102.3876  -6.7963909 -1.2939310
+Feb 2021  97.89298 101.6869 102.4525  -3.7939488 -0.7655396
+Mar 2021 113.65190 102.1478 102.4593  11.5041248 -0.3115701
+Apr 2021 102.34532 102.1806 102.3419   0.1647274 -0.1612727
+May 2021  96.14552 101.6436 102.1712  -5.4980759 -0.5276194
+Jun 2021 112.15785 101.2156 102.0241  10.9422549 -0.8085520
+Jul 2021 104.38495 101.5439 101.9635   2.8410057 -0.4195241
+Aug 2021  79.02901 102.3820 102.0412 -23.3530134  0.3408366
+Sep 2021 109.40288 102.3705 102.1977   7.0323700  0.1728109
+Oct 2021 108.22472 101.8558 102.3655   6.3689511 -0.5096780
+Nov 2021 106.22014 102.4265 102.5266   3.7936049 -0.1000754
+Dec 2021  99.67523 102.9462 102.6812  -3.2709156  0.2649189
+
+
+[4m[1mDiagnostics[22m[24m
+[1m Relative contribution of the components to the stationary
+ portion of the variance in the original series,
+ after the removal of the long term trend [22m
+ Trend computed by Hodrick-Prescott filter (cycle length = 8.0 years)
+           Component
+ Cycle         1.830
+ Seasonal     51.089
+ Irregular     0.927
+ TD &amp; Hol.     2.179
+ Others       44.916
+ Total       100.941
+
+[1m Combined test in the entire series [22m
+ Non parametric tests for stable seasonality
+                                                          P.value
+   Kruskall-Wallis test                                      0.000
+   Test for the presence of seasonality assuming stability   0.000
+   Evolutive seasonality test                                0.014
+ 
+ Identifiable seasonality present
+
+[1m Residual seasonality tests [22m
+                                      P.value
+ qs test on sa                          0.924
+ qs test on i                           0.643
+ f-test on sa (seasonal dummies)        0.671
+ f-test on i (seasonal dummies)         0.453
+ Residual seasonality (entire series)   0.415
+ Residual seasonality (last 3 years)    0.954
+ f-test on sa (td)                      0.091
+ f-test on i (td)                       0.333
+
+
+[4m[1mAdditional output variables[22m[24m</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> mysa<span class="sc">$</span>final<span class="sc">$</span>series[,<span class="st">"y"</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># De façon équivalente :</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">get_ts</span>(mysa)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sa <span class="ot">&lt;-</span> mysa<span class="sc">$</span>final<span class="sc">$</span>series[,<span class="st">"sa"</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sa, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="R-1-R_et_JD_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ou on peut directement utiliser les fonctions de RJDemetra :</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mysa, <span class="at">first_date =</span> <span class="dv">2000</span>, <span class="co">#Pour n'afficher le graphique qu'à partir de 200</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type_chart =</span> <span class="st">"sa-trend"</span> <span class="co"># Pour faire le graphique avec y, sa et tendance</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="R-1-R_et_JD_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Modifier le modèle précédent pour enlever l’effet graduel de Pâques.</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>spec_sans_easter <span class="ot">&lt;-</span> <span class="fu">x13_spec</span>(mysa,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">easter.enabled =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mysa2 <span class="ot">&lt;-</span> <span class="fu">x13</span>(ipi_c_eu[, <span class="st">"FR"</span>], spec_sans_easter)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>mysa2<span class="sc">$</span>regarima</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (2, 1, 0, 0, 1, 1)
+Log-transformation: no
+Coefficients:
+          Estimate Std. Error
+Phi(1)      0.5392      0.051
+Phi(2)      0.3055      0.051
+BTheta(1)  -0.6907      0.041
+
+             Estimate Std. Error
+Week days      0.6949      0.036
+Leap year      2.0370      0.734
+TC (4-2020)  -37.5412      2.286
+AO (3-2020)  -20.6096      2.234
+AO (5-2011)   12.6737      1.898
+LS (11-2008)  -9.8861      1.884
+
+
+Residual standard error: 2.376 on 349 degrees of freedom
+Log likelihood = -824.2, aic =  1668 aicc =  1669, bic(corrected for length) = 1.878</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calculer les p-valeurs associées au modèle Reg-ARIMA de la précédente spécification</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Récupérer le modèle Reg-ARIMA et utiliser la fonction <code>summary()</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mysa2<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (2, 1, 0, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-1990 to 12-2020
+Log-transformation: no
+Regression model: no mean, trading days effect(2), leap year effect, no Easter effect, outliers(4)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error  T-stat Pr(&gt;|t|)    
+Phi(1)     0.53923    0.05103  10.567  &lt; 2e-16 ***
+Phi(2)     0.30555    0.05096   5.996 4.92e-09 ***
+BTheta(1) -0.69072    0.04077 -16.942  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+              Estimate Std. Error  T-stat Pr(&gt;|t|)    
+Week days      0.69490    0.03592  19.346  &lt; 2e-16 ***
+Leap year      2.03702    0.73355   2.777  0.00577 ** 
+TC (4-2020)  -37.54123    2.28584 -16.423  &lt; 2e-16 ***
+AO (3-2020)  -20.60960    2.23446  -9.224  &lt; 2e-16 ***
+AO (5-2011)   12.67365    1.89818   6.677 9.30e-11 ***
+LS (11-2008)  -9.88611    1.88424  -5.247 2.65e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 2.376 on 349 degrees of freedom
+Log likelihood = -824.2, aic =  1668, aicc =  1669, bic(corrected for length) = 1.878</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="créer-un-workspace" class="level2">
+<h2 class="anchored" data-anchor-id="créer-un-workspace">Créer un workspace</h2>
+<p>Dans cette partie nous allons créer un workspace depuis R. Pour cela les fonctions qui peuvent être utilisées sont <code>new_workspace()</code>, <code>load_workspace()</code>, <code>new_multiprocessing()</code>, <code>add_sa_item()</code>, <code>save_workspace()</code>, <code>compute()</code>, <code>get_object()</code>, <code>get_name()</code>, <code>get_ts()</code> ou <code>count()</code>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer un workspace qui va contenir une série désaisonnalisée selon 3 spécifications différentes.</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">new_workspace</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">new_multiprocessing</span>(wk, <span class="st">"MP-1"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">add_sa_item</span>(wk, <span class="st">"MP-1"</span>, mysa, <span class="st">"X13 avec Pâques"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">add_sa_item</span>(wk, <span class="st">"MP-1"</span>, mysa2, <span class="st">"X13 sans Pâques"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_sa_item</span>(wk, <span class="st">"MP-1"</span>, <span class="fu">tramoseats</span>(ipi_c_eu[, <span class="st">"FR"</span>]), <span class="st">"TRAMO-SEATS"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(wk, <span class="st">"mon_premier_workspace.xml"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Importer le workspace précédent et récupérer :</p>
+<ul>
+<li>Le nom du premier multi-processing</li>
+<li>Le nombre de modèles dans ce premier multi-processing</li>
+<li>L’ensemble des séries brutes</li>
+<li>Le 2ème modèle</li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="st">"mon_premier_workspace.xml"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute</span>(wk)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(wk) <span class="co"># Nombre de multiprocessing</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">get_object</span>(wk, <span class="dv">1</span>) <span class="co"># Le premier multiprocessing</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_name</span>(mp1)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "MP-1"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(mp1)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>all_y <span class="ot">&lt;-</span> <span class="fu">get_ts</span>(mp1) <span class="co"># toutes les séries brutes</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">get_object</span>(mp1, <span class="dv">2</span>) <span class="co"># On récupère l'objet associé au 2ème modèle</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_model</span>(model2, wk)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[4m[1mRegARIMA[22m[24m
+y = regression model + arima (2, 1, 0, 0, 1, 1)
+Log-transformation: no
+Coefficients:
+          Estimate Std. Error
+Phi(1)      0.5392      0.051
+Phi(2)      0.3055      0.051
+BTheta(1)  -0.6907      0.041
+
+             Estimate Std. Error
+Week days      0.6949      0.036
+Leap year      2.0370      0.734
+TC (4-2020)  -37.5412      2.286
+AO (3-2020)  -20.6096      2.234
+AO (5-2011)   12.6737      1.898
+LS (11-2008)  -9.8861      1.884
+
+
+Residual standard error: 2.376 on 349 degrees of freedom
+Log likelihood = -824.2, aic =  1668 aicc =  1669, bic(corrected for length) = 1.878
+
+
+
+[4m[1mDecomposition[22m[24m
+[1m Monitoring and Quality Assessment Statistics: [22m 
+      M stats
+M(1)    0.118
+M(2)    0.070
+M(3)    1.020
+M(4)    0.207
+M(5)    1.020
+M(6)    0.023
+M(7)    0.086
+M(8)    0.252
+M(9)    0.061
+M(10)   0.272
+M(11)   0.253
+Q       0.311
+Q-M2    0.341
+
+Final filters: 
+Seasonal filter:  3x5
+Trend filter:  13 terms Henderson moving average
+
+
+[4m[1mFinal[22m[24m
+Last observed values
+             y        sa        t          s            i
+Jan 2020 101.0 103.05492 103.1535  -2.054924  -0.09860242
+Feb 2020 100.1 103.97044 103.3561  -3.870443   0.61433677
+Mar 2020  91.8  83.16842 103.7741   8.631582 -20.60564584
+Apr 2020  66.7  65.39235 104.3888   1.307651 -38.99644727
+May 2020  73.7  79.05610 104.9443  -5.356103 -25.88818063
+Jun 2020  98.2  87.34635 105.2787  10.853649 -17.93233952
+Jul 2020  97.4  92.32900 105.3035   5.070997 -12.97447645
+Aug 2020  71.7  97.65388 104.9547 -25.953878  -7.30080299
+Sep 2020 104.7  97.79183 104.3028   6.908172  -6.51098097
+Oct 2020 106.7  98.05499 103.5029   8.645008  -5.44786549
+Nov 2020 101.6 100.05993 102.7928   1.540069  -2.73284988
+Dec 2020  96.6  99.61720 102.3254  -3.017195  -2.70816560
+
+Forecasts:
+               y_f     sa_f      t_f        s_f         i_f
+Jan 2021  93.67792 100.6889 102.0697  -7.010962 -1.38078701
+Feb 2021  97.04844 101.0898 101.9241  -4.041334 -0.83433350
+Mar 2021 111.88132 100.9504 101.7890  10.930954 -0.83859394
+Apr 2021 102.97429 101.6532 101.6187   1.321079  0.03446852
+May 2021  95.75042 100.9289 101.4711  -5.178523 -0.54218868
+Jun 2021 111.64361 100.7014 101.3832  10.942225 -0.68178140
+Jul 2021 103.72617 100.9095 101.3791   2.816690 -0.46959728
+Aug 2021  78.33366 101.7966 101.4826 -23.462988  0.31407100
+Sep 2021 108.80554 101.8094 101.6406   6.996129  0.16879596
+Oct 2021 107.51641 101.3617 101.8118   6.154729 -0.45007973
+Nov 2021 105.56463 101.8129 101.9805   3.751742 -0.16757433
+Dec 2021  99.16008 102.4165 102.1319  -3.256419  0.28462277
+
+
+[4m[1mDiagnostics[22m[24m
+[1m Relative contribution of the components to the stationary
+ portion of the variance in the original series,
+ after the removal of the long term trend [22m
+ Trend computed by Hodrick-Prescott filter (cycle length = 8.0 years)
+           Component
+ Cycle         2.807
+ Seasonal     67.429
+ Irregular     1.369
+ TD &amp; Hol.     2.572
+ Others       26.609
+ Total       100.786
+
+[1m Combined test in the entire series [22m
+ Non parametric tests for stable seasonality
+                                                          P.value
+   Kruskall-Wallis test                                      0.000
+   Test for the presence of seasonality assuming stability   0.000
+   Evolutive seasonality test                                0.035
+ 
+ Identifiable seasonality present
+
+[1m Residual seasonality tests [22m
+                                      P.value
+ qs test on sa                          1.000
+ qs test on i                           0.983
+ f-test on sa (seasonal dummies)        0.556
+ f-test on i (seasonal dummies)         0.392
+ Residual seasonality (entire series)   0.714
+ Residual seasonality (last 3 years)    0.997
+ f-test on sa (td)                      0.015
+ f-test on i (td)                       0.146
+
+
+[4m[1mAdditional output variables[22m[24m</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="manipuler-les-objets-java" class="level2">
+<h2 class="anchored" data-anchor-id="manipuler-les-objets-java">Manipuler les objets Java</h2>
+<p>L’objectif de cette partie est de manipuler la fonction <code>jx13()</code> pour gagner en temps de calcul.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer un modèle à partir de la fonction <code>jx13()</code> et la spécification sans effet graduel de pâques calculée dans une des sections précédentes.</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>myjsa <span class="ot">&lt;-</span> <span class="fu">jx13</span>(ipi_c_eu[, <span class="st">"FR"</span>], spec_sans_easter)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_indicators</span>(myjsa, <span class="st">"sa"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$sa
+           Jan       Feb       Mar       Apr       May       Jun       Jul
+1990  93.26192  95.28210  94.72427  93.79807  93.58689  92.90669  94.21534
+1991  93.60604  92.28757  92.61612  92.18918  87.68624  94.66893  92.29891
+1992  91.60322  92.03867  92.44368  92.10173  91.13355  90.57461  89.27557
+1993  87.95635  87.66799  86.42064  86.77045  87.29414  86.83820  86.72890
+1994  89.25920  87.64515  87.99068  89.29768  91.17636  91.48283  90.76570
+1995  95.23894  94.20432  93.92823  93.97688  92.23570  91.96366  93.79453
+1996  93.19519  92.59312  93.85781  93.16482  91.35090  94.69040  94.14381
+1997  93.28048  95.67111  94.47884 101.83691  96.60488  98.43983  98.24606
+1998 102.20545 103.13141 101.62413 102.96106 103.60058 102.33459 103.79731
+1999 103.76472 102.74795 103.70819 104.16562 106.06980 107.71979 105.66106
+2000 110.06944 109.17177 110.14375 109.79371 114.82438 106.83213 110.32456
+2001 112.62576 113.20381 114.26307 110.62964 111.94532 111.54071 112.09929
+2002 110.40192 110.92422 110.77613 111.86170 107.96491 110.99208 111.34867
+2003 108.82396 109.69598 109.30218 110.11139 106.05417 104.24931 108.98362
+2004 108.86061 110.87940 110.17711 110.71582 111.15572 112.82616 111.54792
+2005 113.95584 110.83848 106.38000 114.36016 113.60201 111.15980 109.25001
+2006 112.56654 110.40119 112.72819 111.48283 114.36479 113.05862 111.30270
+2007 112.81233 113.99272 114.79256 113.11564 112.78587 115.81567 116.41861
+2008 114.51052 115.76727 111.07812 119.37532 111.27702 111.22352 111.98724
+2009  94.36527  93.88381  91.33972  93.06359  94.74364  93.50699  94.26196
+2010  96.26416  96.64089  98.58551  99.22953 102.29301 100.37051  99.13683
+2011 104.89593 104.99950 104.38147 102.29292 114.79067  97.53951 101.38411
+2012 102.79898 100.28989 101.70648  99.91410  98.86265 100.22038 101.40031
+2013  97.44981  98.68330  97.59979 100.48643  99.33341  99.94008 100.18739
+2014  98.06608 100.13701  98.50695  99.67278  97.97852  97.02262  98.47425
+2015  98.46074  99.49526  99.43802  99.15803  98.66745 101.76119  96.60888
+2016 101.43823 100.61673  96.76938 102.88879 103.36442 100.25266  96.45526
+2017 102.87251 101.24167 102.96195 100.57813 104.44045 101.24441 100.13568
+2018 103.43616 102.91552 103.90301 103.66953  99.87362 104.85129 104.60709
+2019 105.67633 106.32086 105.23475 105.75330 105.93573 100.22658 105.01869
+2020 103.05492 103.97044  83.16842  65.39235  79.05610  87.34635  92.32900
+           Aug       Sep       Oct       Nov       Dec
+1990  92.40895  93.48122  93.44382  92.20500  90.35429
+1991  92.42568  92.21783  92.03596  91.99483  90.56914
+1992  93.41716  89.52944  89.56159  89.94821  88.20834
+1993  89.35112  86.64602  86.78198  84.01598  87.23752
+1994  91.48403  91.09236  91.80621  92.72059  95.22335
+1995  92.44329  93.93017  92.68054  93.31657  94.36201
+1996  94.60521  93.92616  93.60896  93.74495  93.25051
+1997 101.62786  99.72790 102.47571 100.76052 101.84404
+1998 103.61016 103.82358 103.12835 104.35209 102.99943
+1999 105.48958 107.49426 107.98066 107.34122 110.18481
+2000 109.20510 111.02251 111.62295 113.49313 113.65263
+2001 112.99097 110.90319 111.23285 110.60945 107.42627
+2002 111.58435 109.50461 109.48479 110.07986 105.97585
+2003 108.64535 108.35322 110.34772 109.44870 108.12960
+2004 110.49232 112.28445 111.70451 109.01379 111.81955
+2005 110.18106 113.13185 108.23681 112.06914 113.39639
+2006 112.20573 113.51381 112.45401 112.71426 112.63676
+2007 114.37634 112.41341 116.16812 113.65633 111.15318
+2008 109.84715 109.52683 108.13030  99.75502  99.31542
+2009 100.17498  97.48713  97.00543  96.82694  95.52096
+2010 100.93712 100.28494 100.14540  98.36527 102.46107
+2011 101.46901 101.52124 101.92153 102.44468 103.38051
+2012 101.34382  99.58022  98.33652  98.54055  97.28724
+2013  97.83959  97.75148 100.17718  98.33999  97.88808
+2014  98.04084  99.40280  98.43145  97.16129  99.15030
+2015 102.41622 101.56240 100.63622 100.72218 100.58640
+2016 101.13931 100.63261  98.27976 100.78665 102.95168
+2017 102.75336 103.61452 105.27554 106.80320 105.60590
+2018 103.92286 102.68056 105.22113 105.28450 104.33286
+2019 102.42566 104.61463 105.51990 102.22427 102.74974
+2020  97.65388  97.79183  98.05499 100.05993  99.61720</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Toujours avec la même spécification, extraire les révisions de la séries désaisonnalisée du point de janvier 2005 (i.e.&nbsp;: série désaisonnalisée lorsqu’on a les données jusqu’en janvier 2005, puis jusqu’en février 2005, etc.).</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Indice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Récupérer l’ensemble des dates de fin d’estimation avec la fonction <code>window(time(ipi_c_eu[, "FR"]), start = 2005)</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">window</span>(<span class="fu">time</span>(ipi_c_eu[, <span class="st">"FR"</span>]), <span class="at">start =</span> <span class="dv">2005</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>estimations <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dates, <span class="cf">function</span>(last_date_estimation){</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  myjsa <span class="ot">&lt;-</span> <span class="fu">jx13</span>(<span class="fu">window</span>(ipi_c_eu[, <span class="st">"FR"</span>], <span class="at">end =</span> last_date_estimation), spec_sans_easter)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  sa <span class="ot">&lt;-</span> <span class="fu">get_indicators</span>(myjsa, <span class="st">"sa"</span>)<span class="sc">$</span>sa</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">window</span>(sa, <span class="at">start =</span> <span class="dv">2005</span>, <span class="at">end =</span> <span class="dv">2005</span>) <span class="co"># Pour ne récupérer que la valeur en 2005</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>estimations <span class="ot">&lt;-</span> <span class="fu">ts</span>(estimations, <span class="at">start =</span> <span class="dv">2005</span>, <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(estimations)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="R-1-R_et_JD_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | include: false</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.remove</span>(<span class="st">"mon_premier_workspace.xml"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="st">"mon_premier_workspace"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Alain Quartier-la-Tente, Insee</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://aqlt.netlify.app">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

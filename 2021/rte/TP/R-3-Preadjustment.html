@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alain Quartier-la-Tente">
+
+<title>Formations - 3 - Qualité du préajustement sous R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="css/css.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Formations</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2022</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../2022/ast/index.html">
+ <span class="dropdown-text">Analyse séries temporelles avec R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2021</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="../../../2021/rte/index.html">
+ <span class="dropdown-text">Désaisonnalisation avec JDemetra+ et RJDemetra</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT/formations"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">3 - Qualité du préajustement sous R</h1>
+<p class="subtitle lead"></p><p>Formation - Désaisonnalisation avec JDemetra+ et RJDemetra <img src="img/logo.png" class="img-fluid" style="width:1in"></p><p></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alain Quartier-la-Tente </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>L’objectif de ce TP est d’apprendre à vérifier la qualité du pré-ajustement dans RJDemetra</p>
+</blockquote>
+<p>Si besoin, ci-dessous un exemple de code pour récupérer vos données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fichier <span class="ot">&lt;-</span> <span class="st">"../data/data_rte.xlsx"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # Ou en téléchargeant le fichier depuis internet :</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fichier &lt;- tempfile(fileext = "xlsx")</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># url &lt;- "https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># download.file(url, fichier)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(fichier)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>date_deb <span class="ot">&lt;-</span> <span class="dv">2006</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> <span class="fu">ts</span>(data_rte[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">start =</span> date_deb,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">frequency =</span> <span class="dv">12</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Prenons une spécification par défaut :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RJDemetra)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ipi_fr <span class="ot">&lt;-</span> ipi_c_eu[, <span class="st">"FR"</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>mysa <span class="ot">&lt;-</span> <span class="fu">x13</span>(ipi_fr)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Comme on l’a vu dans le TP2, les tests de Student peuvent être utilisés pour tester la significativité des coefficients, et on peut également faire des tests de Fisher avec le package <code>car</code> pour voir si l’on peut simplifier les régresseurs jours ouvrables. Voir également le TP2 pour les tests sur la présence de jours ouvrables résiduelle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mysa<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (2, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-1990 to 12-2020
+Log-transformation: no
+Regression model: no mean, trading days effect(7), leap year effect, Easter effect, outliers(4)
+
+Coefficients:
+ARIMA: 
+            Estimate Std. Error  T-stat Pr(&gt;|t|)    
+Phi(1)     0.0003269  0.1077296   0.003   0.9976    
+Phi(2)     0.1688192  0.0740996   2.278   0.0233 *  
+Theta(1)  -0.5485606  0.1016550  -5.396 1.24e-07 ***
+BTheta(1) -0.6660849  0.0422242 -15.775  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+              Estimate Std. Error  T-stat Pr(&gt;|t|)    
+Monday         0.55932    0.22801   2.453 0.014638 *  
+Tuesday        0.88221    0.22832   3.864 0.000132 ***
+Wednesday      1.03996    0.22930   4.535 7.85e-06 ***
+Thursday       0.04943    0.22944   0.215 0.829549    
+Friday         0.91132    0.22988   3.964 8.88e-05 ***
+Saturday      -1.57769    0.22775  -6.927 1.99e-11 ***
+Leap year      2.15403    0.70527   3.054 0.002425 ** 
+Easter [1]    -2.37950    0.45391  -5.242 2.71e-07 ***
+TC (4-2020)  -35.59245    2.17330 -16.377  &lt; 2e-16 ***
+AO (3-2020)  -20.89026    2.18013  -9.582  &lt; 2e-16 ***
+AO (5-2011)   13.49850    1.85694   7.269 2.28e-12 ***
+LS (11-2008) -12.54901    1.63554  -7.673 1.60e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 2.218 on 342 degrees of freedom
+Log likelihood = -799.1, aic =  1632, aicc =  1634, bic(corrected for length) = 1.855</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># On rejette l'hypothèse de nullité globale des coefficients</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">linearHypothesis</span>(mysa,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(<span class="st">"Monday"</span>,<span class="st">"Tuesday"</span>,<span class="st">"Wednesday"</span>,<span class="st">"Thursday"</span>,<span class="st">"Friday"</span>,<span class="st">"Saturday"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear hypothesis test
+
+Hypothesis:
+Monday = 0
+Tuesday = 0
+Wednesday = 0
+Thursday = 0
+Friday = 0
+Saturday = 0
+
+Model 1: restricted model
+Model 2: mysa
+
+  Res.Df Df      F    Pr(&gt;F)    
+1    348                        
+2    342  6 83.415 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On pourrait rassembler les jours de la semaine :</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">linearHypothesis</span>(mysa,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(<span class="st">"Monday = Tuesday"</span>,<span class="st">"Tuesday = Wednesday"</span>,<span class="st">"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">                   Wednesday = Thursday"</span>, <span class="st">"Thursday = Friday"</span>), <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear hypothesis test
+
+Hypothesis:
+Monday - Tuesday = 0
+Tuesday - Wednesday = 0
+Wednesday - Thursday = 0
+Thursday - Friday = 0
+
+Model 1: restricted model
+Model 2: mysa
+
+  Res.Df Df      F  Pr(&gt;F)  
+1    346                    
+2    342  4 2.1504 0.07429 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Concernant la qualité du modèle RegARIMA, on peut citer trois tests :</p>
+<ul>
+<li><p>Le test d’indépendance des résidus</p></li>
+<li><p>Le test d’homoscédasticité des résidus</p></li>
+<li><p>Le test de normalité des résidus</p></li>
+</ul>
+<p>Ces trois tests, également disponibles par des fonctions spécifiques sous R (la commande <code>residuals(mysa)</code> permet de récupérer les résidus du modèle), sont également disponibles dans le sous objet <code>.$regarima$residuals.stat$tests</code> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mysa<span class="sc">$</span>regarima<span class="sc">$</span>residuals.stat<span class="sc">$</span>tests</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1mNormality[22m
+         Statistic P.value    
+mean       0.12648  0.8994 ***
+skewness  -0.01954  0.8799 ***
+kurtosis   3.54844  0.0339    
+
+Signif. codes:  H0 (normality of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mIndependence[22m
+                                       Statistic P.value    
+ljung box                               55.08622  0.0000    
+ljung box (residuals at seasonal lags)   3.09960  0.2123 ***
+
+Signif. codes: H0 (independence of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **
+
+[1mLinearity[22m
+                              Statistic P.value  
+ljung box (squared residuals)  34.36237  0.0238  
+
+Signif. codes:  H0 (no conditional heteroscedasticity of residuals) is not rejected at 
+significance levels: 0.1 ***0.05 **</code></pre>
+</div>
+</div>
+<p>L’hétéroscédasticité et la non-normalité proviennent souvent de la présence de points atypiques non corrigés (pour jouer sur le seuil de détection, rajouter dans la spécification <code>outlier.usedefcv = FALSE</code> et prendre une valeur de <code>outlier.cv</code> inférieur à 4, qui est la valeur par défaut). Changer le schéma de décomposition peut aussi aider (<code>transform.function = "None"</code> pour un modèle additif ou <code>transform.function = "Log"</code> pour un modèle multiplicatif) :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mysa2 <span class="ot">&lt;-</span> <span class="fu">x13</span>(ipi_fr, <span class="fu">x13_spec</span>(mysa, <span class="at">outlier.usedefcv =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">outlier.cv =</span> <span class="dv">3</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bien plus d'outliers sont détectés !</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mysa2<span class="sc">$</span>regarima)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = regression model + arima (3, 1, 1, 0, 1, 1)
+
+Model: RegARIMA - X13
+Estimation span: from 1-1990 to 12-2020
+Log-transformation: no
+Regression model: no mean, trading days effect(7), leap year effect, Easter effect, outliers(28)
+
+Coefficients:
+ARIMA: 
+          Estimate Std. Error T-stat Pr(&gt;|t|)    
+Phi(1)     0.27920    0.09413  2.966  0.00322 ** 
+Phi(2)     0.36429    0.07687  4.739 3.10e-06 ***
+Phi(3)     0.11811    0.07680  1.538  0.12496    
+Theta(1)  -0.63217    0.08106 -7.799 6.84e-14 ***
+BTheta(1) -0.34211    0.05369 -6.372 5.72e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Regression model: 
+             Estimate Std. Error  T-stat Pr(&gt;|t|)    
+Monday         0.3870     0.1811   2.137 0.033265 *  
+Tuesday        0.9721     0.1818   5.348 1.58e-07 ***
+Wednesday      0.8970     0.1830   4.903 1.43e-06 ***
+Thursday       0.1836     0.1826   1.006 0.315205    
+Friday         0.9678     0.1846   5.244 2.69e-07 ***
+Saturday      -1.6723     0.1829  -9.145  &lt; 2e-16 ***
+Leap year      1.7207     0.5026   3.423 0.000690 ***
+Easter [1]    -2.3262     0.3536  -6.578 1.68e-10 ***
+TC (4-2020)  -34.9803     1.3450 -26.007  &lt; 2e-16 ***
+AO (3-2020)  -20.5598     1.6847 -12.204  &lt; 2e-16 ***
+AO (5-2011)   11.6856     1.3242   8.825  &lt; 2e-16 ***
+LS (11-2008)  -9.4587     1.0474  -9.030  &lt; 2e-16 ***
+LS (1-2009)   -7.8963     1.0256  -7.699 1.34e-13 ***
+AO (6-2019)   -5.7932     1.4256  -4.064 5.94e-05 ***
+LS (8-2009)    5.7013     0.8196   6.957 1.66e-11 ***
+TC (1-2011)    5.6019     1.0501   5.334 1.70e-07 ***
+AO (5-2018)   -4.5600     1.3401  -3.403 0.000743 ***
+LS (5-2008)   -4.7919     0.7824  -6.125 2.38e-09 ***
+AO (5-2000)    5.2033     1.3250   3.927 0.000103 ***
+AO (6-2003)   -5.4817     1.3322  -4.115 4.81e-05 ***
+AO (5-1991)   -4.5123     1.3544  -3.332 0.000953 ***
+LS (5-1994)    3.2027     0.7772   4.121 4.69e-05 ***
+TC (12-2009)  -4.5311     1.0961  -4.134 4.44e-05 ***
+LS (3-1997)    3.5716     0.7567   4.720 3.38e-06 ***
+LS (1-1993)   -3.4933     0.7611  -4.590 6.15e-06 ***
+AO (8-2020)    6.3136     1.6987   3.717 0.000234 ***
+TC (11-2000)   5.8864     1.0215   5.762 1.79e-08 ***
+TC (8-2015)    3.5207     0.9715   3.624 0.000332 ***
+TC (12-1999)   4.4543     1.0307   4.322 2.01e-05 ***
+LS (10-1997)   2.7159     0.7569   3.588 0.000379 ***
+TC (12-1994)   4.2812     0.9973   4.293 2.27e-05 ***
+TC (10-2017)   3.9944     0.9801   4.076 5.65e-05 ***
+LS (11-2019)  -3.0752     0.9235  -3.330 0.000959 ***
+LS (2-2004)    2.1923     0.7651   2.865 0.004409 ** 
+AO (6-2011)   -4.8397     1.3372  -3.619 0.000338 ***
+TC (11-2011)   4.0079     1.0178   3.938 9.88e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 1.627 on 317 degrees of freedom
+Log likelihood = -685.6, aic =  1455, aicc =  1467, bic(corrected for length) = 1.646</code></pre>
+</div>
+</div>
+<p>La qualité des prévisions peut également être vérifiée à travers plusieurs tests :</p>
+<ul>
+<li><p>Est-ce que la moyenne des erreurs prévisions <em>in sample</em> (i.e.&nbsp;: modèle estimé sur toute la période) et la moyenne des prévisions <em>out of sample</em> (i.e.&nbsp;: modèle estimé de manière dynamique en ajoutant une a à une les nouvelles données) sont nulles ? Ces tests sont sensibles à la non-normalité des résidus</p></li>
+<li><p>Est-ce que les variances des erreurs de prévision <em>in sample</em> et <em>out of sample</em> sont les mêmes ? Ce test est sensible à la non-normalité des résidus</p></li>
+<li><p>Est-ce qu’il y a “trop” d’outliers ? Dans JDemetra+, on considère par défaut qu’il y a trop d’outliers si la proportion d’outliers par rapport aux nombres d’observations est supérieure à 5 %.</p></li>
+</ul>
+<p>Les trois premiers tests ne sont pas par défaut exportés dans RJDemetra : il faut les rajouter à la main avec le paramètre <code>userdefined</code>. Ils seront alors disponibles dans la sous-liste <code>.$user_defined</code>. Concernant la proportion d’outliers, elle peut être calculée à la main à partir du nombre d’outliers (par exemple disponible dans <code>.$regarima$model$spec_rslt</code>) :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mysa <span class="ot">&lt;-</span> <span class="fu">x13</span>(ipi_fr, <span class="fu">x13_spec</span>(mysa),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.fcast-insample-mean"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"diagnostics.fcast-outsample-mean"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"diagnostics.fcast-outsample-variance"</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>mysa<span class="sc">$</span>regarima<span class="sc">$</span>model<span class="sc">$</span>spec_rslt</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Model                 T.span Log transformation  Mean Trading days
+1 RegARIMA - X13 from 1-1990 to 12-2020              FALSE FALSE            7
+  Leap year Easter Outliers
+1      TRUE   TRUE        4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour éviter outputs trop longs, l'affichage est réduit :</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mysa<span class="sc">$</span>user_defined</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Names of additional variables (3):
+diagnostics.fcast-insample-mean, diagnostics.fcast-outsample-mean, diagnostics.fcast-outsample-variance</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour supprimer cela, vous pouvez par exemple utiliser le code suivant :</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(mysa<span class="sc">$</span>user_defined)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`diagnostics.fcast-insample-mean`
+[1] 0.3057321 0.7599958
+attr(,"description")
+[1] "T with 340 degrees of freedom"
+
+$`diagnostics.fcast-outsample-mean`
+[1] -0.7781656  0.4370126
+attr(,"description")
+[1] "T with 340 degrees of freedom"
+
+$`diagnostics.fcast-outsample-variance`
+[1] 1.1383576 0.3128808
+attr(,"description")
+[1] "F with 18 degrees of freedom in the nominator and 341 degrees of freedom in the denominator"</code></pre>
+</div>
+</div>
+<p>Vous pouvez bien sûr utiliser votre tests préféré à partir de ceux disponibles sous R (autre test de normalité…).</p>
+<p>Pour comparer différents modèles, vous pouvez également utiliser les critères d’information (mais il faut que les modèles ARIMA aient les mêmes ordres de différenciation !). Vous pouvez pour cela utiliser les fonctions de bases de R (<code>AIC()</code>, <code>BIC()</code>…) ou prendre ceux de JDemetra+ (affichés lors du <code>summary()</code>, qu’on peut également retrouver par la commande <code>.$regarima$loglik</code>) :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mysa)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1632.169</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(mysa)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1698.185</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Il y a un peu plus de critères que dans base R : AICc et BICc</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mysa<span class="sc">$</span>regarima<span class="sc">$</span>loglik</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         
+logvalue      -799.084484
+np              17.000000
+neffectiveobs  359.000000
+aic           1632.168967
+aicc          1633.963689
+bic           1698.185448
+bicc             1.855018</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Prenez une série et étudier la qualité du modèle RegARIMA. Essayer de changer quelques paramètres : est-ce que le nouveau modèle vous parait meilleur ou moins bien que l’ancien ?</p>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Alain Quartier-la-Tente, Insee</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://aqlt.netlify.app">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

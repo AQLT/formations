@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alain Quartier-la-Tente">
+
+<title>Formations - 5 - JDemetra+ en production</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X652XRGDPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-X652XRGDPL', { 'anonymize_ip': true});
+</script>
+
+<script src="../../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/css.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Formations</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2022</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../../2022/ast/index.html">
+ <span class="dropdown-text">Analyse séries temporelles avec R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">2021</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="../../../2021/rte/index.html">
+ <span class="dropdown-text">Désaisonnalisation avec JDemetra+ et RJDemetra</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT/formations"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#sec:jwsacruncher" id="toc-sec:jwsacruncher" class="nav-link active" data-scroll-target="#sec\:jwsacruncher">JWSACruncher et <code>rjwsacruncher</code></a>
+  <ul class="collapse">
+  <li><a href="#sec:installation" id="toc-sec:installation" class="nav-link" data-scroll-target="#sec\:installation">Configuration du JWSACruncher</a></li>
+  <li><a href="#utilisation-du-jwsacruncher" id="toc-utilisation-du-jwsacruncher" class="nav-link" data-scroll-target="#utilisation-du-jwsacruncher">Utilisation du JWSACruncher</a>
+  <ul class="collapse">
+  <li><a href="#création-du-fichier-de-paramètres-avec-create_param_file" id="toc-création-du-fichier-de-paramètres-avec-create_param_file" class="nav-link" data-scroll-target="#création-du-fichier-de-paramètres-avec-create_param_file">Création du fichier de paramètres avec <code>create_param_file()</code></a></li>
+  <li><a href="#lancement-du-cruncher" id="toc-lancement-du-cruncher" class="nav-link" data-scroll-target="#lancement-du-cruncher">Lancement du cruncher</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sec:rjdworkspace" id="toc-sec:rjdworkspace" class="nav-link" data-scroll-target="#sec\:rjdworkspace">Mise à jour des metadonnées avec <code>rjdworkspace</code></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">5 - JDemetra+ en production</h1>
+<p class="subtitle lead"></p><p>Formation - Désaisonnalisation avec JDemetra+ et RJDemetra <img src="img/logo.png" class="img-fluid" style="width:1in"></p><p></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Auteur</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alain Quartier-la-Tente </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>L’objectif de ce TP est d’apprendre à manipuler des workspaces pour une mise en production.</p>
+</blockquote>
+<p>Lors de la mise en production, le plus simple est de manipuler des workspaces et de mettre à jour les modèles, lors de l’arrivée de nouvelles données à travers le <a href="https://github.com/jdemetra/jwsacruncher">JWSACruncher</a>. Pour faciliter son utilisation depuis R, le package <code>rjwsacruncher</code> peut être utilisé.</p>
+<p>Lorsque les workspaces sont créés depuis R, on perd toutes les métadonnées (lien vers les fichiers, commentaires, etc.), une solution pour cela : utiliser <a href="https://github.com/InseeFrLab/rjdworkspace"><code>rjdworkspace</code></a> (package non publié sur le CRAN) pour récupérer ces données depuis un autre workspace.</p>
+<ol start="2" type="1">
+<li>Utiliser le package <code>RJDemetra</code> qui permet d’effectuer des désaisonnalisations avec les mêmes algorithmes et paramètres que JDemetra+ et de manipuler des workspaces.</li>
+</ol>
+<p>Dans ce TP on utilisera les données du package <code>RJDemetra</code> mais n’hésitez pas à utiliser vos propres séries, en utilisant par exemple le code ci-dessous :</p>
+<p>Si besoin, ci-dessous un exemple de code pour récupérer vos données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fichier <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">"xlsx"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://aqlt.github.io/formations/2021/rte/data/data_rte.xlsx"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, fichier)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(fichier)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>date_deb <span class="ot">&lt;-</span> <span class="dv">2006</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data_rte <span class="ot">&lt;-</span> <span class="fu">ts</span>(data_rte[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">start =</span> date_deb,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">frequency =</span> <span class="dv">12</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sec:jwsacruncher" class="level1">
+<h1>JWSACruncher et <code>rjwsacruncher</code></h1>
+<section id="sec:installation" class="level2">
+<h2 class="anchored" data-anchor-id="sec:installation">Configuration du JWSACruncher</h2>
+<p>Le JWSACruncher est téléchargeable ici : <a href="https://github.com/jdemetra/jwsacruncher/releases" class="uri">https://github.com/jdemetra/jwsacruncher/releases</a>.</p>
+<p>Pour utiliser les dernières versions il faut avoir une version de Java supérieure à la 8, si ce n’est pas le cas, il faut télécharger une version portable de Java et configurer le JWSACruncher en conséquence (voir <a href="../../../2021/rte/manuel_installation.html">manuel d’installation</a>). Ces manipulations peuvent aussi se faire à partir de <code>rjwsacruncher</code> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("rjwsacruncher") # Si pas déjà installé</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjwsacruncher)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Télécharge l'archive du JWSACruncher et la met sur le D:/</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download_cruncher</span>(<span class="st">"D:/"</span>) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Dézipper l'archive et ensuite pour configurer avec une version portable de Java :</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>jwsacruncher_path <span class="ot">&lt;-</span> <span class="st">"D:/jwsacruncher-2.2.2-bin/bin/jwsacruncher.bat"</span> <span class="co"># Lien vers le fichier jwsacruncher.bat</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>java_path <span class="ot">&lt;-</span> <span class="st">"D:/Java8/bin/java.exe"</span> <span class="co"># Lien vers le fichier java.exe de la version portable de Java</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">configure_jwsacruncher</span>(jwsacruncher_path, java_path)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour indiquer à <code>rjwsacruncher</code> où se trouve le JWSACruncher, le plus simple est de mettre à jour l’option <code>cruncher_bin_directory</code> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chemin vers le dossier bin du JWSACruncher</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">cruncher_bin_directory =</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"/Users/alainquartierlatente/Desktop/jwsacruncher-2.2.2-bin/bin"</span>) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">getOption</span>(<span class="st">"cruncher_bin_directory"</span>) <span class="co"># Pour afficher la valeur actuelle</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/Users/alainquartierlatente/Desktop/jwsacruncher-2.2.2-bin/bin"</code></pre>
+</div>
+</div>
+</section>
+<section id="utilisation-du-jwsacruncher" class="level2">
+<h2 class="anchored" data-anchor-id="utilisation-du-jwsacruncher">Utilisation du JWSACruncher</h2>
+<p>Pour éviter que le package <code>rjwsacruncher</code> soit trop volumineux, il ne contient pas le JWSAcruncher de JDemetra+. Ce dernier peut être téléchargé à l’adresse suivante : <a href="https://github.com/jdemetra/jdemetra-app/releases" class="uri">https://github.com/jdemetra/jdemetra-app/releases</a> ou en utilisant la fonction <code>rjwsacruncher::download_cruncher()</code>. Pour sa configuration avec une version portable, voir le <a href="../../../2021/rte/manuel_installation.html">manuel d’installation</a>.</p>
+<p>Pour lancer le JWSACruncher il faut trois fichiers :</p>
+<ul>
+<li>un fichier contenant les paramètres sur la méthode de rafraîchissement à utilisée pour mettre à jour le workspace (créé à partir de la fonction <code>create_param_file()</code>) ;<br>
+</li>
+<li>un workspace valide de JDemetra+ ;<br>
+</li>
+<li>l’adresse vers le JWSACruncher (option <code>cruncher_bin_directory</code>).</li>
+</ul>
+<p>Dans le package `rjwsacruncher``, il existe trois fonctions associées au lancement du cruncher :</p>
+<ul>
+<li><code>create_param_file()</code> qui permet de créer le fichier de paramètres ;<br>
+</li>
+<li><code>cruncher()</code> qui permet de lancer le cruncher sur un workspace à partir d’un fichier de paramètres ;<br>
+</li>
+<li><code>cruncher_and_param()</code> qui permet de lancer le cruncher tout en créant le fichier de paramètres et de personnaliser certaines sorties du cruncher.</li>
+</ul>
+<section id="création-du-fichier-de-paramètres-avec-create_param_file" class="level3">
+<h3 class="anchored" data-anchor-id="création-du-fichier-de-paramètres-avec-create_param_file">Création du fichier de paramètres avec <code>create_param_file()</code></h3>
+<p>Les paramètres de la fonction <code>create_param_file()</code> sont les mêmes que ceux décrits dans le wiki du cruncher de JDemetra+ (<a href="https://github.com/jdemetra/jwsacruncher/wiki" class="uri">https://github.com/jdemetra/jwsacruncher/wiki</a>). Les trois paramètres les plus importants de <code>create_param_file()</code> sont :</p>
+<ol type="1">
+<li><code>policy</code> qui est la méthode de rafraîchissement utilisée (voir tableau ci-dessous).</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Les différentes politiques de rafraîchissement</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Option sous JDemetra+ </th>
+   <th style="text-align:left;"> Option du cruncher </th>
+   <th style="text-align:left;"> Signification </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Fixed model </td>
+   <td style="text-align:left;"> current </td>
+   <td style="text-align:left;"> Le modèle ARIMA, les outliers et les autres paramètres du modèle de régression ne sont ni ré-identifiés ni ré-estimés. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Estimate regression coefficients </td>
+   <td style="text-align:left;"> fixedparameters (ou fixed) </td>
+   <td style="text-align:left;"> Le modèle ARIMA, les outliers et les autres paramètres du modèle regARIMA ne sont pas ré-identifiés. Les coefficients du modèle ARIMA sont fixés et les autres paramètres du modèle de régression sont ré-estimés. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Estimate regression coefficients + Arima parameters </td>
+   <td style="text-align:left;"> parameters (paramètre par défaut) </td>
+   <td style="text-align:left;"> Le modèle ARIMA, les outliers et les autres paramètres du modèle de régression ne sont pas ré-identifiés mais sont tous ré-estimés. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Estimate regression coefficients + Last outliers </td>
+   <td style="text-align:left;"> lastoutliers </td>
+   <td style="text-align:left;"> Le modèle ARIMA, les outliers (sauf ceux de la dernière année) et les autres paramètres du modèle de régression ne sont pas ré-identifiés mais sont tous ré-estimés. Les outliers de la dernière année sont ré-identifiés. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Estimate regression coefficients + all outliers </td>
+   <td style="text-align:left;"> outliers </td>
+   <td style="text-align:left;"> Le modèle ARIMA et les paramètres du modèle regARIMA autres que les outliers ne sont pas ré-identifiés mais ré-estimés. Tous les outliers sont ré-identifiés. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Partial concurrent adjustment -&gt; Estimate regression coefficients + Arima model </td>
+   <td style="text-align:left;"> stochastic </td>
+   <td style="text-align:left;"> Ré-identification de tous les paramètres du modèle regARIMA hormis les variables calendaires. Le schéma de décomposition est inchangé. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Concurrent </td>
+   <td style="text-align:left;"> complete ou concurrent </td>
+   <td style="text-align:left;"> Ré-identification de tout le modèle regARIMA. </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<ol start="2" type="1">
+<li><code>matrix_item</code> qui est une chaîne de caractères contenant les noms des paramètres à exporter. Par défaut, ce sont ceux de l’option <a href="../../../2021/rte/PDF/output_jd.pdf"><code>default_matrix_item</code></a>. On peut donc au choix modifier l’option <code>default_matrix_item</code> ou le paramètre <code>matrix_item</code> :</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjwsacruncher)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># Pour afficher les paramètres par défaut :</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getOption</span>(<span class="st">"default_matrix_item"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour modifier les paramètres par défaut pour n'exporter par exemple</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># que les critères d'information :</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">default_matrix_item =</span> <span class="fu">c</span>(<span class="st">"likelihood.aic"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"likelihood.aicc"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"likelihood.bic"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"likelihood.bicc"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li><code>tsmatrix_series</code> qui est une chaîne de caractères contenant les noms des paramètres à exporter. Par défaut, ce sont ceux de l’option <a href="../../../2021/rte/PDF/output_jd.pdf"><code>default_tsmatrix_series</code></a>. On peut donc au choix modifier l’option <code>default_tsmatrix_series</code> ou le paramètre <code>tsmatrix_series</code> :</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="co"># Pour afficher les paramètres par défaut :</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getOption</span>(<span class="st">"default_tsmatrix_series"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour modifier les paramètres par défaut pour n'exporter par exemple que</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># la série désaisonnalisée et ses prévisions :</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">default_tsmatrix_series =</span> <span class="fu">c</span>(<span class="st">"sa"</span>, <span class="st">"sa_f"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour voir l’ensemble des paramètres, il suffit d’utiliser sous R la commande <code>?create_param_file</code>.</p>
+<p>Après cela, il ne reste plus qu’à créer le fichier de paramètres. Ci-dessous quelques exemples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Un fichier parametres.param sera créé sous D:/ avec la politique de rafraîchissement</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "lastoutliers" et les autres paramètres par défaut</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_param_file</span>(<span class="at">dir_file_param =</span> <span class="st">"D:/"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">policy =</span> <span class="st">"lastoutliers"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Si l'on a modifié les options "default_matrix_item" et "default_tsmatrix_series" pour</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># n'exporter que les critères d'information, la série désaisonnalisée et ses</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># prévisions, la commande précédente est équivalent à : </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">create_param_file</span>(<span class="at">dir_file_param =</span> <span class="st">"D:/"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">policy =</span> <span class="st">"lastoutliers"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">matrix_item =</span> <span class="fu">c</span>(<span class="st">"likelihood.aic"</span>, <span class="st">"likelihood.aicc"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"likelihood.bic"</span>, <span class="st">"likelihood.bicc"</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tsmatrix_series =</span> <span class="fu">c</span>(<span class="st">"sa"</span>, <span class="st">"sa_f"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Utiliser la fonction <code>create_param_file()</code> pour créé un fichier de paramètres permettant de mettre à jour un workspace :</p>
+<ul>
+<li>En reestimant le modèle ARIMA, les outliers et les autres paramètres du modèle de régression et en re-identifiant les outliers uniquement sur la dernière année.</li>
+<li>En exportant la statistique M7, la statistique Q-M2 et les tests de jours ouvrables résiduels ;</li>
+<li>En exportant La série brute, la série désaisonnalisée et la tendance (de manière verticale).</li>
+</ul>
+</div>
+</div>
+<div class="cell" data-solution="true">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create_param_file</span>(<span class="at">dir_file_param =</span> <span class="st">"/Users/alainquartierlatente/Desktop/"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">policy =</span> <span class="st">"lastoutliers"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">matrix_item =</span> <span class="fu">c</span>(<span class="st">"m-statistics.m7"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"m-statistics.q-m2"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"diagnostics.residual trading days tests.f-test on sa (td):2"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"diagnostics.residual trading days tests.f-test on i (td):2"</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tsmatrix_series =</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"sa"</span>, <span class="st">"t"</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">csv_layout =</span> <span class="st">"vtable"</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lancement-du-cruncher" class="level3">
+<h3 class="anchored" data-anchor-id="lancement-du-cruncher">Lancement du cruncher</h3>
+<p>Pour lancer le cruncher avec <code>cruncher()</code> ou <code>cruncher_and_param()</code>, il faut spécifier le chemin d’accès au dossier contenant le cruncher (paramètre <code>cruncher_bin_directory</code>) ainsi que celui du workspace à traiter (paramètre <code>workspace</code>).</p>
+<p>Par défaut, le chemin d’accès au dossier du cruncher est celui contenu dans le paramètre <code>cruncher_bin_directory</code> : il suffit donc de modifier une seule fois cette option afin qu’elle s’applique à toutes les exécutions du cruncher. Le chemin à indiquer est celui du dossier contenant le fichier <em>jwsacruncher.bat</em>, situé dans le dossier “Bin” du dossier d’installation du cruncher. Ainsi, s’il a été installé sous <code>D:\jdemetra-cli-2.2.3</code>, le fichier <em>jwsacruncher.bat</em> sera présent sous <code>D:\jdemetra-cli-2.2.3\bin</code>. Il faut donc modifier l’option <code>cruncher_bin_directory</code> de la façon suivante :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">cruncher_bin_directory =</span> <span class="st">"D:/jdemetra-cli-2.2.3/bin/"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si aucun chemin de workspace n’est renseigné, une fenêtre s’ouvre, invitant à sélectionner le workspace sur lequel on souhaite lancer le cruncher.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher</span>(<span class="at">workspace =</span> <span class="st">"workspace.xml"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">param_file_path =</span> <span class="st">"/Users/alainquartierlatente/Desktop/parameters.param"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si vous n’avez pas de workspace vous pouvez utiliser le code suivant pour en générer un :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RJDemetra)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>spec_x13 <span class="ot">&lt;-</span> <span class="fu">x13_spec</span>(<span class="at">spec =</span> <span class="st">"RSA5c"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">new_workspace</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">new_multiprocessing</span>(wk, <span class="st">"sa1"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (nom_series <span class="cf">in</span> <span class="fu">colnames</span>(data_rte)){</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">jx13</span>(data_rte[,nom_series], spec_x13)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_sa_item</span>(wk, <span class="st">"sa1"</span>, model, nom_series)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(wk, <span class="st">"workspace.xml"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si non spécifié dans le fichier des paramètres, les résultats sont exportés dans le sous dossier “Output” du workspace (pour le <code>workspace.xml</code>, les résultats seront donc sous <code>workspace/Output/</code>). On peut aussi créer le fichier des paramètres et lancer le JWSAcruncher avec la fonction <code>cruncher_and_param</code>. Cette fonction permet aussi de renommer les dossiers exportées avec les noms des multi-processings utilisés dans JDemetra+ (évite d’avoir des dossiers du type <code>SAProcessing-1</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher_and_param</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">workspace =</span> <span class="st">"workspace.xml"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">policy =</span> <span class="st">"lastoutliers"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">matrix_item =</span> <span class="fu">c</span>(<span class="st">"m-statistics.m7"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"m-statistics.q-m2"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"diagnostics.residual trading days tests.f-test on sa (td):2"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"diagnostics.residual trading days tests.f-test on i (td):2"</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">tsmatrix_series =</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"sa"</span>, <span class="st">"t"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">csv_layout =</span> <span class="st">"vtable"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="sec:rjdworkspace" class="level1">
+<h1>Mise à jour des metadonnées avec <code>rjdworkspace</code></h1>
+<p>Lorsque l’on manipule des objets depuis RJDemetra, plusieurs informations sont perdues par rapport à JDemetra+, dont :</p>
+<ul>
+<li><p>le lien vers les données d’origine</p></li>
+<li><p>les éventuels commentaires que l’on peut faire</p></li>
+</ul>
+<p>Toutes ces informations sont les <em>metadata</em>. Lorsque vous créer un workspace depuis JDemetra+, vous pouvez par exemple voir ces données en ouvrant le fichier <code>SAProcessing/SAProcessing-1.xml</code> associé au dossier de votre workspace. Dans l’exemple ci-dessous, dans les premières lignes de ce fichier Excel on peut voir les données utilisées, le nom de la série et dans la partie “metaData” le chemin vers le fichier Excel contenant les données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a> &lt;item name="sa1"<span class="op">&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>        &lt;subset<span class="op">&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            &lt;item name="ts"<span class="op">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                &lt;ts name="Synthèse_Demetra&amp;#10;Consommation Grande Industrie"<span class="op">&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                    &lt;freq<span class="op">&gt;</span>12&lt;/freq<span class="op">&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                    &lt;firstYear<span class="op">&gt;</span>2006&lt;/firstYear<span class="op">&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                    &lt;firstPeriod<span class="op">&gt;</span>1&lt;/firstPeriod<span class="op">&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                    &lt;data<span class="op">&gt;</span>6542179<span class="fu">.0</span> 6060178<span class="fu">.999999999</span> 6715436<span class="fu">.999999999</span> 6320097<span class="fu">.0</span> 6603324<span class="fu">.0</span> 6438527<span class="fu">.0</span> 6427106<span class="fu">.0</span> 5681771<span class="fu">.0</span> 6415103<span class="fu">.0</span> 6514026<span class="fu">.000000001</span> 6374691<span class="fu">.0</span> 6327080<span class="fu">.0</span> 6379568<span class="fu">.0</span> 5948676<span class="fu">.0</span> 6668337<span class="fu">.0</span> 6295034<span class="fu">.000000001</span> 6560207<span class="fu">.000000001</span> 6340884<span class="fu">.000000001</span> 6500927<span class="fu">.0</span> 5699246<span class="fu">.999999999</span> 6266460<span class="fu">.0</span> 6580681<span class="fu">.0</span> 6297561<span class="fu">.0</span> 6317880<span class="fu">.999999999</span> 6576340<span class="fu">.0</span> 6284824<span class="fu">.000000001</span> 6699689<span class="fu">.0</span> 6589911<span class="fu">.0</span> 6531932<span class="fu">.999999999</span> 6440064<span class="fu">.999999999</span> 6546568<span class="fu">.0</span> 5699724<span class="fu">.0</span> 6252188<span class="fu">.0</span> 6436158<span class="fu">.0</span> 5872777<span class="fu">.0</span> 5142576<span class="fu">.000000001</span> 5463632<span class="fu">.0</span> 5180435<span class="fu">.0</span> 5402975<span class="fu">.0</span> 5306805<span class="fu">.0</span> 5511320<span class="fu">.0</span> 5608810<span class="fu">.0</span> 5805213<span class="fu">.000000001</span> 4997441<span class="fu">.999999999</span> 5714643<span class="fu">.0</span> 6007884<span class="fu">.0</span> 5699245<span class="fu">.0</span> 5241503<span class="fu">.0</span> 5693164<span class="fu">.0</span> 5350723<span class="fu">.0</span> 6024338<span class="fu">.0</span> 5846382<span class="fu">.0</span> 6050963<span class="fu">.0</span> 5895316<span class="fu">.0</span> 6050403<span class="fu">.0</span> 5289759<span class="fu">.999999999</span> 5821723<span class="fu">.000000001</span> 5802213<span class="fu">.999999999</span> 6014116<span class="fu">.0</span> 5830801<span class="fu">.0</span> 5966347<span class="fu">.0</span> 5575510<span class="fu">.0</span> 6220566<span class="fu">.0</span> 6016980<span class="fu">.0</span> 6197665<span class="fu">.999999999</span> 5954697<span class="fu">.999999999</span> 6005230<span class="fu">.000000001</span> 5288825<span class="fu">.0</span> 5821013<span class="fu">.000000001</span> 5813729<span class="fu">.0</span> 5649842<span class="fu">.999999999</span> 5411468<span class="fu">.0</span> 5769726<span class="fu">.0</span> 5441343<span class="fu">.000000001</span> 5951428<span class="fu">.999999999</span> 5779753<span class="fu">.000000001</span> 5870267<span class="fu">.000000001</span> 5720560<span class="fu">.0</span> 5918781<span class="fu">.0</span> 5120177<span class="fu">.000000001</span> 5669168<span class="fu">.0</span> 5815931<span class="fu">.000000001</span> 5647693<span class="fu">.0</span> 5205906<span class="fu">.0</span> 5541208<span class="fu">.000000001</span> 5180191<span class="fu">.0</span> 5781674<span class="fu">.0</span> 5585759<span class="fu">.999999999</span> 5620112<span class="fu">.0</span> 5535373<span class="fu">.000000001</span> 5730311<span class="fu">.0</span> 4999490<span class="fu">.0</span> 5574448<span class="fu">.0</span> 5775084<span class="fu">.000000001</span> 5578929<span class="fu">.0</span> 5316666<span class="fu">.999999999</span> 5550411<span class="fu">.0</span> 5178456<span class="fu">.0</span> 5693416<span class="fu">.0</span> 5636462<span class="fu">.0</span> 5681160<span class="fu">.0</span> 5428734<span class="fu">.0</span> 5746606<span class="fu">.999999999</span> 4995591<span class="fu">.000000001</span> 5642608<span class="fu">.999999999</span> 5843851<span class="fu">.0</span> 5666887<span class="fu">.0</span> 5409251<span class="fu">.0</span> 5607526<span class="fu">.0</span> 5237873<span class="fu">.0</span> 5857162<span class="fu">.0</span> 5649254<span class="fu">.0</span> 5712108<span class="fu">.0</span> 5622601<span class="fu">.0</span> 5717344<span class="fu">.999999999</span> 5092692<span class="fu">.0</span> 5655590<span class="fu">.0</span> 5747178<span class="fu">.0</span> 5601075<span class="fu">.0</span> 5311528<span class="fu">.0</span> 5710545<span class="fu">.0</span> 5304304<span class="fu">.0</span> 5605914<span class="fu">.000000001</span> 5450143<span class="fu">.0</span> 5426808<span class="fu">.0</span> 5339665<span class="fu">.000000001</span> 5637000<span class="fu">.0</span> 5102241<span class="fu">.0</span> 5549202<span class="fu">.0</span> 5693882<span class="fu">.0</span> 5633573<span class="fu">.0</span> 5399061<span class="fu">.999999999</span> 5742768<span class="fu">.0</span> 5263264<span class="fu">.0</span> 5664626<span class="fu">.0</span> 5526423<span class="fu">.000000001</span> 5766487<span class="fu">.999999999</span> 5620842<span class="fu">.000000001</span> 5737585<span class="fu">.000000001</span> 5214656<span class="fu">.000000001</span> 5659672<span class="fu">.0</span> 5847824<span class="fu">.0</span> 5729670<span class="fu">.000000001</span> 5616760<span class="fu">.999999999</span> 5761710<span class="fu">.000000001</span> 5308397<span class="fu">.000000001</span> 5702232<span class="fu">.999999999</span> 5319390<span class="fu">.0</span> 5503539<span class="fu">.000000001</span> 5471782<span class="fu">.999999999</span> 5662473<span class="fu">.0</span> 5187800<span class="fu">.0</span> 5517995<span class="fu">.0</span> 5729508<span class="fu">.000000001</span> 5635093<span class="fu">.000000001</span> 5411676<span class="fu">.999999999</span> 5730458<span class="fu">.0</span> 5270200<span class="fu">.0</span> 5688804<span class="fu">.0</span> 5441071<span class="fu">.999999999</span> 5582419<span class="fu">.0</span> 5362103<span class="fu">.000000001</span> 5572642<span class="fu">.000000001</span> 5056025<span class="fu">.0</span> 5274880<span class="fu">.0</span> 5436253<span class="fu">.0</span> 5230728<span class="fu">.0</span> 4644680<span class="fu">.000000001</span> 5188932<span class="fu">.000000001</span> 5119956<span class="fu">.000000001</span> 4626124<span class="fu">.0</span> 3883984<span class="fu">.9999999995</span> 4478548<span class="fu">.0</span> 4671027<span class="fu">.0</span> 4959356<span class="fu">.000000001</span> 4548636<span class="fu">.0</span> 4965894<span class="fu">.0</span>&lt;/data<span class="op">&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                    &lt;metaData<span class="op">&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                        &lt;property name="<span class="im">@timestamp</span><span class="st">" value="</span>Thu Jul <span class="dv">01</span> <span class="dv">09</span>:<span class="dv">28</span>:<span class="dv">25</span> CEST <span class="dv">2021</span><span class="st">"/&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">                        &lt;property name="</span>@source<span class="st">" value="</span>XCLPRVDR<span class="st">"/&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">                        &lt;property name="</span>@id<span class="st">" value="</span><span class="kw">demetra</span>:<span class="er">//tsprovider/XCLPRVDR/20111201/SERIES?file=%2FUsers%2Falainquartierlatente%2FDesktop%2FFormation%2Fdata_rte.xlsx#seriesName=Consommation+Grande+Industrie&amp;amp;sheetName=Synth%C3%A8se_Demetra"/&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                    &lt;/metaData&gt;</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                &lt;/ts&gt;</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ce workspace exemple est disponible sous <a href="https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip" class="uri">https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip</a>.</p>
+<p>Supposons que ce soit le workspace utilisé en production (i.e.&nbsp;: le workspace sur lequel vous lancez <code>rjwsacruncher</code>). On va se placer dans le cas où l’on souhaite modifier ce workspace depuis R.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Créer un nouveau workspace <code>rte_prod_tmp.xml</code> où l’on a modifié toutes les spécifications du workspace <code>rte_prod.xml</code> (<a href="https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip" class="uri">https://aqlt.github.io/formations/2021/rte/data/rte_prod.zip</a>) en rajoutant un AO en mars et avril 2020.</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RJDemetra)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Téléchargement du workspace</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dir <span class="ot">&lt;-</span> <span class="fu">tempdir</span>()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://aqlt-formation-rte.netlify.app/data/rte_prod.zip"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">file.path</span>(dir, <span class="st">"rte_prod.zip"</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">file.path</span>(dir, <span class="st">"rte_prod.zip"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">exdir =</span> dir)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Chargement du workspace</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="fu">file.path</span>(dir, <span class="st">"rte_prod.xml"</span>))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">compute</span>(wk)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Import de tous les modèles</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># On a une list qui contient autant d'éléments que de multiprocessings</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># et chaque élément est une liste qui contient autant d'éléments que de modèle</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dans le multiprocessing considéré</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>all_models <span class="ot">&lt;-</span> <span class="fu">get_model</span>(wk, <span class="at">progress_bar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>wk2 <span class="ot">&lt;-</span> <span class="fu">new_workspace</span>()</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(sa_name <span class="cf">in</span> <span class="fu">names</span>(all_models)){</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">new_multiprocessing</span>(wk2, sa_name)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (series_name <span class="cf">in</span> <span class="fu">names</span>(all_models[[sa_name]])){</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    new_spec <span class="ot">&lt;-</span> <span class="fu">x13_spec</span>(all_models[[sa_name]][[series_name]],</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                         <span class="at">usrdef.outliersEnabled =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>                         <span class="at">usrdef.outliersType =</span> <span class="fu">c</span>(<span class="st">"AO"</span>, <span class="st">"AO"</span>),</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>                         <span class="at">usrdef.outliersDate =</span> <span class="fu">c</span>(<span class="st">"2020-03-01"</span>, <span class="st">"2020-04-01"</span>))</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    new_jmod <span class="ot">&lt;-</span> <span class="fu">jx13</span>(<span class="fu">get_ts</span>(all_models[[sa_name]][[series_name]]),</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>                     new_spec)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_sa_item</span>(<span class="at">workspace =</span> wk2, <span class="at">multiprocessing =</span> sa_name,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">sa_obj =</span> new_jmod,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> series_name)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(wk2, <span class="st">"rte_prod_tmp.xml"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Si vous ouvrez maintenant le fichier <code>rte_prod_tmp/SAProcessing/SAProcessing-1.xml</code> vous remarquez donc qu’il n’y a plus les parties <code>metaData</code> !</p>
+<p>Pour les mettre à jour il existe deux fonctions dans <code>rjdworkspace</code> :</p>
+<ol type="1">
+<li><p><code>update_medata</code> qui, à partir d’un workspace de référence (<code>rte_prod.xml</code>), met à jour un workspace (<code>rte_prod_tmp.xml</code>) en faisant un matching sur le nom des séries (il y a donc potentiellement un problème si on a plusieurs séries avec le même nom)</p></li>
+<li><p><code>update_metadata_roughly()</code>, à partir d’un workspace de référence (<code>rte_prod.xml</code>), met à jour un workspace (<code>rte_prod_tmp.xml</code>) en fonction de l’ordre de la série dans le modèle (le premier modèle de <code>rte_prod_tmp.xml</code> est mis à jour avec les informations du premier modèle de <code>rte_prod.xml</code>, etc.).</p></li>
+</ol>
+<p>Dans notre cas, <code>update_metadata_roughly()</code> suffit :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjdworkspace)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>wk3 <span class="ot">&lt;-</span> <span class="fu">update_metadata_roughly</span>(wk, <span class="co"># D'abord le workspace qui contient les metadata </span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                               wk2 <span class="co"># Ensuite le workspace à mettre à jour</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                               )</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Il reste à sauvegarder le nouveau workspace</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(wk3, <span class="st">"rte_prod_tmp2.xml"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="AQLT/formations" data-repo-id="R_kgDOIepagw" data-category="Announcements" data-category-id="DIC_kwDOIepag84CSt5_" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="fr" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Alain Quartier-la-Tente, Insee</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="http://github.com/AQLT">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://aqlt.netlify.app">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/alainqlt/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

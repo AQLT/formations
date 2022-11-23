@@ -1,39 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://github.com/AQLT/formations/2021/index.html</loc>
+    <lastmod>2022-11-23T22:24:01.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-1-Premiere_manipulation_JD.html</loc>
+    <lastmod>2022-11-23T22:24:01.994Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-2-Analyse_exploratoire.html</loc>
+    <lastmod>2022-11-23T22:24:02.362Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-3-CVS_sans_CJO.html</loc>
+    <lastmod>2022-11-23T22:24:02.714Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-4-CVS_CJO.html</loc>
+    <lastmod>2022-11-23T22:24:03.298Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-5-Preajustment.html</loc>
+    <lastmod>2022-11-23T22:24:03.670Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-6-X11.html</loc>
+    <lastmod>2022-11-23T22:24:04.022Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/JD-7-Etude_de_cas.html</loc>
+    <lastmod>2022-11-23T22:24:04.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-0-Traitement_des_series_temporelles.html</loc>
+    <lastmod>2022-11-23T22:24:05.754Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-1-R_et_JD.html</loc>
+    <lastmod>2022-11-23T22:24:06.494Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-2-CJO.html</loc>
+    <lastmod>2022-11-23T22:24:07.562Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-3-Preadjustment.html</loc>
+    <lastmod>2022-11-23T22:24:08.174Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-4-X11.html</loc>
+    <lastmod>2022-11-23T22:24:08.818Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/TP/R-5-JD_in_production.html</loc>
+    <lastmod>2022-11-23T22:24:09.546Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/index.html</loc>
+    <lastmod>2022-11-23T22:24:10.126Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/AQLT/formations/2021/rte/manuel_installation.html</loc>
+    <lastmod>2022-11-23T22:24:11.038Z</lastmod>
+  </url>
+  <url>
     <loc>https://github.com/AQLT/formations/2022/ast/TP/1_Manipulation_series_temporelles.html</loc>
-    <lastmod>2022-11-23T16:57:27.469Z</lastmod>
+    <lastmod>2022-11-23T22:24:12.450Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/TP/2_Graphiques.html</loc>
-    <lastmod>2022-11-23T16:57:28.889Z</lastmod>
+    <lastmod>2022-11-23T22:24:13.382Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/TP/3_Decomposition.html</loc>
-    <lastmod>2022-11-23T16:57:29.677Z</lastmod>
+    <lastmod>2022-11-23T22:24:14.126Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/TP/4_Lissage_Exponentiel.html</loc>
-    <lastmod>2022-11-23T16:57:30.449Z</lastmod>
+    <lastmod>2022-11-23T22:24:14.810Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/TP/5_ARIMA.html</loc>
-    <lastmod>2022-11-23T16:57:31.561Z</lastmod>
+    <lastmod>2022-11-23T22:24:15.806Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/backcasttransform.html</loc>
-    <lastmod>2022-11-23T16:57:31.929Z</lastmod>
+    <lastmod>2022-11-23T22:24:16.154Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/ast/index.html</loc>
-    <lastmod>2022-11-23T16:57:32.305Z</lastmod>
+    <lastmod>2022-11-23T22:24:16.482Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/2022/index.html</loc>
-    <lastmod>2022-11-23T16:57:32.617Z</lastmod>
+    <lastmod>2022-11-23T22:24:16.814Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/AQLT/formations/index.html</loc>
-    <lastmod>2022-11-23T16:57:32.929Z</lastmod>
+    <lastmod>2022-11-23T22:24:17.118Z</lastmod>
   </url>
 </urlset>
