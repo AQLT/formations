@@ -14,6 +14,9 @@ website:
   navbar:
     #logo: img/android.png
     logo-alt: "AQLT"
+    right:
+      - icon: github
+        href: http://github.com/AQLT/formations
     left:
       - text: "2022"
         menu:

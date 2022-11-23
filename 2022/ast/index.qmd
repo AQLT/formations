@@ -1,6 +1,8 @@
 ---
 title: "Analyse des séries temporelles avec {{< fa brands r-project >}}"
 lang: fr
+date: 11/21/2022
+date-format: "MMM YYYY"
 ---
 
 Supports de cours et exercices de la formation Analyse des séries temporelles avec R au CEPE les 21 et 22 novembre 2022.
