@@ -263,7 +263,7 @@ spectrum(i,
 ```
 Question supplémentaire : à quoi correspond la droite du graphique précédent ?
 
-Cela correction à $\mathbb V[i]/frequence \simeq$ `r formatC(var(i)/frequency(i), digits = 3, format = "f", decimal.mark = ",")`.
+Cela correspond à $\mathbb V[i]/frequence \simeq$ `r formatC(var(i)/frequency(i), digits = 3, format = "f", decimal.mark = ",")`.
 :::
 
 # Transformation des séries
